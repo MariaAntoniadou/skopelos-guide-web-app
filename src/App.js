@@ -1,25 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Routes, Route} from 'react-router-dom';
+import MainChapters from './components/MainChapters.js';
+import ChapterDetails from './components/ChapterDetails.js';
+import StoryboardDetails from './components/StoryboardDetails.js';
+import NavBar from './components/NavBar.js';
+
+import { Box } from '@mui/material';
+
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <>
+        <NavBar />
+          <Routes>
+            <Route path="/" element={<MainChapters />} />
+            <Route path="/chapters/:id" element={<ChapterDetails />} />
+            <Route path="/storyboard/:id" element={<StoryboardDetails />} />
+          </Routes>
+      </>
+    </Router>
   );
 }
 
 export default App;
+
+
