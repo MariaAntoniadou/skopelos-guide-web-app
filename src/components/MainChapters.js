@@ -1,61 +1,133 @@
-import { getMainChapters } from "../api/getMainChapters";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import { getMainChapters } from "../api/getMainChapters";
 import { UPLOADS_BASE_URL } from "../config/api";
 
-import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
 import Box from '@mui/material/Box';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
 
+import { pageStyles, cardStyles } from '../styles/componentsStyles';
+import { mainChaptersStyles } from '../styles/mainChaptersStyles';
 
 export default function MainChapters() {
   const [chapters, setChapters] = useState([]);
+  const scrollRefs = useRef({});
 
   useEffect(() => {
     getMainChapters().then(setChapters);
   }, []);
 
-  return (
-    <Container maxWidth="md" sx={{ py: 4 }}>
-      <Typography variant="h4" component="h1" gutterBottom>
-        Καλώς ήρθατε στον τουριστικό οδηγό της Σκοπέλου!
-      </Typography>
-      <ul>
-      {chapters.map((chapter) => (
-        <li key={chapter.id} style={{ marginBottom: "2rem" }}>
-          <Link to={`/chapters/${chapter.id}`} >
-            <h2>{chapter.attributes.title}</h2>
-          </Link>
-          <div dangerouslySetInnerHTML={{ __html: chapter.attributes.description }} />
-          {chapter.attributes.mainStoryboards?.data?.map((storyboard) => {
-            const thumbUrl = storyboard.attributes.thumbnail?.data?.attributes?.url;
-            const fullImageUrl = thumbUrl ? UPLOADS_BASE_URL + thumbUrl : "";
+  const scrollStoryboards = (chapterId, direction) => {
+    const container = scrollRefs.current[chapterId];
+    if (container) {
+      const scrollAmount = 300;
+      const newScrollLeft = direction === 'left' 
+        ? container.scrollLeft - scrollAmount 
+        : container.scrollLeft + scrollAmount;
+      
+      container.scrollTo({
+        left: newScrollLeft,
+        behavior: 'smooth'
+      });
+    }
+  };
 
-            return (
-              <div key={storyboard.id} style={{ marginTop: "1rem" }}>
-                <Link to={`/storyboard/${storyboard.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-                  <h3>{storyboard.attributes.title}</h3>
-                  {fullImageUrl ? (
-                    <img
-                      src={fullImageUrl}
-                      alt={storyboard.attributes.title}
-                      style={{ width: "200px" }}
-                    />
-                  ) : (
-                    <p>Δεν υπάρχει εικόνα</p>
-                  )}
-                </Link>
-              </div>
-            );
-          })}
-        </li>
-      ))}
-    </ul>
-    </Container>
+  return (
+    <Box sx={pageStyles.container}>
+      <Box sx={pageStyles.contentWrapper}>
+        {/* Quote Section */}
+        <Box sx={mainChaptersStyles.quoteSection}>
+          <Typography variant="body1" sx={mainChaptersStyles.quoteText}>
+            "Ανακαλύψτε τις κρυφές ομορφιές της Σκοπέλου μέσα από μοναδικές εμπειρίες"
+          </Typography>
+          
+          <Box sx={mainChaptersStyles.decorativeLine} />
+        </Box>
+        
+        {/* Chapters Container */}
+        <Box sx={mainChaptersStyles.chaptersContainer}>
+          {chapters.map((chapter) => (
+            <Box key={chapter.id} sx={mainChaptersStyles.chapterBox}>
+              {/* Chapter Title */}
+              <Link to={`/chapters/${chapter.id}`} style={{ textDecoration: 'none' }}>
+                <Typography variant="h2" component="h2" sx={mainChaptersStyles.chapterTitle}>
+                  {chapter.attributes.title}
+                </Typography>
+              </Link>
+              
+              {/* Chapter Description */}
+              <Box 
+                sx={mainChaptersStyles.chapterDescription}
+                dangerouslySetInnerHTML={{ __html: chapter.attributes.description }} 
+              />
+              
+              {/* Storyboards Section */}
+              {chapter.attributes.mainStoryboards?.data?.length > 0 && (
+                <>
+                  <Box sx={pageStyles.arrowNavigationWrapper}>
+                    <IconButton
+                      className="arrow-button left"
+                      onClick={() => scrollStoryboards(chapter.id, 'left')}
+                      sx={{
+                        ...cardStyles.arrowButton,
+                        '&.left': cardStyles.arrowButton['&.left'],
+                      }}
+                    >
+                      <Typography sx={mainChaptersStyles.arrowButtonText}>‹</Typography>
+                    </IconButton>
+
+                    <IconButton
+                      className="arrow-button right"
+                      onClick={() => scrollStoryboards(chapter.id, 'right')}
+                      sx={{
+                        ...cardStyles.arrowButton,
+                        '&.right': cardStyles.arrowButton['&.right'],
+                      }}
+                    >
+                      <Typography sx={mainChaptersStyles.arrowButtonText}>›</Typography>
+                    </IconButton>
+                    
+                    <Box 
+                      ref={(el) => scrollRefs.current[chapter.id] = el}
+                      sx={pageStyles.storyboardContainer}
+                    >
+                      {chapter.attributes.mainStoryboards.data.map((storyboard) => {
+                        const thumbUrl = storyboard.attributes.thumbnail?.data?.attributes?.url;
+                        const fullImageUrl = thumbUrl ? UPLOADS_BASE_URL + thumbUrl : "";
+
+                        return (
+                          <Link 
+                            key={storyboard.id}
+                            to={`/storyboard/${storyboard.id}`} 
+                            style={{ textDecoration: 'none' }}
+                          >
+                            <Box sx={mainChaptersStyles.storyboardCard}>
+                              <Typography sx={mainChaptersStyles.storyboardTitle}>
+                                {storyboard.attributes.title}
+                              </Typography>
+                              
+                              {fullImageUrl && (
+                               <Box
+                                component="img"
+                                src={fullImageUrl}
+                                alt={storyboard.attributes.title}
+                                sx={mainChaptersStyles.storyboardImage}
+                                className="storyboard-image"
+                              />
+                              )}
+                            </Box>
+                          </Link>
+                        );
+                      })}
+                    </Box>
+                  </Box>
+                </>
+              )}
+            </Box>
+          ))}
+        </Box>
+      </Box>
+    </Box>
   );
 }
