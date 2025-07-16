@@ -13,8 +13,8 @@ export const pageStyles = {
   },
   
   contentWrapper: {
-    maxWidth: '1400px',
-    mx: 'auto',
+    //maxWidth: '1400px',
+    //mx: 'auto',
     px: { xs: 3, md: 6 },
   },
   
@@ -24,8 +24,8 @@ export const pageStyles = {
     gap: 4,
     overflowX: 'auto',
     overflowY: 'hidden',
-    paddingBottom: 3,
-    paddingX: 2,
+    //paddingBottom: 3,
+    //paddingX: 0,
     scrollBehavior: 'smooth',
     scrollSnapType: 'x mandatory',
     scrollbarWidth: 'none',
@@ -38,7 +38,7 @@ export const pageStyles = {
   arrowNavigationWrapper: {
     position: 'relative',
     width: '100%',
-    padding: '0 20px',
+    //padding: '0 20px',
     '&:hover .arrow-button': {
       opacity: 1,
       transform: 'translateY(-50%) scale(1)',
@@ -47,36 +47,36 @@ export const pageStyles = {
 };
 
 export const cardStyles = {
-  
   arrowButton: {
-    position: 'absolute',
-    top: '50%',
-    transform: 'translateY(-50%)',
-    zIndex: 10,
-    backgroundColor: 'rgba(255, 255, 255, 0.92)',
-    border: `1px solid ${skopelosColors.borders.primary}`, // Add subtle border
-    borderRadius: '50%',
-    width: 38, // Smaller, more refined
-    height: 38,
-    opacity: 0,
-    transition: 'all 0.25s ease', // Quicker transition
-    boxShadow: '0 2px 12px rgba(0, 0, 0, 0.08)', // Sharper shadow
-    
-    '&:hover': {
-      backgroundColor: skopelosColors.brightBlue,
-      color: 'white',
-      transform: 'translateY(-50%) scale(1.03)', // Minimal scale
-      boxShadow: '0 4px 18px rgba(0, 0, 0, 0.12)',
-      border: `1px solid ${skopelosColors.brightBlue}`,
-    },
-    
-    '&.left': {
-      left: -19, // Adjust for smaller size
-    },
-    '&.right': {
-      right: -19,
-    },
+  position: 'absolute',
+  top: '50%',
+  zIndex: 10,
+  background: 'rgba(255,255,255,0.92)',
+  border: `1.5px solid ${skopelosColors.brightBlue}`,
+  borderRadius: '0%',
+  width: 44,
+  height: 44,
+  opacity: 0,
+  transform: 'translateY(-50%)',
+  transition: 'all 0.2s cubic-bezier(0.4,0,0.2,1)',
+  color: skopelosColors.brightBlue,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  fontSize: '2.2rem',
+  boxShadow: '0 2px 8px rgba(30,64,126,0.10)',
+
+  '&.left': { left: -22 },
+  '&.right': { right: -22 },
+
+  '&:hover': {
+    background: skopelosColors.brightBlue,
+    color: '#fff',
+    transform: 'translateY(-50%) scale(1.08)',
+    boxShadow: '0 4px 16px rgba(30,64,126,0.18)',
+    border: `1.5px solid ${skopelosColors.brightBlue}`,
   },
+},
 };
 
 export const navigationStyles = {

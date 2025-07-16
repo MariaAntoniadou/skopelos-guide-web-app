@@ -1,164 +1,202 @@
-import { AppBar, Toolbar, Box, Typography } from '@mui/material';
-import { skopelosColors } from '../styles/colors';
+import { AppBar, Toolbar, Box } from '@mui/material';
+import { navigationStyles } from '../styles/navigationStyles';
 import NavButton from './NavButton';
 import { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import HomeIcon from '@mui/icons-material/Home';
-import { getMainChapters } from '../api/getMainChapters'; 
+import { getAllMainChapters } from '../api/apiService';
+import TextField from '@mui/material/TextField';
+import SearchIcon from '@mui/icons-material/Search';
+import InputAdornment from '@mui/material/InputAdornment';
+import IconButton from '@mui/material/IconButton';
+import { useAuth } from '../contexts/AuthContexts';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import LoginIcon from '@mui/icons-material/Login';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
 
-export default function NavBar() {
+
+export default function NavBar({ searchTerm, setSearchTerm }) {
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
+  const [inputValue, setInputValue] = useState(searchTerm);
   const location = useLocation();
   const isHomePage = location.pathname === '/';
-
   const [chapters, setChapters] = useState([]);
+  const { user } = useAuth();
 
   useEffect(() => {
-    getMainChapters().then((data) => {
-      setChapters(data);
-    });
+    async function fetchMainChapters() {
+      try {
+        const response = await getAllMainChapters('en');
+        setChapters(response || []);
+      } catch (err) {
+        console.error('Error fetching main chapters:', err);
+      }
+    }
+    fetchMainChapters();
   }, []);
 
   const navigationItems = [
     { text: 'Αρχική', link: '/', icon: <HomeIcon /> },
     ...chapters.map(chapter => ({
-      text: chapter.attributes.title,    // Real chapter title
+      text: chapter.attributes.title,
       link: `/chapters/${chapter.id}`
     }))
   ];
 
-  // Dynamic page titles based on current route
-  useEffect(() => {
-      if (location.pathname === '/') {
-        document.title = 'Σκόπελος - Οδηγός Προορισμού';
-      } 
+  const navigate = useNavigate();
 
-  }, [location.pathname]);
+  useEffect(() => {
+    if (isHomePage) {
+      document.title = 'Σκόπελος - Οδηγός Προορισμού';
+    }
+  }, [isHomePage]);
 
   useEffect(() => {
     const controlNavbar = () => {
       const currentScrollY = window.scrollY;
-      
-      if (currentScrollY < lastScrollY || currentScrollY < 10) {
-        setIsVisible(true);
-      } else {
-        setIsVisible(false);
-      }
-      
+      setIsVisible(currentScrollY < lastScrollY || currentScrollY < 10);
       setLastScrollY(currentScrollY);
     };
-
     window.addEventListener('scroll', controlNavbar);
-
-    return () => {
-      window.removeEventListener('scroll', controlNavbar);
-    };
+    return () => window.removeEventListener('scroll', controlNavbar);
   }, [lastScrollY]);
+
+  // Keep input in sync if searchTerm changes from outside
+  useEffect(() => {
+    setInputValue(searchTerm);
+  }, [searchTerm]);
+
+  // Handler for Enter key
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
+  };
+
+  const handleSearch = () => {
+    setSearchTerm(inputValue);
+    // Find exact match (case-insensitive)
+    const match = chapters.find(
+      ch => ch.attributes.title.toLowerCase() === inputValue.trim().toLowerCase()
+    );
+    if (match) {
+      navigate(`/chapters/${match.id}`);
+    }
+  };
 
   return (
     <>
-      <AppBar
-        position="sticky"
-        sx={{
-          backgroundColor: skopelosColors.oceanBlue,
-          backdropFilter: 'blur(20px)',
-          boxShadow: '0 4px 20px rgba(26, 54, 93, 0.3)',
-          borderBottom: 'none',
-          transform: isVisible ? 'translateY(0)' : 'translateY(-100%)',
-          transition: 'transform 0.3s ease-in-out',
-        }}
-      >
-        <Toolbar
-          sx={{
-            minHeight: 70,
-            px: { xs: 3, md: 6 },
-            py: 1.5,
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            maxWidth: '1400px',
-            mx: 'auto',
-            width: '100%',
-          }}
-        >
-          <Box sx={{ display: 'flex', gap: 10 }}>
-            {navigationItems.map((item) => (
-              <NavButton
-                key={item.text}
-                text={item.text}
-                link={item.link}
-                icon={item.icon}
-                refresh={item.refresh}
-              />
-            ))}
-          </Box>
-        </Toolbar>
-      </AppBar>
-
-      {/* Hero Image Section */}
       {isHomePage && (
-        <>
-          <Box
-            component="img"
-            src="/skopelos4.jpg"
-            alt="Skopelos image"
-            sx={{
-              width: '100%',
-              height: 450,
-              objectFit: 'cover',
-              display: 'block',
-            }}
-          />
+        <Box sx={{ position: 'relative' }}>
 
-          <Box
-            sx={{
-              backgroundColor: skopelosColors.background.primary,
-              py: 2,
-              position: 'relative',
-              borderTop: `1px solid ${skopelosColors.borders.primary}`,
-            }}
-          >
-            <Typography 
-              variant="h1" 
-              component="h1" 
-              gutterBottom 
-              sx={{
-                color: skopelosColors.text.primary,
-                fontSize: { xs: '2rem', md: '4rem' },
-                fontWeight: 400,
-                letterSpacing: '0.05em',
-                marginBottom: 1,
-                textAlign: 'center',
-                fontFamily: "'Bona Nova', serif",
-                textTransform: 'uppercase',
-                background: `linear-gradient(135deg, ${skopelosColors.oceanBlue}, ${skopelosColors.brightBlue})`,
-                backgroundClip: 'text',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-              }}
-            >
-              Σκοπελος
-              <Box
-                component="span"
-                sx={{
-                  display: 'block',
-                  fontSize: { xs: '0.7rem', md: '0.9rem' },
-                  fontWeight: 300,
-                  textTransform: 'none',
-                  letterSpacing: '0.2em',
-                  marginTop: 0.5,
-                  color: skopelosColors.text.secondary,
-                  background: 'none',
-                  WebkitTextFillColor: skopelosColors.text.secondary,
-                }}
-              >
-                ΟΔΗΓΟΣ ΠΡΟΟΡΙΣΜΟΥ
+          <AppBar sx={navigationStyles.appBarHome(isVisible)}>
+            <Toolbar sx={navigationStyles.toolbarHome}>
+              <Box sx={navigationStyles.navButtonsHome}>
+                {navigationItems.map((item) => (
+                  <NavButton
+                    key={item.text}
+                    text={item.text}
+                    link={item.link}
+                    icon={item.icon}
+                    refresh={item.refresh}
+                  />
+                ))}
               </Box>
-            </Typography>
-          </Box>
-        </>
+              <Box sx={{ ml: 1, flex: 1, maxWidth: 320 }}>
+                <TextField
+                  variant="outlined"
+                  placeholder="Αναζήτηση..."
+                  value={inputValue}
+                  onChange={e => setInputValue(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                  size="small"
+                  fullWidth
+                  sx={{
+                    backgroundColor: 'rgba(255,255,255,0.85)',
+                    borderRadius: '24px',
+                    boxShadow: 1,
+                    '& .MuiOutlinedInput-notchedOutline': {
+                      border: 'none',
+                    },
+                    fontSize: '1rem',
+                    pl: 2,
+                  }}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton edge="end" onClick={handleSearch}>
+                          <SearchIcon />
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
+                  inputProps={{
+                    style: {
+                      textAlign: 'left',
+                      fontFamily: 'inherit',
+                    }
+                  }}
+                />
+              </Box>
+              <Box sx={{ ml: 1, display: "flex", alignItems: "center", gap: 1 }}>
+                {user ? (
+                  <>
+                    <IconButton color="inherit" onClick={() => navigate('/profile')}>
+                      <AccountCircleIcon fontSize="large" sx={{ color: "white" }} />
+                    </IconButton>
+                  </>
+                ) : (
+                  <>
+                    <IconButton color="inherit" onClick={() => navigate('/login')}>
+                      <LoginIcon fontSize="large" />
+                    </IconButton>
+                    <IconButton color="inherit" onClick={() => navigate('/register')}>
+                      <PersonAddIcon fontSize="large" />
+                    </IconButton>
+                  </>
+                  
+                )}
+              </Box>
+            </Toolbar>
+          </AppBar>
+        </Box>
       )}
+
+      {!isHomePage && (
+        <AppBar sx={navigationStyles.appBarOther(isVisible)}>
+          <Toolbar sx={navigationStyles.toolbarOther}>
+            <Box sx={navigationStyles.navButtonsOther}>
+              {navigationItems.map((item) => (
+                <NavButton
+                  key={item.text}
+                  text={item.text}
+                  link={item.link}
+                  icon={item.icon}
+                  refresh={item.refresh}
+                />
+              ))}
+            </Box>
+            <Box sx={{ ml: 2, display: "flex", alignItems: "center", gap: 1 }}>
+              {user ? (
+                <>
+                  <IconButton color="inherit" onClick={() => navigate('/profile')}>
+                    <AccountCircleIcon fontSize="large" sx={{ color: "white" }} />
+                  </IconButton>
+                  
+                </>
+              ) : (
+                <IconButton color="inherit" onClick={() => navigate('/login')}>
+                  <LoginIcon fontSize="large" />
+                </IconButton>
+              )}
+            </Box>
+          </Toolbar>
+        </AppBar>
+      )}
+
+      {!isHomePage && <Box sx={{ height: '110px' }} />}
     </>
   );
 }
+  

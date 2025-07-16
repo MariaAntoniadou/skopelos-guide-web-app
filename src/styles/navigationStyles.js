@@ -1,0 +1,97 @@
+import { skopelosColors } from './colors';
+import { typographyStyles } from './typographyStyles';
+
+export const navigationStyles = {
+  appBarHome: (isVisible) => ({
+    backgroundColor: 'rgba(26, 54, 93, 0.85)',
+    backdropFilter: 'blur(15px) saturate(180%)',
+    boxShadow: '0 4px 20px rgba(26, 54, 93, 0.4), 0 1px 4px rgba(0, 0, 0, 0.2)',
+    border: '1px solid rgba(255, 255, 255, 0.15)',
+    borderRadius: '30px',
+    top: { xs: '50px', md: '60px' },
+    left: '50%',
+    transform: isVisible
+      ? 'translateX(-50%) translateY(0)'
+      : 'translateX(-50%) translateY(-120%)',
+    transition: 'transform 0.3s ease-in-out',
+    width: '100%',
+    maxWidth: '1100px',
+    zIndex: 1100,
+    position: 'absolute',
+  }),
+  appBarOther: (isVisible) => ({
+    backgroundColor: 'rgba(26, 54, 93, 0.95)',
+    backdropFilter: 'blur(20px) saturate(180%)',
+    boxShadow: '0 8px 32px rgba(26, 54, 93, 0.3), 0 2px 8px rgba(0, 0, 0, 0.1)',
+    border: '1px solid rgba(255, 255, 255, 0.1)',
+    borderRadius: '30px',
+    top: '20px',
+    left: '50%',
+    transform: isVisible
+      ? 'translateX(-50%) translateY(0)'
+      : 'translateX(-50%) translateY(-120%)',
+    transition: 'transform 0.3s ease-in-out',
+    width: '90%',
+    maxWidth: '1200px',
+    zIndex: 1100,
+    position: 'fixed',
+  }),
+  toolbarHome: {
+    minHeight: { xs: 45, md: 50 },
+    px: { xs: 2, md: 3 },
+    py: 0.5,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: '12px',
+  },
+  toolbarOther: {
+    minHeight: { xs: 60, md: 70 },
+    px: { xs: 2, md: 4 },
+    py: 1.5,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: '16px',
+  },
+  navButtonsHome: {
+    display: 'flex',
+    gap: { xs: 3, sm: 5, md: 8 },
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+  },
+  navButtonsOther: {
+    display: 'flex',
+    gap: { xs: 4, sm: 6, md: 10 },
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+  },
+  titleSection: {
+    backgroundColor: skopelosColors.background.primary,
+    py: { xs: 1, md: 2 },
+    position: 'relative',
+    borderTop: `1px solid ${skopelosColors.borders.primary}`,
+  },
+  mainTitle: {
+    ...typographyStyles.pageTitle,
+    fontSize: { xs: '2rem', sm: '3rem', md: '4rem' },
+    textTransform: 'uppercase',
+    background: `linear-gradient(135deg, ${skopelosColors.oceanBlue}, ${skopelosColors.brightBlue})`,
+    backgroundClip: 'text',
+    WebkitBackgroundClip: 'text',
+    WebkitTextFillColor: 'transparent',
+    marginBottom: 1,
+  },
+  subtitle: {
+    ...typographyStyles.bodyText,
+    display: 'block',
+    fontSize: { xs: '0.6rem', sm: '0.8rem', md: '0.9rem' },
+    fontWeight: 300,
+    textTransform: 'none',
+    letterSpacing: '0.2em',
+    marginTop: 0.5,
+    color: skopelosColors.text.secondary,
+    background: 'none',
+    WebkitTextFillColor: skopelosColors.text.secondary,
+  },
+};

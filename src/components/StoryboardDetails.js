@@ -1,12 +1,13 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useParams, useSearchParams, Link } from 'react-router-dom';
-import { Box, Typography, CircularProgress, Chip } from '@mui/material';
+import { Box, Typography, CircularProgress, Chip, IconButton, Paper } from '@mui/material';
 import { fetchFromAPI } from '../api/fetchFromAPI';
 import { ENDPOINTS, UPLOADS_BASE_URL } from '../config/api';
 import { pageStyles } from '../styles/componentsStyles';
 import { storyboardDetailsStyles } from '../styles/storyboardDetailsStyles';
 import { skopelosFonts } from '../styles/typographyStyles';
-import HomeIcon from '@mui/icons-material/Home';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 
 export default function StoryboardDetails() {
   const [storyboard, setStoryboard] = useState(null);
@@ -14,6 +15,8 @@ export default function StoryboardDetails() {
   const { id } = useParams();
   const [searchParams] = useSearchParams();
   const chapterId = searchParams.get('chapter');
+  const [chapterTitle, setChapterTitle] = useState('');
+  const scrollRef = useRef(null);
 
   useEffect(() => {
     fetchFromAPI(ENDPOINTS.getStoryboardById(id)).then((data) => {
@@ -24,6 +27,14 @@ export default function StoryboardDetails() {
       setLoading(false);
     });
   }, [id]);
+
+  useEffect(() => {
+    if (chapterId) {
+      fetchFromAPI(ENDPOINTS.getChapterById(chapterId)).then((data) => {
+        setChapterTitle(data?.attributes?.title || '');
+      }).catch(() => setChapterTitle(''));
+    }
+  }, [chapterId]);
 
   useEffect(() => {
     if (storyboard?.attributes?.title) {
@@ -47,32 +58,48 @@ export default function StoryboardDetails() {
     );
   }
 
-  const { title, topbarTitle, tags, thumbnail } = storyboard.attributes;
+  const { title, topbarTitle, tags } = storyboard.attributes;
   const sb = storyboard.attributes;
 
   const thumbUrl = sb.thumbnail?.data?.attributes?.url 
     ? UPLOADS_BASE_URL + sb.thumbnail.data.attributes.url
     : null;
 
-  // Determine back button text and link based on chapter
   const getBackButtonInfo = () => {
-    switch(chapterId) {
-      case '7':
-        return { text: 'Επιστροφή στους προορισμούς', link: '/chapters/7' };
-      case '9':
-        return { text: 'Επιστροφή στις διαδρομές', link: '/chapters/9' };
-      default:
-        return { text: 'επιστροφή στην αρχική', link: '/' };
+    if (chapterId) {
+      if (chapterTitle) {
+        return {
+          text: `Επιστροφή σε "${chapterTitle}"`,
+          link: `/chapters/${chapterId}`,
+        };
+      } else {
+        return { text: 'Φόρτωση κεφαλαίου…', link: '#' };
+      }
     }
+    return { text: 'Επιστροφή στην αρχική', link: '/' };
   };
 
   const backButtonInfo = getBackButtonInfo();
 
+  const scrollPoints = (direction) => {
+    if (scrollRef.current) {
+      const scrollAmount = 300;
+      const container = scrollRef.current;
+      const newScrollLeft = direction === 'left'
+        ? container.scrollLeft - scrollAmount
+        : container.scrollLeft + scrollAmount;
+      container.scrollTo({
+        left: newScrollLeft,
+        behavior: 'smooth',
+      });
+    }
+  };
+
+  const points = storyboard.attributes.points?.data || [];
+
   return (
     <Box sx={pageStyles.container}>
       <Box sx={storyboardDetailsStyles.contentWrapper}>
-        
-        {/* Main Content Section */}
         <Box sx={{
           display: 'flex',
           flexDirection: { xs: 'column', md: 'row' },
@@ -80,15 +107,12 @@ export default function StoryboardDetails() {
           marginBottom: { xs: 4, md: 6 },
           alignItems: { xs: 'center', md: 'flex-start' }
         }}>
-          
-          {/* Left Side - Content Area */}
+          {/* LEFT: Text */}
           <Box sx={{
             flex: 1,
             textAlign: { xs: 'center', md: 'left' },
             padding: { xs: 2, md: 3 }
           }}>
-            
-            {/* Main Title */}
             <Typography
               variant="h1"
               component="h1"
@@ -104,8 +128,7 @@ export default function StoryboardDetails() {
             >
               {title}
             </Typography>
-            
-            {/* Decorative Divider */}
+
             <Box sx={{
               width: { xs: '80px', md: '100px' },
               height: '3px',
@@ -113,8 +136,7 @@ export default function StoryboardDetails() {
               margin: { xs: '0 auto 2rem', md: '0 0 2rem 0' },
               borderRadius: '2px',
             }} />
-            
-            {/* Subtitle/Topbar Title */}
+
             {topbarTitle && (
               <Typography
                 variant="h2"
@@ -132,7 +154,6 @@ export default function StoryboardDetails() {
               </Typography>
             )}
 
-            {/* Description */}
             {sb.description && (
               <Box sx={{
                 backgroundColor: 'rgba(245, 245, 245, 0.7)',
@@ -152,9 +173,131 @@ export default function StoryboardDetails() {
                 </Typography>
               </Box>
             )}
-          </Box>
 
-          {/* Right Side - Image Container */}
+            {/* POINTS SCROLLER */}
+            {points.length > 0 && (
+              <Box sx={{ width: '100%', mt: 4, position: 'relative', minHeight: 180 }}>
+                <IconButton
+                  onClick={() => scrollPoints('left')}
+                  sx={{
+                    position: 'absolute',
+                    left: 0,
+                    top: '50%',
+                    zIndex: 10,
+                    opacity: 1,
+                    transform: 'translateY(-50%)',
+                    background: '#fff',
+                    boxShadow: 2,
+                  }}
+                  aria-label="Scroll Left"
+                >
+                  <ChevronLeftIcon />
+                </IconButton>
+                <IconButton
+                  onClick={() => scrollPoints('right')}
+                  sx={{
+                    position: 'absolute',
+                    right: 0,
+                    top: '50%',
+                    zIndex: 10,
+                    opacity: 1,
+                    transform: 'translateY(-50%)',
+                    background: '#fff',
+                    boxShadow: 2,
+                  }}
+                  aria-label="Scroll Right"
+                >
+                  <ChevronRightIcon />
+                </IconButton>
+                <Box
+                  ref={scrollRef}
+                  sx={{
+                    display: 'flex',
+                    overflowX: 'auto', // always scrollable
+                    justifyContent: 'flex-start', // align left, allow overflow
+                    scrollSnapType: points.length <= 3 ? 'none' : 'x mandatory',
+                    gap: 2,
+                    pb: 1,
+                    scrollBehavior: 'smooth',
+                    maxWidth: { xs: '100%', md: 600 }, // set a max width for scroll area
+                    '&::-webkit-scrollbar': { display: 'none' },
+                    '-ms-overflow-style': 'none',
+                    scrollbarWidth: 'none',
+                  }}
+                >
+                  {points.map((point) => {
+                    const pointThumb = point.attributes.thumbnail?.data?.attributes?.url
+                      ? UPLOADS_BASE_URL + point.attributes.thumbnail.data.attributes.url
+                      : null;
+                    return (
+                      <Link
+                        key={point.id}
+                        to={`/point/${point.id}`}
+                        style={{ textDecoration: 'none', scrollSnapAlign: 'start' }}
+                      >
+                        <Paper
+                          elevation={4}
+                          sx={{
+                            width: 180,
+                            minHeight: 140,
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            p: 0,
+                            borderRadius: 4,
+                            boxShadow: '0 4px 24px rgba(0,0,0,0.10)',
+                            overflow: 'hidden',
+                            transition: 'box-shadow 0.2s, transform 0.2s',
+                            '&:hover': {
+                              boxShadow: '0 8px 32px rgba(0,0,0,0.16)',
+                              transform: 'translateY(-2px) scale(1.03)',
+                            },
+                            background: '#fff',
+                            m: 1,
+                          }}
+                        >
+                          {pointThumb && (
+                            <Box
+                              component="img"
+                              src={pointThumb}
+                              alt={point.attributes.title}
+                              sx={{
+                                width: '100%',
+                                height: 90,
+                                objectFit: 'cover',
+                                borderTopLeftRadius: 4,
+                                borderTopRightRadius: 4,
+                                boxShadow: 'none',
+                                mb: 0,
+                                transition: 'filter 0.2s',
+                                '&:hover': { filter: 'brightness(0.97)' },
+                              }}
+                            />
+                          )}
+                          <Box sx={{ width: '100%', p: 2, textAlign: 'center', flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                            <Typography
+                              sx={{
+                                fontFamily: skopelosFonts.text,
+                                fontWeight: 500,
+                                fontSize: { xs: '1rem', md: '1.08rem' },
+                                color: '#232323',
+                                lineHeight: 1.3,
+                                wordBreak: 'break-word',
+                              }}
+                            >
+                              {point.attributes.title}
+                            </Typography>
+                          </Box>
+                        </Paper>
+                      </Link>
+                    );
+                  })}
+                </Box>
+              </Box>
+            )}
+            {/* END POINTS SCROLLER */}
+          </Box>
+          {/* RIGHT: Main Image */}
           <Box sx={{
             flex: 1,
             maxWidth: { xs: '100%', md: '50%' },
@@ -217,7 +360,7 @@ export default function StoryboardDetails() {
           </Box>
         </Box>
 
-        {/* Tags Section */}
+        {/* Tags */}
         {tags?.data?.length > 0 && (
           <Box sx={{
             marginTop: { xs: 5, md: 7 },
@@ -321,7 +464,6 @@ export default function StoryboardDetails() {
                 boxShadow: '0 4px 12px rgba(49, 130, 206, 0.3)',
               },
             }}>
-              
               {backButtonInfo.text}
             </Typography>
           </Link>

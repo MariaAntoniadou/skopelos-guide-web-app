@@ -1,5 +1,5 @@
 import { skopelosColors } from './colors';
-import { typographyStyles , skopelosFonts} from './typographyStyles';
+import { typographyStyles } from './typographyStyles';
 
 export const storyboardDetailsStyles = {
   loadingContainer: {
@@ -54,7 +54,7 @@ export const storyboardDetailsStyles = {
   },
 
   storyboardTitle: {
-    ...typographyStyles.chapterTitle,
+    ...typographyStyles.chapterTitle, // Use your custom chapterTitle style
     fontSize: { xs: '1.8rem', md: '2.4rem' },
     fontWeight: 200,
     textAlign: { xs: 'center', md: 'left' },
@@ -82,7 +82,7 @@ export const storyboardDetailsStyles = {
   },
 
   topbarTitle: {
-    ...typographyStyles.bodyText,
+    ...typographyStyles.bodyText, // Use your custom bodyText style
     color: skopelosColors.text.secondary,
     textAlign: { xs: 'center', md: 'left' },
     marginBottom: 3,
@@ -91,7 +91,6 @@ export const storyboardDetailsStyles = {
     lineHeight: 1.7,
     letterSpacing: '0.05em',
     fontWeight: 300,
-    fontFamily: skopelosFonts.accent,
     backgroundColor: 'rgba(228, 213, 166, 0.9)',
   },
 
@@ -107,13 +106,12 @@ export const storyboardDetailsStyles = {
   },
 
   captionText: {
-    ...typographyStyles.bodyText,
+    ...typographyStyles.bodyText, // Use your custom bodyText style
     fontSize: '0.95rem',
     fontStyle: 'italic',
     color: skopelosColors.text.secondary,
     lineHeight: 1.6,
     letterSpacing: '0.01em',
-    fontFamily: skopelosFonts.primary,
   },
 
   // Image container - RIGHT SIDE
@@ -182,7 +180,7 @@ export const storyboardDetailsStyles = {
   },
 
   tagsTitle: {
-    ...typographyStyles.chapterTitle,
+    ...typographyStyles.chapterTitle, // Use your custom chapterTitle style
     color: skopelosColors.text.primary,
     fontSize: { xs: '1.2rem', md: '1.4rem' },
     fontWeight: 200,
@@ -202,6 +200,7 @@ export const storyboardDetailsStyles = {
   },
 
   tagChip: {
+    ...typographyStyles.bodyText, // Use your custom bodyText style
     backgroundColor: 'rgba(255, 255, 255, 0.95)',
     color: skopelosColors.text.primary,
     fontSize: '0.9rem',
@@ -213,7 +212,6 @@ export const storyboardDetailsStyles = {
     transition: 'all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
     border: `1px solid ${skopelosColors.borders.primary}30`,
     boxShadow: '0 2px 6px rgba(0, 0, 0, 0.04)',
-    fontFamily: skopelosFonts.primary,
     
     '&:hover': {
       backgroundColor: skopelosColors.brightBlue,
@@ -238,18 +236,17 @@ export const storyboardDetailsStyles = {
   },
 
   backButton: {
-    ...typographyStyles.bodyText,
+    ...typographyStyles.bodyText, // Use your custom bodyText style
     color: skopelosColors.brightBlue,
     padding: '12px 24px',
     backgroundColor: 'rgba(255, 255, 255, 0.95)',
     border: `1px solid ${skopelosColors.borders.primary}40`,
     display: 'inline-block',
-    transition: 'all 0.3s ',
+    transition: 'all 0.3s ease',
     fontSize: '1rem',
     fontWeight: 400,
     letterSpacing: '0.02em',
-    fontFamily: skopelosFonts.primary,
-    textTransform: 'none', // Add this line to override any uppercase transformation
+    textTransform: 'none',
     '&:hover': {
       backgroundColor: skopelosColors.brightBlue,
       color: 'white',

@@ -1,52 +1,31 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
 import App from './App';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { AuthProvider } from './contexts/AuthContexts'; 
 
+// Minimal theme just for breakpoints
 const theme = createTheme({
-  palette: {
-    mode: 'light',  // μπορείς να βάλεις dark αν θες
-    primary: {
-      main: '#4a148c',  // σκούρο μωβ
-    },
-    secondary: {
-      main: '#ff6f00',  // πορτοκαλί ζεστό
-    },
-    background: {
-      default: '#fafafa',
-      paper: '#fff',
-    },
-  },
-  typography: {
-    fontFamily: '"Playfair Display", "Dancing Script", serif',
-    h1: {
-      fontFamily: '"Dancing Script", cursive',
-      fontWeight: 700,
-      fontSize: '3rem',
-    },
-    h2: {
-      fontFamily: '"Playfair Display", serif',
-      fontWeight: 600,
-      fontSize: '2rem',
-    },
-    body1: {
-      fontSize: '1.125rem',
-      lineHeight: 1.6,
-      color: '#444',
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 600,
+      md: 900,
+      lg: 1200,
+      xl: 1536,
     },
   },
 });
-
-
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
-      <App />
+      <CssBaseline />
+      <AuthProvider> 
+          <App />
+      </AuthProvider>
     </ThemeProvider>
   </React.StrictMode>
 );
-
-

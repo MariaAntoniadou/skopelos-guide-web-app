@@ -1,6 +1,5 @@
 import { skopelosColors } from './colors';
-import { typographyStyles,skopelosFonts } from './typographyStyles';
-
+import { typographyStyles } from './typographyStyles';
 
 export const chapterDetailsStyles = {
   loadingContainer: {
@@ -21,41 +20,13 @@ export const chapterDetailsStyles = {
 
   chapterTitle: {
     ...typographyStyles.chapterTitle,
-    fontSize: { xs: '1.8rem', md: '2.4rem' },
-    fontWeight: 200,
-    color: skopelosColors.text.primary,
-    marginBottom: 3,
-    letterSpacing: '0.03em',
-    textTransform: 'uppercase',
-    textAlign: 'center',
-    '&:hover': {
-      color: skopelosColors.brightBlue,
-      transition: 'color 0.3s ease',
-    },
   },
 
   descriptionBox: {
-    ...typographyStyles.bodyText,
-    fontSize: { xs: '1rem', md: '1.1rem' },
-    color: skopelosColors.text.secondary,
-    lineHeight: 1.7,
-    marginBottom: 4,
-    maxWidth: '1000px',
-    mx: 'auto', // Center the description box
-    letterSpacing: '0.01em',
-    fontFamily: skopelosFonts.accent,
-    backgroundColor: 'rgba(228, 213, 166, 0.9)',
-    padding: 3, 
-    textAlign: 'center', // Center the text inside
-    
-    '& p': {
-      margin: 0,
-      marginBottom: 2,
-      textAlign: 'center', // Center paragraph text too
-    },
+    ...typographyStyles.chapterDescription, 
+
   },
 
-  // Elegant gallery layout
   storyboardGallery: {
     display: 'flex',
     flexDirection: 'column',
@@ -121,7 +92,7 @@ export const chapterDetailsStyles = {
   },
 
   storyboardTitle: {
-    ...typographyStyles.chapterTitle,
+    ...typographyStyles.cardTitle, // Use your custom cardTitle style
     fontSize: '1.3rem',
     fontWeight: 500,
     color: skopelosColors.text.primary,
@@ -139,17 +110,17 @@ export const chapterDetailsStyles = {
     borderTop: `1px solid ${skopelosColors.borders.primary}10`,
 
     '&::after': {
-    content: '""',
-    position: 'absolute',
-    bottom: '20px',
-    left: '50%',
-    transform: 'translateX(-50%)',
-    width: '60px',
-    height: '2px',
-    backgroundColor: skopelosColors.brightBlue,
-    opacity: 0.7,
-    transition: 'all 0.3s ease',
-  },
+      content: '""',
+      position: 'absolute',
+      bottom: '20px',
+      left: '50%',
+      transform: 'translateX(-50%)',
+      width: '60px',
+      height: '2px',
+      backgroundColor: skopelosColors.brightBlue,
+      opacity: 0.7,
+      transition: 'all 0.3s ease',
+    },
   },
 
   noImagePlaceholder: {
@@ -168,7 +139,7 @@ export const chapterDetailsStyles = {
   },
 
   noImageText: {
-    ...typographyStyles.bodyText,
+    ...typographyStyles.bodyText, // Use your custom bodyText style
     opacity: 0.5,
     fontSize: '1rem',
     fontStyle: 'italic',
@@ -181,7 +152,7 @@ export const chapterDetailsStyles = {
   },
 
   backButton: {
-    ...typographyStyles.bodyText,
+    ...typographyStyles.bodyText, 
     color: skopelosColors.brightBlue,
     padding: '12px 24px',
     backgroundColor: 'rgba(255, 255, 255, 0.9)',
