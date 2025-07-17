@@ -6,6 +6,11 @@ export async function getIntroductionChaptersDeep(locale = 'en') {
   return await fetchFromAPI(ENDPOINTS.getIntroductionChaptersDeep(locale));
 }
 
+export async function getIntroStoryboardById(id, locale = 'en') {
+  return await fetchFromAPI(ENDPOINTS.getIntroStoryboardById(id, locale));
+}
+
+
 // Fetch all main chapters with their storyboards and tags
 export async function getAllMainChapters(locale = 'en') {
   return await fetchFromAPI(ENDPOINTS.getAllMainChapters(locale));

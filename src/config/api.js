@@ -35,7 +35,7 @@ export const ENDPOINTS = {
     locale
   ),
 
-  getPointById:(id) => `/main-storyboards/${id}`,
+  getPointById:(id) => `/points/${id}?populate[0]=thumbnail,medias,tags&populate[1]=medias.thumbnail,medias.files,tags.svg`,
 
 
   getEventsDeep: (locale = 'en') =>
@@ -46,7 +46,7 @@ export const ENDPOINTS = {
       &populate[2]=points.medias.thumbnail,points.tags.svg`,
       locale
     ),
-  getPointById: (id) => `/points/${id}?populate[0]=thumbnail,medias,tags&populate[1]=medias.thumbnail,medias.files,tags.svg`,
+  //getPointById: (id) => `/points/${id}?populate[0]=thumbnail,medias,tags&populate[1]=medias.thumbnail,medias.files,tags.svg`,
 };
 
 

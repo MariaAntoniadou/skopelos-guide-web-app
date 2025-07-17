@@ -10,6 +10,8 @@ import Login from './components/Login';
 import Profile from './components/Profile';
 import Register from "./components/Register";
 import StoryboardPoints from './components/StoryboardPoints';
+import StoryboardSlides from './components/StoryboardSlides';
+import AccessOptions  from './components/AccessOptions';
 
 
 function App() {
@@ -38,6 +40,8 @@ function App() {
           <Route path="/chapters/:id" element={<ChapterDetails />} />
           <Route path="/storyboard/:id" element={<StoryboardDetails />} />
           <Route path="/point/:id" element={<StoryboardPoints />} />
+          <Route path="/introduction-storyboard/:id" element={<StoryboardSlides />} />
+          <Route path="/access" element={<AccessOptions />}/>
         </Routes>
         
       </Box>

@@ -221,7 +221,7 @@ export default function StoryboardDetails() {
                     scrollBehavior: 'smooth',
                     maxWidth: { xs: '100%', md: 600 }, // set a max width for scroll area
                     '&::-webkit-scrollbar': { display: 'none' },
-                    '-ms-overflow-style': 'none',
+                    msoverflowstyle: 'none',
                     scrollbarWidth: 'none',
                   }}
                 >

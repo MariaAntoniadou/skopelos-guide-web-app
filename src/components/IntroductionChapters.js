@@ -41,10 +41,6 @@ export default function IntroductionChapters() {
   if (loading) return <Typography>Loading...</Typography>;
   if (!chapter) return <Typography>Not found</Typography>;
 
-  const thumbnailData = chapter.attributes.thumbnail?.data;
-  const imageUrl = thumbnailData
-    ? (thumbnailData.attributes.formats?.medium?.url || thumbnailData.attributes.url)
-    : null;
 
   const storyboards = chapter.attributes.storyboards?.data || [];
 
@@ -70,21 +66,6 @@ export default function IntroductionChapters() {
           mb: 4,
         }}
       >
-        {imageUrl && (
-          <Box
-            component="img"
-            src={`${UPLOADS_BASE_URL}${imageUrl}`}
-            alt={chapter.attributes.title}
-            sx={{
-              width: { xs: '100%', md: 340 },
-              height: { xs: 200, md: 240 },
-              objectFit: 'cover',
-              borderRadius: 3,
-              boxShadow: '0 2px 12px rgba(0,0,0,0.08)',
-              flexShrink: 0,
-            }}
-          />
-        )}
         <Box sx={{ flex: 1, minWidth: 0 }}>
           <Typography sx={typographyStyles.chapterTitle}>
             {chapter.attributes.title}
@@ -154,73 +135,75 @@ export default function IntroductionChapters() {
               pb: 1,
               scrollBehavior: 'smooth',
               '&::-webkit-scrollbar': { display: 'none' },
-              '-ms-overflow-style': 'none',
+              msOverflowStyle: 'none',
               scrollbarWidth: 'none',
             }}
           >
             {storyboards.map((storyboard) => {
-              const thumbUrl = storyboard.attributes.thumbnail?.data?.attributes?.url;
-              const fullImageUrl = thumbUrl ? UPLOADS_BASE_URL + thumbUrl : '';
+            const thumbUrl = storyboard.attributes.thumbnail?.data?.attributes?.url;
+            const fullImageUrl = thumbUrl ? UPLOADS_BASE_URL + thumbUrl : '';
 
-              return (
-                <Link
-                  key={storyboard.id}
-                  to={`/storyboard/${storyboard.id}`}
-                  style={{ textDecoration: 'none', scrollSnapAlign: 'start' }}
+            return (
+              <Link
+                key={storyboard.id}
+                to={`/introduction-storyboard/${storyboard.id}`}
+                style={{ textDecoration: 'none', scrollSnapAlign: 'start' }}
+              >
+                <Paper
+                  elevation={4}
+                  sx={{
+                    width: 280,
+                    minHeight: 10,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    p: 0,
+                    borderRadius: 4,
+                    boxShadow: '0 4px 24px rgba(0,0,0,0.10)',
+                    overflow: 'hidden',
+                    transition: 'box-shadow 0.2s, transform 0.2s',
+                    '&:hover': {
+                      boxShadow: '0 8px 32px rgba(0,0,0,0.16)',
+                      transform: 'translateY(-2px) scale(1.03)',
+                    },
+                    background: '#fff',
+                    m: 1,
+                  }}
                 >
-                  <Paper
-                    elevation={4}
-                    sx={{
-                      width: 280,
-                      minHeight: 10,
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: 'center',
-                      p: 0,
-                      borderRadius: 4,
-                      boxShadow: '0 4px 24px rgba(0,0,0,0.10)',
-                      overflow: 'hidden',
-                      transition: 'box-shadow 0.2s, transform 0.2s',
-                      '&:hover': {
-                        boxShadow: '0 8px 32px rgba(0,0,0,0.16)',
-                        transform: 'translateY(-2px) scale(1.03)',
-                      },
-                      background: '#fff',
-                      m: 1,
-                    }}
-                  >
-                    {fullImageUrl && (
-                      <Box
-                        component="img"
-                        src={fullImageUrl}
-                        alt={storyboard.attributes.title}
-                        sx={{
-                          width: '100%',
-                          height: 210,
-                          objectFit: 'cover',
-                          borderTopLeftRadius: 4,
-                          borderTopRightRadius: 4,
-                          boxShadow: 'none',
-                          mb: 0,
-                          transition: 'filter 0.2s',
-                          '&:hover': { filter: 'brightness(0.97)' },
-                        }}
-                      />
-                    )}
-                    <Box sx={{ width: '100%', p: 2, textAlign: 'center', flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                      <Typography
-                        sx={{
-                          fontFamily: skopelosFonts.text,
-                          fontWeight: 500,
-                          fontSize: { xs: '1rem', md: '1.08rem' },
-                          color: '#232323',
-                          lineHeight: 1.3,
-                          wordBreak: 'break-word',
-                        }}
-                      >
-                        {storyboard.attributes.title}
-                      </Typography>
-                    </Box>
+                  {fullImageUrl && (
+                    <Box
+                      component="img"
+                      src={fullImageUrl}
+                      alt={storyboard.attributes.title}
+                      sx={{
+                        width: '100%',
+                        height: 210,
+                        objectFit: 'cover',
+                        borderTopLeftRadius: 4,
+                        borderTopRightRadius: 4,
+                        boxShadow: 'none',
+                        mb: 0,
+                        transition: 'filter 0.2s',
+                        '&:hover': { filter: 'brightness(0.97)' },
+                      }}
+                    />
+                  )}
+                  <Box sx={{ width: '100%', p: 2, textAlign: 'center', flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <Typography
+                      sx={{
+                        fontFamily: skopelosFonts.text,
+                        fontWeight: 500,
+                        fontSize: { xs: '1rem', md: '1.08rem' },
+                        color: '#232323',
+                        lineHeight: 1.3,
+                        wordBreak: 'break-word',
+                      }}
+                    >
+                      {storyboard.attributes.title}
+                    </Typography>
+                  </Box>
+                  
+                  
                   </Paper>
                 </Link>
               );
