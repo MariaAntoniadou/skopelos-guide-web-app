@@ -4,6 +4,8 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import App from './App';
 import { AuthProvider } from './contexts/AuthContexts'; 
+import './i18n';
+import 'leaflet/dist/leaflet.css';
 
 // Minimal theme just for breakpoints
 const theme = createTheme({

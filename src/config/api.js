@@ -8,11 +8,11 @@ const withLocale = (url, locale = 'el') =>
 // Your existing + new deeply populated endpoints
 export const ENDPOINTS = {
 
-  getIntroductionChaptersDeep: (locale = 'en') =>
+  getIntroductionChaptersDeep: (locale = 'e') =>
   `/introduction-chapters?locale=${locale}&populate[0]=storyboards,thumbnail&populate[1]=storyboards.thumbnail,storyboards.slides&populate[2]=storyboards.slides.medias&populate[3]=storyboards.slides.medias.files,storyboards.slides.medias.thumbnail,storyboards.slides.medias.tags&populate[4]=storyboards.slides.medias.tags.svg`,
 
     
-  getAllMainChapters: (locale = 'en') =>
+  getAllMainChapters: (locale = 'el') =>
     withLocale(
       `/main-chapters?populate[0]=mainStoryboards&populate[1]=mainStoryboards.thumbnail,mainStoryboards.tags`,
       locale
@@ -38,7 +38,7 @@ export const ENDPOINTS = {
   getPointById:(id) => `/points/${id}?populate[0]=thumbnail,medias,tags&populate[1]=medias.thumbnail,medias.files,tags.svg`,
 
 
-  getEventsDeep: (locale = 'en') =>
+  getEventsDeep: (locale = 'el') =>
     withLocale(
       `/events
       &populate[0]=thumbnail,date,points

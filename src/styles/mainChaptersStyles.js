@@ -84,11 +84,11 @@ export const mainChaptersStyles = {
     flexDirection: 'column',
     position: 'relative',
     cursor: 'pointer',
-    boxShadow: `0 4px 12px ${skopelosColors.brightBlue}`,
+    boxShadow: `0 4px 12px ${'rgba(95, 201, 217, 0.9)'}`,
     
     '&:hover': {
       backgroundColor: 'rgba(255, 255, 255, 1)',
-      transform: 'translateY(-4px)',
+      transform: 'translateY(-3px) scale(1.03)',
       boxShadow: '0 8px 32px rgba(0, 0, 0, 0.12)',
       transition: 'all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
       

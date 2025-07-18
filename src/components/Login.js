@@ -5,6 +5,8 @@ import { Box, TextField, Button, Typography, Paper } from "@mui/material";
 import { useAuth } from "../contexts/AuthContexts";
 import { typographyStyles } from "../styles/typographyStyles";
 import { skopelosColors } from "../styles/colors";
+import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next"; // <-- add this
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -12,6 +14,8 @@ export default function Login() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const { user } = useAuth();
+  const navigate = useNavigate();
+  const { t } = useTranslation(); // <-- add this
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -19,8 +23,9 @@ export default function Login() {
     setLoading(true);
     try {
       await signInWithEmailAndPassword(auth, email, password);
+      navigate("/profile");
     } catch (err) {
-      setError("Λάθος email ή κωδικός.");
+      setError(t("loginError", { defaultValue: "Λάθος email ή κωδικός." }));
     }
     setLoading(false);
   };
@@ -28,6 +33,10 @@ export default function Login() {
   const handleLogout = async () => {
     await signOut(auth);
   };
+
+  if (loading) {
+    return null; // or a spinner
+  }
 
   return (
     <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: "60vh" }}>
@@ -44,33 +53,30 @@ export default function Login() {
       >
         {user ? (
           <Box sx={{ textAlign: "center" }}>
-            <Typography variant="h5" sx={typographyStyles.sectionTitle} gutterBottom>
-              Καλώς ήρθες, {user.email}
-            </Typography>
             <Button
               variant="contained"
               onClick={handleLogout}
-              sx={{ 
-                mt: 3, 
-                fontWeight: 600, 
+              sx={{
+                mt: 3,
+                fontWeight: 600,
                 borderRadius: 3,
                 backgroundColor: skopelosColors.oceanBlue,
                 color: "#fff",
                 '&:hover': {
-                  backgroundColor: "#122235ff", 
+                  backgroundColor: "#122235ff",
                 }
               }}
             >
-              Αποσύνδεση
+              {t("logout", { defaultValue: "Αποσύνδεση" })}
             </Button>
           </Box>
         ) : (
           <form onSubmit={handleLogin}>
-            <Typography variant="h4" sx={{ ...typographyStyles.pageTitle, mb: 2, fontSize: "2rem"}}>
-              Σύνδεση
+            <Typography variant="h4" sx={{ ...typographyStyles.pageTitle, mb: 2, fontSize: "2rem" }}>
+              {t("login", { defaultValue: "Σύνδεση" })}
             </Typography>
             <TextField
-              label="Email"
+              label={t("email", { defaultValue: "Email" })}
               type="email"
               value={email}
               onChange={e => setEmail(e.target.value)}
@@ -85,7 +91,7 @@ export default function Login() {
               InputLabelProps={{ sx: { ...typographyStyles.bodyText } }}
             />
             <TextField
-              label="Κωδικός"
+              label={t("password", { defaultValue: "Κωδικός" })}
               type="password"
               value={password}
               onChange={e => setPassword(e.target.value)}
@@ -117,15 +123,21 @@ export default function Login() {
                 backgroundColor: skopelosColors.oceanBlue,
                 color: "#fff",
                 '&:hover': {
-                  backgroundColor: "#122235ff", 
+                  backgroundColor: "#122235ff",
                 }
               }}
               disabled={loading}
             >
-              Σύνδεση
+              {t("login", { defaultValue: "Σύνδεση" })}
             </Button>
           </form>
         )}
+        <Button
+          onClick={() => navigate("/register")}
+          sx={{ mt: 2, textTransform: "none" }}
+        >
+          {t("noAccountRegister", { defaultValue: "Δεν έχετε λογαριασμό; Εγγραφείτε" })}
+        </Button>
       </Paper>
     </Box>
   );

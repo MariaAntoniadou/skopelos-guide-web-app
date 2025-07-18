@@ -11,7 +11,6 @@ import Profile from './components/Profile';
 import Register from "./components/Register";
 import StoryboardPoints from './components/StoryboardPoints';
 import StoryboardSlides from './components/StoryboardSlides';
-import AccessOptions  from './components/AccessOptions';
 
 
 function App() {
@@ -30,7 +29,7 @@ function App() {
         outline: 'none',
       }}>
        <NavBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
-      <Box sx={{ flex: 1,maxWidth: '2000px',}}>
+      <Box sx={{ flex: 1, width: '100%', maxWidth: '100vw' }}>
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/register" element={<Register />} />
@@ -41,7 +40,6 @@ function App() {
           <Route path="/storyboard/:id" element={<StoryboardDetails />} />
           <Route path="/point/:id" element={<StoryboardPoints />} />
           <Route path="/introduction-storyboard/:id" element={<StoryboardSlides />} />
-          <Route path="/access" element={<AccessOptions />}/>
         </Routes>
         
       </Box>
@@ -51,15 +49,3 @@ function App() {
 }
 
 export default App;
-
-/*
-<NavBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
-<Routes>
-            <Route path="/" element={<MainChapters searchTerm={searchTerm} setSearchTerm={setSearchTerm} />} />
-            
-            <Route path="/chapters/:id" element={<ChapterDetails />} />
-            <Route path="/storyboard/:id" element={<StoryboardDetails />} />
-            
-          </Routes>
-
-          */

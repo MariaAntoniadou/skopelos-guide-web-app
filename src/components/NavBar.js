@@ -13,7 +13,8 @@ import { useAuth } from '../contexts/AuthContexts';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LoginIcon from '@mui/icons-material/Login';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
-
+import LanguageIcon from '@mui/icons-material/Language';
+import { useTranslation } from "react-i18next";
 
 export default function NavBar({ searchTerm, setSearchTerm }) {
   const [isVisible, setIsVisible] = useState(true);
@@ -23,28 +24,29 @@ export default function NavBar({ searchTerm, setSearchTerm }) {
   const isHomePage = location.pathname === '/';
   const [chapters, setChapters] = useState([]);
   const { user } = useAuth();
+  const { t, i18n } = useTranslation();
+  const [locale, setLocale] = useState(i18n.language || 'en');
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchMainChapters() {
       try {
-        const response = await getAllMainChapters('en');
+        const response = await getAllMainChapters(locale);
         setChapters(response || []);
       } catch (err) {
         console.error('Error fetching main chapters:', err);
       }
     }
     fetchMainChapters();
-  }, []);
+  }, [locale]);
 
   const navigationItems = [
-    { text: 'Αρχική', link: '/', icon: <HomeIcon /> },
+    { text: t("home"), link: '/', icon: <HomeIcon /> },
     ...chapters.map(chapter => ({
       text: chapter.attributes.title,
       link: `/chapters/${chapter.id}`
     }))
   ];
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (isHomePage) {
@@ -62,7 +64,6 @@ export default function NavBar({ searchTerm, setSearchTerm }) {
     return () => window.removeEventListener('scroll', controlNavbar);
   }, [lastScrollY]);
 
-  // Keep input in sync if searchTerm changes from outside
   useEffect(() => {
     setInputValue(searchTerm);
   }, [searchTerm]);
@@ -85,11 +86,16 @@ export default function NavBar({ searchTerm, setSearchTerm }) {
     }
   };
 
+  const handleLocaleChange = () => {
+    const newLocale = locale === 'el' ? 'en' : 'el';
+    setLocale(newLocale);
+    i18n.changeLanguage(newLocale);
+  };
+
   return (
     <>
       {isHomePage && (
         <Box sx={{ position: 'relative' }}>
-
           <AppBar sx={navigationStyles.appBarHome(isVisible)}>
             <Toolbar sx={navigationStyles.toolbarHome}>
               <Box sx={navigationStyles.navButtonsHome}>
@@ -106,7 +112,7 @@ export default function NavBar({ searchTerm, setSearchTerm }) {
               <Box sx={{ ml: 1, flex: 1, maxWidth: 320 }}>
                 <TextField
                   variant="outlined"
-                  placeholder="Αναζήτηση..."
+                  placeholder={t("search")}
                   value={inputValue}
                   onChange={e => setInputValue(e.target.value)}
                   onKeyDown={handleKeyDown}
@@ -145,6 +151,10 @@ export default function NavBar({ searchTerm, setSearchTerm }) {
                     <IconButton color="inherit" onClick={() => navigate('/profile')}>
                       <AccountCircleIcon fontSize="large" sx={{ color: "white" }} />
                     </IconButton>
+                    <IconButton onClick={handleLocaleChange} sx={{ color: 'white' }}>
+                      <LanguageIcon />
+                      {locale === 'el' ? 'EN' : 'GR'}
+                    </IconButton>
                   </>
                 ) : (
                   <>
@@ -154,8 +164,11 @@ export default function NavBar({ searchTerm, setSearchTerm }) {
                     <IconButton color="inherit" onClick={() => navigate('/register')}>
                       <PersonAddIcon fontSize="large" />
                     </IconButton>
+                    <IconButton onClick={handleLocaleChange} sx={{ color: 'white' }}>
+                      <LanguageIcon />
+                      {locale === 'el' ? 'EN' : 'GR'}
+                    </IconButton>
                   </>
-                  
                 )}
               </Box>
             </Toolbar>
@@ -183,13 +196,16 @@ export default function NavBar({ searchTerm, setSearchTerm }) {
                   <IconButton color="inherit" onClick={() => navigate('/profile')}>
                     <AccountCircleIcon fontSize="large" sx={{ color: "white" }} />
                   </IconButton>
-                  
                 </>
               ) : (
                 <IconButton color="inherit" onClick={() => navigate('/login')}>
                   <LoginIcon fontSize="large" />
                 </IconButton>
               )}
+              <IconButton onClick={handleLocaleChange} sx={{ color: 'white' }}>
+                <LanguageIcon />
+                {locale === 'el' ? 'EN' : 'GR'}
+              </IconButton>
             </Box>
           </Toolbar>
         </AppBar>
@@ -199,4 +215,3 @@ export default function NavBar({ searchTerm, setSearchTerm }) {
     </>
   );
 }
-  

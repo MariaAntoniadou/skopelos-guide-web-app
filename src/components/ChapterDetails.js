@@ -2,22 +2,23 @@ import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Box, Typography, CircularProgress } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
-
 import { getAllMainChapters } from '../api/apiService.js'; 
 import { UPLOADS_BASE_URL } from "../config/api";
 import { pageStyles } from '../styles/componentsStyles';
 import { chapterDetailsStyles } from '../styles/chapterDetailsStyles.js';
+import { useTranslation } from 'react-i18next'; // <-- i18n hook
 
 export default function ChapterDetails() {
   const { id } = useParams();
   const [chapter, setChapter] = useState(null);
   const [loading, setLoading] = useState(true);
+  const { t } = useTranslation(); // <-- use t for translations
 
   // Fetching with async/await
   useEffect(() => {
     async function fetchChapter() {
       try {
-        const allChapters = await getAllMainChapters(); // optionally pass 'en' if needed
+        const allChapters = await getAllMainChapters();
         const found = allChapters.find((ch) => ch.id === Number(id));
         setChapter(found || null);
       } catch (error) {
@@ -50,12 +51,12 @@ export default function ChapterDetails() {
       <Box sx={pageStyles.container}>
         <Box sx={pageStyles.contentWrapper}>
           <Typography variant="h4" sx={chapterDetailsStyles.errorContainer}>
-            Δεν βρέθηκε το κεφάλαιο.
+            {t('chapterNotFound')}
           </Typography>
           <Box sx={chapterDetailsStyles.backButtonContainer}>
             <Link to="/" style={{ textDecoration: 'none' }}>
               <Typography sx={chapterDetailsStyles.backButton}>
-                Επιστροφή στην αρχική
+                {t('backToHome')}
               </Typography>
             </Link>
           </Box>
@@ -75,8 +76,13 @@ export default function ChapterDetails() {
     return rows.map((row, rowIndex) => (
       <Box key={rowIndex} sx={chapterDetailsStyles.storyboardRow}>
         {row.map((storyboard) => {
-          const thumbUrl = storyboard.attributes.thumbnail?.data?.attributes?.url;
-          const fullImageUrl = thumbUrl ? UPLOADS_BASE_URL + thumbUrl : "";
+          const imageFormats = storyboard.attributes.thumbnail?.data?.attributes?.formats;
+          const highResUrl =
+            imageFormats?.large?.url ||
+            imageFormats?.medium?.url ||
+            imageFormats?.small?.url ||
+            storyboard.attributes.thumbnail?.data?.attributes?.url;
+          const fullImageUrl = highResUrl ? UPLOADS_BASE_URL + highResUrl : "";
 
           return (
             <Link 
@@ -102,7 +108,7 @@ export default function ChapterDetails() {
                   ) : (
                     <Box sx={chapterDetailsStyles.noImagePlaceholder}>
                       <Typography sx={chapterDetailsStyles.noImageText}>
-                        Δεν υπάρχει εικόνα
+                        {t('noImage', { defaultValue: 'Δεν υπάρχει εικόνα' })}
                       </Typography>
                     </Box>
                   )}
@@ -159,7 +165,7 @@ export default function ChapterDetails() {
                   verticalAlign: 'middle'
                 }} 
               />
-              Επιστροφή στην αρχική 
+              {t('backToHome')}
             </Typography>
           </Link>
         </Box>

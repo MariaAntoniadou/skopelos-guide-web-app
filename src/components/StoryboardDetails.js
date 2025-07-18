@@ -8,6 +8,8 @@ import { storyboardDetailsStyles } from '../styles/storyboardDetailsStyles';
 import { skopelosFonts } from '../styles/typographyStyles';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import { useTranslation } from "react-i18next";
+import TrailMap from './TrailMap'; // Make sure this exists!
 
 export default function StoryboardDetails() {
   const [storyboard, setStoryboard] = useState(null);
@@ -17,6 +19,7 @@ export default function StoryboardDetails() {
   const chapterId = searchParams.get('chapter');
   const [chapterTitle, setChapterTitle] = useState('');
   const scrollRef = useRef(null);
+  const { t } = useTranslation();
 
   useEffect(() => {
     fetchFromAPI(ENDPOINTS.getStoryboardById(id)).then((data) => {
@@ -53,30 +56,25 @@ export default function StoryboardDetails() {
   if (!storyboard) {
     return (
       <Box sx={storyboardDetailsStyles.errorContainer}>
-        <Typography variant="h6">Δεν βρέθηκε το storyboard</Typography>
+        <Typography variant="h6">{t('storyboardNotFound', { defaultValue: "Δεν βρέθηκε το storyboard" })}</Typography>
       </Box>
     );
   }
 
   const { title, topbarTitle, tags } = storyboard.attributes;
-  const sb = storyboard.attributes;
-
-  const thumbUrl = sb.thumbnail?.data?.attributes?.url 
-    ? UPLOADS_BASE_URL + sb.thumbnail.data.attributes.url
-    : null;
 
   const getBackButtonInfo = () => {
     if (chapterId) {
       if (chapterTitle) {
         return {
-          text: `Επιστροφή σε "${chapterTitle}"`,
+          text: `${t('backToChapter', { defaultValue: "Επιστροφή σε" })} "${chapterTitle}"`,
           link: `/chapters/${chapterId}`,
         };
       } else {
-        return { text: 'Φόρτωση κεφαλαίου…', link: '#' };
+        return { text: t('loadingChapter', { defaultValue: "Φόρτωση κεφαλαίου…" }), link: '#' };
       }
     }
-    return { text: 'Επιστροφή στην αρχική', link: '/' };
+    return { text: t('backToHome', { defaultValue: "Επιστροφή στην αρχική" }), link: '/' };
   };
 
   const backButtonInfo = getBackButtonInfo();
@@ -97,12 +95,16 @@ export default function StoryboardDetails() {
 
   const points = storyboard.attributes.points?.data || [];
 
+  const trailsTag = storyboard.attributes.tags?.data.find(
+    tag => tag.attributes.title.toLowerCase() === "trails"
+  );
+
   return (
     <Box sx={pageStyles.container}>
       <Box sx={storyboardDetailsStyles.contentWrapper}>
         <Box sx={{
           display: 'flex',
-          flexDirection: { xs: 'column', md: 'row' },
+          flexDirection: { xs: 'column', md: 'column' },
           gap: { xs: 4, md: 6 },
           marginBottom: { xs: 4, md: 6 },
           alignItems: { xs: 'center', md: 'flex-start' }
@@ -130,7 +132,7 @@ export default function StoryboardDetails() {
             </Typography>
 
             <Box sx={{
-              width: { xs: '80px', md: '100px' },
+              width: { xs: 's80px', md: '200px' },
               height: '3px',
               backgroundColor: '#3182ce',
               margin: { xs: '0 auto 2rem', md: '0 0 2rem 0' },
@@ -154,26 +156,6 @@ export default function StoryboardDetails() {
               </Typography>
             )}
 
-            {sb.description && (
-              <Box sx={{
-                backgroundColor: 'rgba(245, 245, 245, 0.7)',
-                padding: { xs: 2, md: 3 },
-                borderRadius: '12px',
-                marginBottom: { xs: 3, md: 4 },
-                border: '1px solid rgba(0,0,0,0.05)'
-              }}>
-                <Typography sx={{
-                  fontFamily: skopelosFonts.text,
-                  fontSize: { xs: '0.9rem', md: '1rem' },
-                  lineHeight: 1.7,
-                  color: '#2d3748',
-                  textAlign: { xs: 'center', md: 'left' }
-                }}>
-                  {sb.description}
-                </Typography>
-              </Box>
-            )}
-
             {/* POINTS SCROLLER */}
             {points.length > 0 && (
               <Box sx={{ width: '100%', mt: 4, position: 'relative', minHeight: 180 }}>
@@ -189,7 +171,7 @@ export default function StoryboardDetails() {
                     background: '#fff',
                     boxShadow: 2,
                   }}
-                  aria-label="Scroll Left"
+                  aria-label={t('scrollLeft', { defaultValue: "Scroll Left" })}
                 >
                   <ChevronLeftIcon />
                 </IconButton>
@@ -205,7 +187,7 @@ export default function StoryboardDetails() {
                     background: '#fff',
                     boxShadow: 2,
                   }}
-                  aria-label="Scroll Right"
+                  aria-label={t('scrollRight', { defaultValue: "Scroll Right" })}
                 >
                   <ChevronRightIcon />
                 </IconButton>
@@ -213,13 +195,13 @@ export default function StoryboardDetails() {
                   ref={scrollRef}
                   sx={{
                     display: 'flex',
-                    overflowX: 'auto', // always scrollable
-                    justifyContent: 'flex-start', // align left, allow overflow
+                    overflowX: 'auto',
+                    justifyContent: 'flex-start',
                     scrollSnapType: points.length <= 3 ? 'none' : 'x mandatory',
-                    gap: 2,
+                    gap: 3,
                     pb: 1,
                     scrollBehavior: 'smooth',
-                    maxWidth: { xs: '100%', md: 600 }, // set a max width for scroll area
+                    maxWidth: { xs: '100%', md: 1100 },
                     '&::-webkit-scrollbar': { display: 'none' },
                     msoverflowstyle: 'none',
                     scrollbarWidth: 'none',
@@ -238,19 +220,20 @@ export default function StoryboardDetails() {
                         <Paper
                           elevation={4}
                           sx={{
-                            width: 180,
-                            minHeight: 140,
+                            width: 270,
+                            minHeight: 170,
+                            height:220,
                             display: 'flex',
                             flexDirection: 'column',
                             alignItems: 'center',
                             p: 0,
                             borderRadius: 4,
-                            boxShadow: '0 4px 24px rgba(0,0,0,0.10)',
+                            boxShadow: '0 4px 24px rgba(95, 201, 217, 0.9)',
                             overflow: 'hidden',
                             transition: 'box-shadow 0.2s, transform 0.2s',
                             '&:hover': {
-                              boxShadow: '0 8px 32px rgba(0,0,0,0.16)',
-                              transform: 'translateY(-2px) scale(1.03)',
+                              boxShadow: '0 8px 32px rgba(95, 201, 217, 0.9)',
+                              transform: 'translateY(-2px) scale(1.1)',
                             },
                             background: '#fff',
                             m: 1,
@@ -263,7 +246,7 @@ export default function StoryboardDetails() {
                               alt={point.attributes.title}
                               sx={{
                                 width: '100%',
-                                height: 90,
+                                height: 200,
                                 objectFit: 'cover',
                                 borderTopLeftRadius: 4,
                                 borderTopRightRadius: 4,
@@ -281,7 +264,7 @@ export default function StoryboardDetails() {
                                 fontWeight: 500,
                                 fontSize: { xs: '1rem', md: '1.08rem' },
                                 color: '#232323',
-                                lineHeight: 1.3,
+                                lineHeight: 1.1,
                                 wordBreak: 'break-word',
                               }}
                             >
@@ -296,67 +279,6 @@ export default function StoryboardDetails() {
               </Box>
             )}
             {/* END POINTS SCROLLER */}
-          </Box>
-          {/* RIGHT: Main Image */}
-          <Box sx={{
-            flex: 1,
-            maxWidth: { xs: '100%', md: '50%' },
-            height: { xs: '280px', sm: '350px', md: '450px' },
-            borderRadius: '16px',
-            overflow: 'hidden',
-            position: 'relative',
-            boxShadow: '0 12px 24px rgba(0, 0, 0, 0.15)',
-          }}>
-            {thumbUrl ? (
-              <>
-                <Box
-                  component="img"
-                  src={thumbUrl}
-                  alt={title}
-                  sx={{
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'cover',
-                    transition: 'transform 0.3s ease',
-                    '&:hover': {
-                      transform: 'scale(1.05)',
-                    }
-                  }}
-                />
-                <Box sx={{
-                  position: 'absolute',
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  bottom: 0,
-                  background: 'linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.3) 100%)',
-                  opacity: 0,
-                  transition: 'opacity 0.3s ease',
-                  '&:hover': {
-                    opacity: 1,
-                  }
-                }} />
-              </>
-            ) : (
-              <Box sx={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                height: '100%',
-                backgroundColor: '#f7fafc',
-                borderRadius: '16px',
-                border: '2px dashed #cbd5e0',
-                color: '#a0aec0'
-              }}>
-                <Typography sx={{
-                  fontFamily: skopelosFonts.text,
-                  fontSize: { xs: '0.9rem', md: '1rem' },
-                  fontStyle: 'italic'
-                }}>
-                  Δεν υπάρχει εικόνα
-                </Typography>
-              </Box>
-            )}
           </Box>
         </Box>
 
@@ -375,11 +297,10 @@ export default function StoryboardDetails() {
                 fontWeight: 600,
                 color: '#1a365d',
                 marginBottom: { xs: 3, md: 4 },
-                textTransform: 'uppercase',
                 letterSpacing: '0.1em',
               }}
             >
-              Χαρακτηριστικά
+              {t('tags', { defaultValue: "tags" })}
             </Typography>
 
             <Box sx={{
@@ -469,6 +390,11 @@ export default function StoryboardDetails() {
           </Link>
         </Box>
       </Box>
+
+      {/* TRAIL MAP */}
+      {(points.length > 0 || trailsTag) && (
+        <TrailMap points={points} />
+      )}
     </Box>
   );
 }

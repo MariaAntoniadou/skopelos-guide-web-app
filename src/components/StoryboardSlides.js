@@ -1,4 +1,4 @@
-import { useParams , Link} from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { fetchFromAPI } from '../api/fetchFromAPI';
 import { ENDPOINTS, UPLOADS_BASE_URL } from '../config/api';
@@ -9,6 +9,11 @@ import { typographyStyles } from '../styles/typographyStyles';
 import { skopelosFonts } from '../styles/typographyStyles';
 import { mainChaptersStyles } from '../styles/mainChaptersStyles';
 
+function cleanDescription(html) {
+  // Remove underscores and asterisks inside HTML tags
+  return html
+    .replace(/[_*]+/g, '') // Remove all _ and *
+}
 export default function StoryboardSlides() {
   const { id } = useParams();
   const [storyboard, setStoryboard] = useState(null);
@@ -36,39 +41,6 @@ export default function StoryboardSlides() {
 
     if (loading) return <Typography>Loading...</Typography>;
     if (!storyboard) return <Typography>Storyboard not found</Typography>;
-
-    // If storyboard id is 22, show only the access link
-    if (String(storyboard.id) === '22') {
-      return (
-        <Box sx={{ maxWidth: 1300, mx: 'auto', p: 4, position: 'relative' }}>
-          <Typography sx={mainChaptersStyles.chapterTitle}>
-            {storyboard.attributes.title}
-          </Typography>
-          <Box sx={{ textAlign: 'center', mt: 6 }}>
-            <Link to="/access" style={{ textDecoration: 'none' }}>
-              <Box
-                component="button"
-                sx={{
-                  background: '#29406b',
-                  color: '#fff',
-                  px: 3,
-                  py: 1,
-                  borderRadius: 2,
-                  border: 'none',
-                  cursor: 'pointer',
-                  fontSize: '1.1rem',
-                  fontWeight: 500,
-                  boxShadow: 2,
-                  '&:hover': { background: '#1a2e4d' },
-                }}
-              >
-                Δείτε επιλογές πρόσβασης στο νησί
-              </Box>
-            </Link>
-          </Box>
-        </Box>
-      );
-    }
 
 
 
@@ -160,7 +132,7 @@ export default function StoryboardSlides() {
                             mt: 2,
                             textAlign: 'justify',
                           }}
-                          dangerouslySetInnerHTML={{ __html: slide.attributes.description }}
+                          dangerouslySetInnerHTML={{ __html: cleanDescription(slide.attributes.description) }}
                         />
                       </Box>
                       {/* Show all media images for this slide */}

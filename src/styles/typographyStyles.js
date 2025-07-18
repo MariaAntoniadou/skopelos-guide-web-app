@@ -64,23 +64,24 @@ export const typographyStyles = {
   },
 
   chapterDescription: {
-    fontFamily: skopelosFonts.text,
-    fontSize: { xs: '1rem', md: '1.1rem' }, 
-    lineHeight: 1.7,
-    fontWeight: 400,
-    letterSpacing: '0.01em',
-    color: skopelosColors.text.secondary,
-    
-    marginBottom: 4,
-    maxWidth: '1700px',
-    backgroundColor: 'rgba(228, 213, 166, 0.9)',
-    padding: 3,
-    '& p': {
-      margin: 0,
-      marginBottom: 2,
-      textAlign: 'center',
-    },
+  fontFamily: skopelosFonts.text,
+  fontSize: { xs: '1rem', md: '1rem' },
+  lineHeight: 1.6,
+  fontWeight: 500,
+  letterSpacing: '0.01em',
+  color: skopelosColors.text.secondary,
+  marginBottom: 4,
+  width: '100%',           
+  maxWidth: '100%',         
+  backgroundColor: 'rgba(95, 201, 217, 0.9)',
+  padding: 3,
+  boxSizing: 'border-box',  
+  '& p': {
+    margin: 0,
+    marginBottom: 2,
+    textAlign: 'center',
   },
+},
 
   storyboardTitle: {
     fontFamily: skopelosFonts.text,

@@ -8,13 +8,14 @@ import { getIntroductionChaptersDeep } from '../api/apiService';
 import { UPLOADS_BASE_URL } from '../config/api';
 import { typographyStyles } from '../styles/typographyStyles';
 import { cardStyles } from '../styles/componentsStyles';
-
+import { useTranslation } from "react-i18next"; 
 
 export default function IntroductionChapters() {
   const { id } = useParams();
   const [chapter, setChapter] = useState(null);
   const [loading, setLoading] = useState(true);
   const scrollRef = useRef(null);
+  const { t } = useTranslation(); // <-- add this
 
   useEffect(() => {
     async function fetchData() {
@@ -38,9 +39,8 @@ export default function IntroductionChapters() {
     }
   };
 
-  if (loading) return <Typography>Loading...</Typography>;
-  if (!chapter) return <Typography>Not found</Typography>;
-
+  if (loading) return <Typography>{t('loadingIntro', { defaultValue: 'Loading...' })}</Typography>;
+  if (!chapter) return <Typography>{t('chapterNotFound', { defaultValue: 'Not found' })}</Typography>;
 
   const storyboards = chapter.attributes.storyboards?.data || [];
 
@@ -49,7 +49,7 @@ export default function IntroductionChapters() {
       sx={{
         maxWidth: 1100,
         mx: 'auto',
-        mt: 6,
+        mt: 4,
         p: { xs: 1, sm: 3 },
         display: 'flex',
         flexDirection: 'column',
@@ -79,7 +79,6 @@ export default function IntroductionChapters() {
               color: '#4a5568',
               lineHeight: 1.6,
               marginBottom: { xs: 3, md: 4 },
-              fontStyle: 'italic',
               mt: 2,
               textAlign: 'justify',
             }}
@@ -103,7 +102,7 @@ export default function IntroductionChapters() {
               opacity: 1,
               transform: 'translateY(-50%)',
             }}
-            aria-label="Scroll Left"
+            aria-label={t('scrollLeft', { defaultValue: "Scroll Left" })}
           >
             <ChevronLeftIcon />
           </IconButton>
@@ -119,7 +118,7 @@ export default function IntroductionChapters() {
               opacity: 1,
               transform: 'translateY(-50%)',
             }}
-            aria-label="Scroll Right"
+            aria-label={t('scrollRight', { defaultValue: "Scroll Right" })}
           >
             <ChevronRightIcon />
           </IconButton>
@@ -140,70 +139,68 @@ export default function IntroductionChapters() {
             }}
           >
             {storyboards.map((storyboard) => {
-            const thumbUrl = storyboard.attributes.thumbnail?.data?.attributes?.url;
-            const fullImageUrl = thumbUrl ? UPLOADS_BASE_URL + thumbUrl : '';
+              const thumbUrl = storyboard.attributes.thumbnail?.data?.attributes?.url;
+              const fullImageUrl = thumbUrl ? UPLOADS_BASE_URL + thumbUrl : '';
 
-            return (
-              <Link
-                key={storyboard.id}
-                to={`/introduction-storyboard/${storyboard.id}`}
-                style={{ textDecoration: 'none', scrollSnapAlign: 'start' }}
-              >
-                <Paper
-                  elevation={4}
-                  sx={{
-                    width: 280,
-                    minHeight: 10,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    p: 0,
-                    borderRadius: 4,
-                    boxShadow: '0 4px 24px rgba(0,0,0,0.10)',
-                    overflow: 'hidden',
-                    transition: 'box-shadow 0.2s, transform 0.2s',
-                    '&:hover': {
-                      boxShadow: '0 8px 32px rgba(0,0,0,0.16)',
-                      transform: 'translateY(-2px) scale(1.03)',
-                    },
-                    background: '#fff',
-                    m: 1,
-                  }}
+              return (
+                <Link
+                  key={storyboard.id}
+                  to={`/introduction-storyboard/${storyboard.id}`}
+                  style={{ textDecoration: 'none', scrollSnapAlign: 'start' }}
                 >
-                  {fullImageUrl && (
-                    <Box
-                      component="img"
-                      src={fullImageUrl}
-                      alt={storyboard.attributes.title}
-                      sx={{
-                        width: '100%',
-                        height: 210,
-                        objectFit: 'cover',
-                        borderTopLeftRadius: 4,
-                        borderTopRightRadius: 4,
-                        boxShadow: 'none',
-                        mb: 0,
-                        transition: 'filter 0.2s',
-                        '&:hover': { filter: 'brightness(0.97)' },
-                      }}
-                    />
-                  )}
-                  <Box sx={{ width: '100%', p: 2, textAlign: 'center', flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <Typography
-                      sx={{
-                        fontFamily: skopelosFonts.text,
-                        fontWeight: 500,
-                        fontSize: { xs: '1rem', md: '1.08rem' },
-                        color: '#232323',
-                        lineHeight: 1.3,
-                        wordBreak: 'break-word',
-                      }}
-                    >
-                      {storyboard.attributes.title}
-                    </Typography>
-                  </Box>
-                  
-                  
+                  <Paper
+                    elevation={4}
+                    sx={{
+                      width: 280,
+                      minHeight: 10,
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      p: 0,
+                      borderRadius: 4,
+                      boxShadow: '0 4px 24px rgba(95, 201, 217, 0.9)',
+                      overflow: 'hidden',
+                      transition: 'box-shadow 0.2s, transform 0.2s',
+                      '&:hover': {
+                        boxShadow: '0 8px 32px rgba(95, 201, 217, 0.9)',
+                        transform: 'translateY(-2px) scale(1.1)',
+                      },
+                      background: '#fff',
+                      m: 1,
+                    }}
+                  >
+                    {fullImageUrl && (
+                      <Box
+                        component="img"
+                        src={fullImageUrl}
+                        alt={storyboard.attributes.title}
+                        sx={{
+                          width: '100%',
+                          height: 210,
+                          objectFit: 'cover',
+                          borderTopLeftRadius: 4,
+                          borderTopRightRadius: 4,
+                          boxShadow: 'none',
+                          mb: 0,
+                          transition: 'filter 0.2s',
+                          '&:hover': { filter: 'brightness(0.97)' },
+                        }}
+                      />
+                    )}
+                    <Box sx={{ width: '100%', p: 2, textAlign: 'center', flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <Typography
+                        sx={{
+                          fontFamily: skopelosFonts.text,
+                          fontWeight: 1000,
+                          fontSize: { xs: '1rem', md: '1.08rem' },
+                          color: '#232323',
+                          lineHeight: 1.3,
+                          wordBreak: 'break-word',
+                        }}
+                      >
+                        {storyboard.attributes.title}
+                      </Typography>
+                    </Box>
                   </Paper>
                 </Link>
               );

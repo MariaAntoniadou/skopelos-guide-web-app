@@ -1,14 +1,21 @@
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { Box, Typography, CircularProgress } from '@mui/material';
+import { Box, Typography, CircularProgress, IconButton, Tooltip } from '@mui/material';
 import { fetchFromAPI } from '../api/fetchFromAPI';
 import { ENDPOINTS, UPLOADS_BASE_URL } from '../config/api';
 import { skopelosFonts } from '../styles/typographyStyles';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import { db, auth } from '../firebase';
+import { collection, addDoc, getDocs, deleteDoc, doc } from 'firebase/firestore';
 
 export default function StoryboardPoints() {
   const { id } = useParams();
   const [point, setPoint] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [isFavorite, setIsFavorite] = useState(false);
+  const [favId, setFavId] = useState(null);
+  const user = auth.currentUser;
 
   useEffect(() => {
     fetchFromAPI(ENDPOINTS.getPointById(id)).then((data) => {
@@ -16,6 +23,43 @@ export default function StoryboardPoints() {
       setLoading(false);
     }).catch(() => setLoading(false));
   }, [id]);
+
+  // Check if this point is already a favorite
+  useEffect(() => {
+    const checkFavorite = async () => {
+      if (!user || !point) return;
+      const favCol = collection(db, "users", user.uid, "favorites");
+      const favSnap = await getDocs(favCol);
+      const found = favSnap.docs.find(doc => doc.data().pointId === point.id);
+      if (found) {
+        setIsFavorite(true);
+        setFavId(found.id);
+      } else {
+        setIsFavorite(false);
+        setFavId(null);
+      }
+    };
+    checkFavorite();
+  }, [user, point]);
+
+  const handleFavorite = async () => {
+    if (!user || !point) return;
+    if (isFavorite && favId) {
+      // Remove favorite
+      await deleteDoc(doc(db, "users", user.uid, "favorites", favId));
+      setIsFavorite(false);
+      setFavId(null);
+    } else {
+      // Add favorite
+      const docRef = await addDoc(collection(db, "users", user.uid, "favorites"), {
+        pointId: point.id,
+        title: point.attributes.title,
+        type: "point"
+      });
+      setIsFavorite(true);
+      setFavId(docRef.id);
+    }
+  };
 
   if (loading) return <Box sx={{ textAlign: 'center', mt: 6 }}><CircularProgress /></Box>;
   if (!point) return <Typography sx={{ textAlign: 'center', mt: 6 }}>Not found</Typography>;
@@ -26,17 +70,30 @@ export default function StoryboardPoints() {
 
   return (
     <Box sx={{ maxWidth: 700, mx: 'auto', mt: 6, p: 3 }}>
-      <Typography
-        variant="h4"
-        sx={{
-          mb: 2,
-          fontFamily: skopelosFonts.titles,
-          fontWeight: 600,
-          color: '#1a365d',
-        }}
-      >
-        {point.attributes.title}
-      </Typography>
+      <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+        <Typography
+          variant="h4"
+          sx={{
+            mr: 1,
+            fontFamily: skopelosFonts.titles,
+            fontWeight: 600,
+            color: '#1a365d',
+          }}
+        >
+          {point.attributes.title}
+        </Typography>
+        {user && (
+          <Tooltip title={isFavorite ? "Αφαίρεση από αγαπημένα" : "Προσθήκη στα αγαπημένα"}>
+            <IconButton onClick={handleFavorite}>
+              {isFavorite ? (
+                <FavoriteIcon sx={{ color: "#e53935" }} />
+              ) : (
+                <FavoriteBorderIcon sx={{ color: "#bbb" }} />
+              )}
+            </IconButton>
+          </Tooltip>
+        )}
+      </Box>
       {thumbUrl && (
         <Box
           component="img"
