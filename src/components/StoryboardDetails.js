@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 import { useParams, useSearchParams, Link } from 'react-router-dom';
-import { Box, Typography, CircularProgress, Chip, IconButton, Paper } from '@mui/material';
+import { Box, Typography, CircularProgress, Chip, IconButton, Paper, Stack } from '@mui/material';
 import { fetchFromAPI } from '../api/fetchFromAPI';
 import { ENDPOINTS, UPLOADS_BASE_URL } from '../config/api';
 import { pageStyles } from '../styles/componentsStyles';
@@ -9,7 +9,7 @@ import { skopelosFonts } from '../styles/typographyStyles';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { useTranslation } from "react-i18next";
-import TrailMap from './TrailMap'; // Make sure this exists!
+import RouteIcon from '@mui/icons-material/Route';
 
 export default function StoryboardDetails() {
   const [storyboard, setStoryboard] = useState(null);
@@ -22,7 +22,9 @@ export default function StoryboardDetails() {
   const { t } = useTranslation();
 
   useEffect(() => {
-    fetchFromAPI(ENDPOINTS.getStoryboardById(id)).then((data) => {
+    fetchFromAPI(
+      `/main-storyboards/${id}?populate[0]=thumbnail,tags,points,trails&populate[1]=tags.svg,points.thumbnail,points.medias,points.tags,trails.tags&populate[2]=points.medias.thumbnail,points.medias.files,points.tags.svg`
+    ).then((data) => {
       setStoryboard(data);
       setLoading(false);
     }).catch((err) => {
@@ -94,10 +96,13 @@ export default function StoryboardDetails() {
   };
 
   const points = storyboard.attributes.points?.data || [];
+  const storyboardTrails = storyboard.attributes.trails?.data || [];
 
-  const trailsTag = storyboard.attributes.tags?.data.find(
-    tag => tag.attributes.title.toLowerCase() === "trails"
-  );
+  // Get the SVG icon from the first storyboard tag
+  const storyboardTag = tags?.data?.[0];
+  const storyboardSvgUrl = storyboardTag?.attributes?.svg?.data?.attributes?.url
+    ? UPLOADS_BASE_URL + storyboardTag.attributes.svg.data.attributes.url
+    : null;
 
   return (
     <Box sx={pageStyles.container}>
@@ -109,7 +114,7 @@ export default function StoryboardDetails() {
           marginBottom: { xs: 4, md: 6 },
           alignItems: { xs: 'center', md: 'flex-start' }
         }}>
-          {/* LEFT: Text */}
+          {/* LEFT: Κείμενο */}
           <Box sx={{
             flex: 1,
             textAlign: { xs: 'center', md: 'left' },
@@ -132,7 +137,7 @@ export default function StoryboardDetails() {
             </Typography>
 
             <Box sx={{
-              width: { xs: 's80px', md: '200px' },
+              width: { xs: '80px', md: '200px' },
               height: '3px',
               backgroundColor: '#3182ce',
               margin: { xs: '0 auto 2rem', md: '0 0 2rem 0' },
@@ -156,7 +161,6 @@ export default function StoryboardDetails() {
               </Typography>
             )}
 
-            {/* POINTS SCROLLER */}
             {points.length > 0 && (
               <Box sx={{ width: '100%', mt: 4, position: 'relative', minHeight: 180 }}>
                 <IconButton
@@ -203,7 +207,7 @@ export default function StoryboardDetails() {
                     scrollBehavior: 'smooth',
                     maxWidth: { xs: '100%', md: 1100 },
                     '&::-webkit-scrollbar': { display: 'none' },
-                    msoverflowstyle: 'none',
+                    msOverflowStyle: 'none',
                     scrollbarWidth: 'none',
                   }}
                 >
@@ -222,7 +226,7 @@ export default function StoryboardDetails() {
                           sx={{
                             width: 270,
                             minHeight: 170,
-                            height:220,
+                            height: 220,
                             display: 'flex',
                             flexDirection: 'column',
                             alignItems: 'center',
@@ -278,9 +282,79 @@ export default function StoryboardDetails() {
                 </Box>
               </Box>
             )}
-            {/* END POINTS SCROLLER */}
           </Box>
         </Box>
+
+        {/* TRAILS FOR THIS STORYBOARD */}
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 2, justifyContent: 'center' }}>
+          {storyboardSvgUrl && (
+            <img
+              src={storyboardSvgUrl}
+              alt={storyboardTag?.attributes?.title || ''}
+              style={{ width: 28, height: 28, verticalAlign: 'middle' }}
+            />
+          )}
+          <Typography
+            variant="h2"
+            sx={{
+              fontFamily: skopelosFonts.titles,
+              fontSize: { xs: '1.25rem', md: '1.5rem' },
+              fontWeight: 500,
+              color: '#1a365d',
+              letterSpacing: '0.02em',
+            }}
+          >
+            Διαδρομές
+          </Typography>
+        </Box>
+
+        <Stack
+          direction="column"
+          spacing={1.5}
+          alignItems="center"
+          justifyContent="center"
+          mb={2}
+        >
+          {storyboardTrails.map(trail => (
+            <Link
+              key={trail.id}
+              to={`/trails/${trail.id}`}
+              style={{ textDecoration: 'none', width: '100%' }}
+            >
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'flex-start',
+                  gap: 1.2,
+                  px: 2,
+                  py: 1.4,
+                  borderRadius: 3,
+                  background: 'linear-gradient(90deg, #e3f0ff 0%, #f8fafc 100%)',
+                  boxShadow: '0 2px 12px 0 rgba(49,130,206,0.08), 0 1.5px 6px 0 rgba(49,130,206,0.10)',
+                  color: '#1a365d',
+                  fontFamily: skopelosFonts.text,
+                  fontWeight: 500,
+                  fontSize: { xs: '1.08rem', md: '1.16rem' },
+                  cursor: 'pointer',
+                  transition: 'all 0.22s cubic-bezier(.4,0,.2,1)',
+                  border: '1.5px solid #e3e8f0',
+                  '&:hover': {
+                    background: 'linear-gradient(90deg, #dbeafe 0%, #e0e7ff 100%)',
+                    boxShadow: '0 4px 24px 0 rgba(49,130,206,0.18), 0 3px 12px 0 rgba(49,130,206,0.13)',
+                    textDecoration: 'underline',
+                    color: '#205080',
+                    borderColor: '#b6d0f7',
+                    transform: 'translateY(-2px) scale(1.03)',
+                  },
+                }}
+              >
+                <RouteIcon sx={{ color: '#3182ce', fontSize: 26, mr: 1 }} />
+                <span>{trail.attributes.title}</span>
+              </Box>
+            </Link>
+          ))}
+        </Stack>
 
         {/* Tags */}
         {tags?.data?.length > 0 && (
@@ -314,8 +388,8 @@ export default function StoryboardDetails() {
               {tags.data.map((tag) => {
                 const tagTitle = tag.attributes.title;
                 const tagColor = tag.attributes.color || '#3182ce';
-                const iconUrl = tag.attributes.icon?.data?.attributes?.url 
-                  ? UPLOADS_BASE_URL + tag.attributes.icon.data.attributes.url 
+                const iconUrl = tag.attributes.icon?.data?.attributes?.url
+                  ? UPLOADS_BASE_URL + tag.attributes.icon.data.attributes.url
                   : null;
 
                 return (
@@ -331,7 +405,7 @@ export default function StoryboardDetails() {
                           width: '20px',
                           height: '20px',
                           objectFit: 'contain',
-                          filter: 'brightness(0) invert(1)', // Make icon white
+                          filter: 'brightness(0) invert(1)',
                         }}
                       />
                     ) : null}
@@ -358,7 +432,6 @@ export default function StoryboardDetails() {
           </Box>
         )}
 
-        {/* Back Button */}
         <Box sx={{
           textAlign: 'center',
           marginTop: { xs: 6, md: 8 }
@@ -382,19 +455,15 @@ export default function StoryboardDetails() {
                 backgroundColor: '#3182ce',
                 color: 'white',
                 transform: 'translateY(-2px)',
-                boxShadow: '0 4px 12px rgba(49, 130, 206, 0.3)',
-              },
+                boxShadow: '0 4px 12px rgba(49, 130, 206, 0.4)',
+                textDecoration: 'none',
+              }
             }}>
               {backButtonInfo.text}
             </Typography>
           </Link>
         </Box>
       </Box>
-
-      {/* TRAIL MAP */}
-      {(points.length > 0 || trailsTag) && (
-        <TrailMap points={points} />
-      )}
     </Box>
   );
 }

@@ -35,3 +35,9 @@ export async function getEventsDeep(locale = 'en') {
 export async function getLocalizations(entityType, entityId) {
   return await fetchFromAPI(ENDPOINTS.getLocalizationsId(entityType, entityId));
 }
+
+// Fetch trails with populated points
+export async function getTrailsWithPoints(locale = 'el') {
+  return await fetchFromAPI(ENDPOINTS.getTrailsWithPoints(locale));
+}
+

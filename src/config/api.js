@@ -46,25 +46,25 @@ export const ENDPOINTS = {
       &populate[2]=points.medias.thumbnail,points.tags.svg`,
       locale
     ),
-  //getPointById: (id) => `/points/${id}?populate[0]=thumbnail,medias,tags&populate[1]=medias.thumbnail,medias.files,tags.svg`,
-};
 
-
-/*
-
-getPointsDeep: (locale = 'en') =>
+  getTrailsWithPoints: (locale = 'el') =>
     withLocale(
-      `/points
-      &populate[0]=thumbnail,medias,tags
-      &populate[1]=medias.thumbnail,medias.files,tags.svg`,
+      `/trails?populate=points`, 
       locale
     ),
 
+    
 
-    getStoryboardById: (id) =>
-    `/main-storyboards/${id}?populate[tags][populate]=*&populate=thumbnail`,
+  getTrailById: (id, locale = 'el') =>
+    withLocale(`/trails/${id}?populate=points`, locale),
 
-  getChapterById: (id) => `/main-chapters/${id}`,
+  getMainStoryboardsWithTrails: (locale = 'en') =>
+  `/main-storyboards?locale=${locale}` +
+  `&populate[0]=thumbnail,tags,points,trails` +
+  `&populate[1]=tags.svg,points.thumbnail,points.medias,points.tags,trails.path,trails.tags,trails.tags.svg` +
+  `&populate[2]=points.medias.thumbnail,points.medias.files,points.tags.svg`,
 
-  
-*/
+
+};
+
+
