@@ -68,14 +68,10 @@ export const navigationStyles = {
   },
   titleSection: {
     backgroundColor: skopelosColors.background.primary,
-    py: { xs: 1, md: 2 },
-    position: 'relative',
-    borderTop: `1px solid ${skopelosColors.borders.primary}`,
   },
   mainTitle: {
     ...typographyStyles.pageTitle,
     fontSize: { xs: '2rem', sm: '3rem', md: '4rem' },
-    textTransform: 'uppercase',
     background: `linear-gradient(135deg, ${skopelosColors.oceanBlue}, ${skopelosColors.brightBlue})`,
     backgroundClip: 'text',
     WebkitBackgroundClip: 'text',

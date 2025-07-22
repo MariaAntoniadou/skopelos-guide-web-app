@@ -11,7 +11,7 @@ export const typographyStyles = {
     fontFamily: skopelosFonts.titles,
     fontWeight: 400,
     fontSize: '3.5rem',
-    letterSpacing: '4px', 
+    letterSpacing: '3px', 
     textAlign: 'center',
     color: skopelosColors.text.primary,
   },

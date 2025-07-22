@@ -10,6 +10,7 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { useTranslation } from "react-i18next";
 import RouteIcon from '@mui/icons-material/Route';
+import TrailMap from './TrailMap';
 
 export default function StoryboardDetails() {
   const [storyboard, setStoryboard] = useState(null);
@@ -98,11 +99,7 @@ export default function StoryboardDetails() {
   const points = storyboard.attributes.points?.data || [];
   const storyboardTrails = storyboard.attributes.trails?.data || [];
 
-  // Get the SVG icon from the first storyboard tag
-  const storyboardTag = tags?.data?.[0];
-  const storyboardSvgUrl = storyboardTag?.attributes?.svg?.data?.attributes?.url
-    ? UPLOADS_BASE_URL + storyboardTag.attributes.svg.data.attributes.url
-    : null;
+  
 
   return (
     <Box sx={pageStyles.container}>
@@ -123,15 +120,8 @@ export default function StoryboardDetails() {
             <Typography
               variant="h1"
               component="h1"
-              sx={{
-                fontFamily: skopelosFonts.titles,
-                fontSize: { xs: '1.8rem', sm: '2.2rem', md: '2.8rem' },
-                fontWeight: 400,
-                color: '#1a365d',
-                lineHeight: 1.2,
-                marginBottom: { xs: 2, md: 3 },
-                letterSpacing: '0.02em',
-              }}
+              sx={storyboardDetailsStyles.storyboardTitle
+              }
             >
               {title}
             </Typography>
@@ -147,15 +137,7 @@ export default function StoryboardDetails() {
             {topbarTitle && (
               <Typography
                 variant="h2"
-                sx={{
-                  fontFamily: skopelosFonts.text,
-                  fontSize: { xs: '1.1rem', md: '1.3rem' },
-                  fontWeight: 300,
-                  color: '#4a5568',
-                  lineHeight: 1.6,
-                  marginBottom: { xs: 3, md: 4 },
-                  fontStyle: 'italic',
-                }}
+                sx={storyboardDetailsStyles.topbarTitle}
               >
                 {topbarTitle}
               </Typography>
@@ -225,7 +207,7 @@ export default function StoryboardDetails() {
                           elevation={4}
                           sx={{
                             width: 270,
-                            minHeight: 170,
+                            minHeight: 270,
                             height: 220,
                             display: 'flex',
                             flexDirection: 'column',
@@ -285,29 +267,12 @@ export default function StoryboardDetails() {
           </Box>
         </Box>
 
-        {/* TRAILS FOR THIS STORYBOARD */}
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 2, justifyContent: 'center' }}>
-          {storyboardSvgUrl && (
-            <img
-              src={storyboardSvgUrl}
-              alt={storyboardTag?.attributes?.title || ''}
-              style={{ width: 28, height: 28, verticalAlign: 'middle' }}
-            />
-          )}
-          <Typography
-            variant="h2"
-            sx={{
-              fontFamily: skopelosFonts.titles,
-              fontSize: { xs: '1.25rem', md: '1.5rem' },
-              fontWeight: 500,
-              color: '#1a365d',
-              letterSpacing: '0.02em',
-            }}
-          >
-            Διαδρομές
-          </Typography>
-        </Box>
-
+        {points.length > 0 && storyboardTrails.length === 0 && (
+          <Box sx={{ my: 4 }}>
+            <TrailMap points={points} trails={[]} />
+          </Box>
+        )}
+        
         <Stack
           direction="column"
           spacing={1.5}

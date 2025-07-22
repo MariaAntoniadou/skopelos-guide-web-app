@@ -12,7 +12,13 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { pageStyles, cardStyles } from '../styles/componentsStyles';
 import { getAllMainChapters } from "../api/apiService";
 import { skopelosColors } from '../styles/colors';
-import { useTranslation } from "react-i18next"; // <-- add this
+import { useTranslation } from "react-i18next";
+
+// Swiper imports
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import { Autoplay, Navigation } from 'swiper/modules';
 
 export default function HomePage({ searchTerm }) {
   const [introChapters, setIntroChapters] = useState(null);
@@ -20,8 +26,8 @@ export default function HomePage({ searchTerm }) {
   const [error, setError] = useState(null);
   const [chapters, setChapters] = useState([]);
   const scrollRefs = useRef({});
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const { t } = useTranslation(); // <-- add this
+  const { t, i18n } = useTranslation();
+  const [locale] = useState(i18n.language || 'en');
 
   useEffect(() => {
     async function fetchData() {
@@ -35,32 +41,23 @@ export default function HomePage({ searchTerm }) {
       }
     }
     fetchData();
-    // eslint-disable-next-line
-  }, []);
+  }, [t]);
 
   useEffect(() => {
     async function fetchMainChapters() {
       try {
-        const response = await getAllMainChapters('en');
+        const response = await getAllMainChapters(locale);
         setChapters(response || []);
       } catch (err) {
         console.error('Error fetching main chapters:', err);
       }
     }
     fetchMainChapters();
-  }, []);
+  }, [locale]);
 
   const introSlides = introChapters
     ? introChapters.filter(ch => ch.id === 18 || ch.id === 30)
     : [];
-
-  const handlePrev = () => {
-    setCurrentSlide((prev) => (prev === 0 ? introSlides.length - 1 : prev - 1));
-  };
-
-  const handleNext = () => {
-    setCurrentSlide((prev) => (prev === introSlides.length - 1 ? 0 : prev + 1));
-  };
 
   const filteredChapters = chapters.filter(chapter =>
     !searchTerm ||
@@ -70,7 +67,7 @@ export default function HomePage({ searchTerm }) {
   const scrollStoryboards = (chapterId, direction) => {
     const container = scrollRefs.current[chapterId];
     if (container) {
-      const scrollAmount = 300;
+      const scrollAmount = 350;
       const newScrollLeft = direction === 'left'
         ? container.scrollLeft - scrollAmount
         : container.scrollLeft + scrollAmount;
@@ -90,103 +87,73 @@ export default function HomePage({ searchTerm }) {
       {/* --- SPECIAL INTRO CHAPTERS SLIDES DESIGN --- */}
       {introSlides.length > 0 && (
         <Box sx={{ width: '100%', mb: 6, position: 'relative' }}>
-          <Box
-            sx={{
-              width: '100%',
-              maxWidth: '100vw',
-              mb: 4,
-              position: 'relative',
-              overflow: 'hidden',
-              boxShadow: 3,
-              minHeight: { xs: 250, sm: 350, md: 580 },
-              background: '#eee',
-              transition: 'all 0.5s cubic-bezier(.4,0,.2,1)',
-            }}
+          <Swiper
+            modules={[Autoplay, Navigation]}
+            slidesPerView={1}
+            navigation
+            autoplay={{ delay: 6000, disableOnInteraction: false }}
+            loop={true}
+            style={{ width: '100%', height: '100%' }}
           >
-            {/* Make the whole slide clickable */}
-            <Link
-              to={`/chapter/${introSlides[currentSlide].id}`}
-              style={{ display: 'block', width: '100%', height: '100%', textDecoration: 'none' }}
-            >
-              {/* Image */}
-              {introSlides[currentSlide].attributes.thumbnail?.data?.attributes?.formats?.thumbnail?.url ? (
-                <Box
-                  component="img"
-                  src={UPLOADS_BASE_URL + introSlides[currentSlide].attributes.thumbnail.data.attributes.url}
-                  alt={introSlides[currentSlide].attributes.title}
-                  sx={{
-                    width: '100%',
-                    height: { xs: 250, sm: 350, md: 550 },
-                    objectFit: 'cover',
+            {introSlides.map((slide) => (
+              <SwiperSlide key={slide.id} >
+                <Link
+                  to={`/chapter/${slide.id}`}
+                  style={{
                     display: 'block',
-                    transition: 'all 0.5s cubic-bezier(.4,0,.2,1)',
-                  }}
-                />
-              ) : (
-                <Box
-                  sx={{
                     width: '100%',
-                    height: { xs: 250, sm: 350, md: 550 },
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    background: '#ccc',
-                    color: '#555',
-                    fontSize: '2rem',
+                    height: '100%',
+                    textDecoration: 'none',
+                    position: 'relative'
                   }}
                 >
-                  {t('noImage', { defaultValue: 'No image available' })}
-                </Box>
-              )}
-              {/* Overlay */}
-              <Box
-                sx={{
-                  position: 'absolute',
-                  bottom: 0,
-                  left: 0,
-                  width: '100%',
-                  bgcolor: skopelosColors.oceanBlue,
-                  color: '#fff',
-                  p: { xs: 2, md: 4 },
-                }}
-              >
-                <Typography variant="h4" sx={{ fontWeight: 700, mb: 1, }}>
-                  {introSlides[currentSlide].attributes.title}
-                </Typography>
-              </Box>
-            </Link>
-            {/* Slide navigation */}
-            <IconButton
-              onClick={handlePrev}
-              sx={{
-                position: 'absolute',
-                top: '50%',
-                left: 10,
-                transform: 'translateY(-50%)',
-                bgcolor: 'rgba(0,0,0,0.4)',
-                color: '#fff',
-                zIndex: 2,
-                '&:hover': { bgcolor: 'rgba(0,0,0,0.7)' },
-              }}
-            >
-              <ChevronLeftIcon fontSize="large" />
-            </IconButton>
-            <IconButton
-              onClick={handleNext}
-              sx={{
-                position: 'absolute',
-                top: '50%',
-                right: 10,
-                transform: 'translateY(-50%)',
-                bgcolor: 'rgba(0,0,0,0.4)',
-                color: '#fff',
-                zIndex: 2,
-                '&:hover': { bgcolor: 'rgba(0,0,0,0.7)' },
-              }}
-            >
-              <ChevronRightIcon fontSize="large" />
-            </IconButton>
-          </Box>
+                  {slide.attributes.thumbnail?.data?.attributes?.url ? (
+                    <Box
+                      component="img"
+                      src={UPLOADS_BASE_URL + slide.attributes.thumbnail.data.attributes.url}
+                      alt={slide.attributes.title}
+                      sx={{
+                        width: '100%',
+                        height: { xs: 250, sm: 350, md: 550 },
+                        objectFit: 'cover',
+                        display: 'block',
+                      }}
+                    />
+                  ) : (
+                    <Box
+                      sx={{
+                        width: '100%',
+                        height: { xs: 250, sm: 350, md: 550 },
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        background: '#ccc',
+                        color: '#555',
+                        fontSize: '2rem',
+                      }}
+                    >
+                      {t('noImage', { defaultValue: 'No image available' })}
+                    </Box>
+                  )}
+                  <Box
+                    sx={{
+                      bottom: 0,
+                      left: 0,
+                      width: '100%',
+                      bgcolor: skopelosColors.oceanBlue,
+                      color: '#fff',
+                      p: { xs: 1, md: 1 },
+                      
+                    }}
+                  >
+                    <Typography variant="h4" sx={{ fontWeight: 700, mb: 1 , ...mainChaptersStyles.quoteText, color:'white', textAlign:'center'} }>
+                      {slide.attributes.title}
+                    </Typography>
+                  </Box>
+                </Link>
+              </SwiperSlide>
+            ))}
+          </Swiper>
         </Box>
       )}
 
@@ -197,7 +164,7 @@ export default function HomePage({ searchTerm }) {
           gutterBottom
           sx={navigationStyles.mainTitle}
         >
-          Σκοπελος
+          Σκόπελος
           <Box component="span" sx={navigationStyles.subtitle}>
             {t('destinationGuide', { defaultValue: 'ΟΔΗΓΟΣ ΠΡΟΟΡΙΣΜΟΥ' })}
           </Box>
@@ -214,7 +181,7 @@ export default function HomePage({ searchTerm }) {
       <Box sx={mainChaptersStyles.chaptersContainer}>
         {filteredChapters.map((chapter) => (
           <Box key={chapter.id} sx={mainChaptersStyles.chapterBox}>
-            <Link to={`/chapters/${chapter.id}`} style={{ textDecoration: 'none' }}>
+            <Link to={`/main-chapters/${chapter.id}`} style={{ textDecoration: 'none' }}>
               <Typography variant="h2" component="h2" sx={mainChaptersStyles.chapterTitle}>
                 {chapter.attributes.title}
               </Typography>

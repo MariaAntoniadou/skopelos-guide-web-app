@@ -6,19 +6,20 @@ import { getAllMainChapters } from '../api/apiService.js';
 import { UPLOADS_BASE_URL } from "../config/api";
 import { pageStyles } from '../styles/componentsStyles';
 import { chapterDetailsStyles } from '../styles/chapterDetailsStyles.js';
-import { useTranslation } from 'react-i18next'; // <-- i18n hook
+import { useTranslation } from 'react-i18next'; 
 
 export default function ChapterDetails() {
   const { id } = useParams();
   const [chapter, setChapter] = useState(null);
   const [loading, setLoading] = useState(true);
-  const { t } = useTranslation(); // <-- use t for translations
+  const { t, i18n } = useTranslation(); // <-- use t for translations
+  const locale = i18n.language || 'en';
 
   // Fetching with async/await
   useEffect(() => {
     async function fetchChapter() {
       try {
-        const allChapters = await getAllMainChapters();
+        const allChapters = await getAllMainChapters(locale);
         const found = allChapters.find((ch) => ch.id === Number(id));
         setChapter(found || null);
       } catch (error) {
@@ -29,7 +30,7 @@ export default function ChapterDetails() {
     }
 
     fetchChapter();
-  }, [id]);
+  }, [id, locale]);
 
   // Update document title
   useEffect(() => {
@@ -64,6 +65,7 @@ export default function ChapterDetails() {
       </Box>
     );
   }
+
 
   const storyboards = chapter.attributes.mainStoryboards?.data || [];
 

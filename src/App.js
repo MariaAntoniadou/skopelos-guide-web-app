@@ -37,7 +37,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/chapter/:id" element={<IntroductionChapters />} />
-          <Route path="/chapters/:id" element={<ChapterDetails />} />
+          <Route path="/main-chapters/:id" element={<ChapterDetails />} />
           <Route path="/storyboard/:id" element={<StoryboardDetails />} />
           <Route path="/point/:id" element={<StoryboardPoints />} />
           <Route path="/introduction-storyboard/:id" element={<StoryboardSlides />} />

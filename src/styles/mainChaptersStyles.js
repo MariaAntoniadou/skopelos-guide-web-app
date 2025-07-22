@@ -44,39 +44,44 @@ export const mainChaptersStyles = {
     display: 'flex',
     flexDirection: 'column',
     gap: 8,
-    //maxWidth: '1500px',
-    //mx: 'auto',
     padding: { xs: 2, md: 4 },
   },
 
   chapterBox: {
-    backgroundColor: 'rgba(255, 255, 255, 0.98)',
-    padding: { xs: 4, md: 6 },
-    marginBottom: 6,
-    position: 'relative',
-    
-    '&::before': {
-      content: '""',
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      right: 0,
-      height: '3px',
-      background: `linear-gradient(90deg, ${skopelosColors.brightBlue}, ${skopelosColors.oceanBlue})`,
-    },
+  backgroundColor: 'rgba(255, 255, 255, 0.98)',
+  padding: { xs: 4, md: 6 },
+  marginBottom: 6,
+  position: 'relative',
+  borderRadius: 16,
+  boxShadow: '0 2px 16px rgba(44, 62, 80, 0.08)',
+  transition: 'box-shadow 0.3s, transform 0.3s, background 0.3s',
+  overflow: 'hidden',
 
-    '&:hover': {
-      backgroundColor: 'rgba(255, 255, 255, 1)',
-      boxShadow: '0 4px 20px rgba(0, 0, 0, 0.06)',
-      transform: 'translateY(-2px)',
-      transition: 'all 0.3s ease',
-    },
+  '&::before': {
+    content: '""',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    height: '4px',
+    background: `linear-gradient(90deg, ${skopelosColors.brightBlue}, ${skopelosColors.oceanBlue})`,
+    borderTopLeftRadius: 16,
+    borderTopRightRadius: 16,
+    zIndex: 1,
   },
+
+  '&:hover': {
+    background: 'linear-gradient(135deg, #e7e8e9ff 0%, #f7fafc 100%)',
+    boxShadow: '0 8px 32px rgba(44, 62, 80, 0.16)',
+    transform: 'translateY(-4px) scale(1.02)',
+  },
+},
 
 
   storyboardCard: {
     backgroundColor: 'rgba(255, 255, 255, 0.95)',
     padding: 1,
+    borderRadius:4,
     minWidth: 280,
     maxWidth: 280,
     height: 400,

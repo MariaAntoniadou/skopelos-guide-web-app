@@ -44,7 +44,7 @@ export default function NavBar({ searchTerm, setSearchTerm }) {
     { text: t("home"), link: '/', icon: <HomeIcon /> },
     ...chapters.map(chapter => ({
       text: chapter.attributes.title,
-      link: `/chapters/${chapter.id}`
+      link: `/main-chapters/${chapter.id}`
     }))
   ];
 

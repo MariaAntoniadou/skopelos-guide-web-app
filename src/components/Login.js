@@ -35,7 +35,7 @@ export default function Login() {
   };
 
   if (loading) {
-    return null; // or a spinner
+    return null;
   }
 
   return (

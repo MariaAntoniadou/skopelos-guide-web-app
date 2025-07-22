@@ -82,16 +82,14 @@ export const storyboardDetailsStyles = {
   },
 
   topbarTitle: {
-    ...typographyStyles.bodyText, // Use your custom bodyText style
+    ...typographyStyles.bodyText,
     color: skopelosColors.text.secondary,
     textAlign: { xs: 'center', md: 'left' },
-    marginBottom: 3,
     fontSize: { xs: '1.1rem', md: '1.2rem' },
-    fontStyle: 'italic',
     lineHeight: 1.7,
     letterSpacing: '0.05em',
     fontWeight: 300,
-    backgroundColor: 'rgba(228, 213, 166, 0.9)',
+    
   },
 
   // Image caption/description

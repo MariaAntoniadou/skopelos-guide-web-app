@@ -69,7 +69,7 @@ export default function StoryboardPoints() {
     : null;
 
   return (
-    <Box sx={{ maxWidth: 700, mx: 'auto', mt: 6, p: 3 }}>
+    <Box sx={{ maxWidth: 1200, mx: 'auto', mt: 6, p: 3 }}>
       <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
         <Typography
           variant="h4"
@@ -100,7 +100,7 @@ export default function StoryboardPoints() {
           src={thumbUrl}
           alt={point.attributes.title}
           sx={{
-            width: '100%',
+            width: 800,
             maxHeight: 340,
             objectFit: 'cover',
             borderRadius: 4,
@@ -116,9 +116,9 @@ export default function StoryboardPoints() {
           color: '#444',
           lineHeight: 1.7,
         }}
-      >
-        {point.attributes.description}
-      </Typography>
+        component="div"
+        dangerouslySetInnerHTML={{ __html: point.attributes.description }}
+      />
     </Box>
   );
 }

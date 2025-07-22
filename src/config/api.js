@@ -56,13 +56,20 @@ export const ENDPOINTS = {
     
 
   getTrailById: (id, locale = 'el') =>
-    withLocale(`/trails/${id}?populate=points`, locale),
+  withLocale(`/trails/${id}?populate[0]=points&populate[1]=gpx`, locale),
+
 
   getMainStoryboardsWithTrails: (locale = 'en') =>
   `/main-storyboards?locale=${locale}` +
   `&populate[0]=thumbnail,tags,points,trails` +
   `&populate[1]=tags.svg,points.thumbnail,points.medias,points.tags,trails.path,trails.tags,trails.tags.svg` +
   `&populate[2]=points.medias.thumbnail,points.medias.files,points.tags.svg`,
+
+ getTrailsWithPointsAndGpx: (locale = 'el') =>
+  withLocale(
+    `/trails?populate[0]=points&populate[1]=gpx`,
+    locale
+  ),
 
 
 };

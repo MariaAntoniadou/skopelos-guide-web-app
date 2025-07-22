@@ -20,16 +20,12 @@ export default function TrailDetails() {
   if (loading) return <CircularProgress />;
   if (!trail) return <Typography>Trail not found</Typography>;
 
-  const { title, description, duration, distance, difficulty, points, thumbnail } = trail.attributes;
+ const trailAttributes = trail.attributes || {};
+  const { title, description, duration, distance, difficulty, points, thumbnail } = trailAttributes;
+
   const pointsArray = Array.isArray(points?.data) ? points.data : [];
 
-  const path = pointsArray
-    .filter(pt => pt?.attributes?.latitude && pt?.attributes?.longitude)
-    .map(pt => [
-      parseFloat(pt.attributes.latitude),
-      parseFloat(pt.attributes.longitude),
-    ]);
-
+  
   // Get thumbnail image if exists
   const UPLOADS_BASE_URL = process.env.REACT_APP_UPLOADS_BASE_URL || '';
   const trailThumb = thumbnail?.data?.attributes?.url
@@ -59,11 +55,12 @@ export default function TrailDetails() {
       </Typography>
       <Typography sx={{ mb: 2, color: '#4a5568' }}>{description}</Typography>
       <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap', mb: 2 }}>
-        <Chip label={`Διάρκεια: ${duration} λεπτά`} color="primary" />
+        <Chip label={`Διάρκεια: ${duration} λεπτά`} color="primary"  />
         <Chip label={`Απόσταση: ${distance} χλμ`} color="primary" />
         <Chip label={`Δυσκολία: ${difficulty}`} color="primary" />
       </Box>
-      <TrailMap trails={[{ ...trail, path }]} points={pointsArray} />
+      <TrailMap trails={[trail]} points={pointsArray} />
+
     </Paper>
   </Box>
 );
