@@ -11,10 +11,7 @@ export const navButtonStyles = {
     borderRadius: '8px',
     transition: 'all 0.3s ease',
     cursor: 'pointer',
-    '&:hover': {
-      backgroundColor: 'rgba(255, 255, 255, 0.1)',
-      transform: 'translateY(-2px)',
-    },
+   
   },
 
   iconContainer: {
@@ -46,7 +43,7 @@ export const navButtonStyles = {
       left: '50%',
       width: '0%',
       height: '2px',
-      background: `linear-gradient(90deg, ${skopelosColors.brightBlue}, rgba(255, 255, 255, 0.8))`,
+      background: `linear-gradient(90deg, ${skopelosColors.oceanBlue}, rgba(255, 255, 255, 0.8))`,
       transform: 'translateX(-50%)',
       transition: 'width 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
     },

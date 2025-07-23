@@ -1,6 +1,6 @@
 export const skopelosColors = {
   // Modern brand colors - deep and sophisticated
-  oceanBlue: '#1A365D',      // Deep navy
+  oceanBlue: 'rgba(13, 84, 86, 0.95)',      // Deep navy
   seaGreen: '#2D5A27',       // Dark forest green
   brightBlue: '#2B6CB0',     // Modern blue
   skyBlue: '#4299E1',        // Bright accent blue

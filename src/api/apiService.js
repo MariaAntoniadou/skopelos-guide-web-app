@@ -27,7 +27,7 @@ export async function getStoryboardsWithPoints(locale = 'en') {
 }
 
 // Fetch events with points and media details
-export async function getEventsDeep(locale = 'en') {
+export async function getEventsDeep(locale = 'el') {
   return await fetchFromAPI(ENDPOINTS.getEventsDeep(locale));
 }
 

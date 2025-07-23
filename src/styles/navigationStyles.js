@@ -3,24 +3,19 @@ import { typographyStyles } from './typographyStyles';
 
 export const navigationStyles = {
   appBarHome: (isVisible) => ({
-    backgroundColor: 'rgba(26, 54, 93, 0.85)',
+    backgroundColor: 'rgba(13, 84, 86, 0.95)',
     backdropFilter: 'blur(15px) saturate(180%)',
     boxShadow: '0 4px 20px rgba(26, 54, 93, 0.4), 0 1px 4px rgba(0, 0, 0, 0.2)',
     border: '1px solid rgba(255, 255, 255, 0.15)',
-    borderRadius: '30px',
-    top: { xs: '50px', md: '60px' },
     left: '50%',
     transform: isVisible
       ? 'translateX(-50%) translateY(0)'
       : 'translateX(-50%) translateY(-120%)',
     transition: 'transform 0.3s ease-in-out',
     width: '100%',
-    maxWidth: '1100px',
-    zIndex: 1100,
-    position: 'absolute',
   }),
   appBarOther: (isVisible) => ({
-    backgroundColor: 'rgba(26, 54, 93, 0.95)',
+    backgroundColor: 'rgba(13, 84, 86, 0.95)',
     backdropFilter: 'blur(20px) saturate(180%)',
     boxShadow: '0 8px 32px rgba(26, 54, 93, 0.3), 0 2px 8px rgba(0, 0, 0, 0.1)',
     border: '1px solid rgba(255, 255, 255, 0.1)',
@@ -38,12 +33,12 @@ export const navigationStyles = {
   }),
   toolbarHome: {
     minHeight: { xs: 45, md: 50 },
-    px: { xs: 2, md: 3 },
-    py: 0.5,
-    display: 'flex',
+    //px: { xs: 2, md: 2 },
+    py: 2,
+    display: 'inherit',
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: '12px',
+    //borderRadius: '12px',
   },
   toolbarOther: {
     minHeight: { xs: 60, md: 70 },
@@ -72,11 +67,11 @@ export const navigationStyles = {
   mainTitle: {
     ...typographyStyles.pageTitle,
     fontSize: { xs: '2rem', sm: '3rem', md: '4rem' },
-    background: `linear-gradient(135deg, ${skopelosColors.oceanBlue}, ${skopelosColors.brightBlue})`,
+    background: `linear-gradient(135deg, ${skopelosColors.oceanBlue}, ${skopelosColors.oceanBlue})`,
     backgroundClip: 'text',
     WebkitBackgroundClip: 'text',
     WebkitTextFillColor: 'transparent',
-    marginBottom: 1,
+    marginBottom: 2,
   },
   subtitle: {
     ...typographyStyles.bodyText,

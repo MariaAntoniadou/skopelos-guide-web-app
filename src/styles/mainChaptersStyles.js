@@ -26,7 +26,7 @@ export const mainChaptersStyles = {
     marginBottom: 8,
     padding: { xs: 1, md: 2 },
     backgroundColor: 'rgba(255, 255, 255, 0.95)',
-    borderTop: `2px solid ${skopelosColors.brightBlue}`,
+    borderTop: `2px solid ${skopelosColors.oceanBlue}`,
     borderBottom: 'none',
   },
 
@@ -34,7 +34,7 @@ export const mainChaptersStyles = {
   decorativeLine: {
     width: '100px',
     height: '2px',
-    backgroundColor: skopelosColors.brightBlue,
+    backgroundColor: skopelosColors.oceanBlue,
     mx: 'auto',
     mt: 3,
     opacity: 0.8,
@@ -49,13 +49,11 @@ export const mainChaptersStyles = {
 
   chapterBox: {
   backgroundColor: 'rgba(255, 255, 255, 0.98)',
-  padding: { xs: 4, md: 6 },
-  marginBottom: 6,
-  position: 'relative',
-  borderRadius: 16,
-  boxShadow: '0 2px 16px rgba(44, 62, 80, 0.08)',
+  padding: { xs: 4, md: 4 },
+  marginBottom: 3,
+  //position: 'relative',
+  boxShadow: '0 2px 16px rgba(37, 132, 108, 1)',
   transition: 'box-shadow 0.3s, transform 0.3s, background 0.3s',
-  overflow: 'hidden',
 
   '&::before': {
     content: '""',
@@ -64,15 +62,13 @@ export const mainChaptersStyles = {
     left: 0,
     right: 0,
     height: '4px',
-    background: `linear-gradient(90deg, ${skopelosColors.brightBlue}, ${skopelosColors.oceanBlue})`,
     borderTopLeftRadius: 16,
     borderTopRightRadius: 16,
     zIndex: 1,
   },
 
   '&:hover': {
-    background: 'linear-gradient(135deg, #e7e8e9ff 0%, #f7fafc 100%)',
-    boxShadow: '0 8px 32px rgba(44, 62, 80, 0.16)',
+    boxShadow: '0 2px 16px rgba(29, 115, 95, 1)',
     transform: 'translateY(-4px) scale(1.02)',
   },
 },
@@ -80,16 +76,13 @@ export const mainChaptersStyles = {
 
   storyboardCard: {
     backgroundColor: 'rgba(255, 255, 255, 0.95)',
-    padding: 1,
-    borderRadius:4,
-    minWidth: 280,
-    maxWidth: 280,
-    height: 400,
+    padding: 0,
+    maxWidth: 300,
+    height: 370,
     display: 'flex',
     flexDirection: 'column',
-    position: 'relative',
     cursor: 'pointer',
-    boxShadow: `0 4px 12px ${'rgba(95, 201, 217, 0.9)'}`,
+    boxShadow: `0 4px 12px ${'rgba(60, 197, 165, 0.9)'}`,
     
     '&:hover': {
       backgroundColor: 'rgba(255, 255, 255, 1)',
@@ -98,7 +91,7 @@ export const mainChaptersStyles = {
       transition: 'all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
       
       '& .storyboard-image': {
-        transform: 'scale(1.02)',
+        transform: 'scale(1.00)',
       },
     },
   },
@@ -106,7 +99,7 @@ export const mainChaptersStyles = {
   storyboardImageContainer: {
     position: 'relative',
     width: '100%',
-    height: 350,
+    height: 450,
     overflow: 'hidden',
   },
   storyboardImage: {
@@ -118,7 +111,7 @@ export const mainChaptersStyles = {
   arrowButtonText: {
     fontSize: '2rem',
     fontWeight: 300,
-    color: skopelosColors.brightBlue,
+    color: skopelosColors.oceanBlue,
     lineHeight: 1,
   },
 };

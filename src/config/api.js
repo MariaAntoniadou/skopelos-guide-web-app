@@ -40,10 +40,7 @@ export const ENDPOINTS = {
 
   getEventsDeep: (locale = 'el') =>
     withLocale(
-      `/events
-      &populate[0]=thumbnail,date,points
-      &populate[1]=points.thumbnail,points.medias,points.tags
-      &populate[2]=points.medias.thumbnail,points.tags.svg`,
+      `/events?populate[0]=thumbnail,date,points&populate[1]=points.thumbnail,points.medias,points.tags&populate[2]=points.medias.thumbnail,points.tags.svg`,
       locale
     ),
 

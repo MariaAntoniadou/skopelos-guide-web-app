@@ -3,7 +3,6 @@ import { Box } from '@mui/material';
 import NavBar from './components/NavBar';
 import HomePage from './components/HomePage';
 import IntroductionChapters from './components/IntroductionChapters';
-import { useState } from 'react';
 import ChapterDetails from './components/ChapterDetails';
 import StoryboardDetails from './components/StoryboardDetails';
 import Login from './components/Login';
@@ -12,10 +11,10 @@ import Register from "./components/Register";
 import StoryboardPoints from './components/StoryboardPoints';
 import StoryboardSlides from './components/StoryboardSlides';
 import TrailDetails from './components/TrailDetails';
+import Events from './components/Events';
 
 
 function App() {
-  const [searchTerm, setSearchTerm] = useState('');
   return (
     <Router>
       <Box sx={{ 
@@ -29,7 +28,7 @@ function App() {
         border: 'none',
         outline: 'none',
       }}>
-       <NavBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+       <NavBar />
       <Box sx={{ flex: 1, width: '100%', maxWidth: '100vw' }}>
         <Routes>
           <Route path="/" element={<HomePage />} />
@@ -42,6 +41,7 @@ function App() {
           <Route path="/point/:id" element={<StoryboardPoints />} />
           <Route path="/introduction-storyboard/:id" element={<StoryboardSlides />} />
           <Route path="/trails/:id" element={<TrailDetails />} />
+          <Route path="/events" element={<Events />}/>
         </Routes>
         
       </Box>

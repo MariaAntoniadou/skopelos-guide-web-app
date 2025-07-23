@@ -99,7 +99,6 @@ export default function StoryboardDetails() {
   const points = storyboard.attributes.points?.data || [];
   const storyboardTrails = storyboard.attributes.trails?.data || [];
 
-  
 
   return (
     <Box sx={pageStyles.container}>
@@ -129,7 +128,7 @@ export default function StoryboardDetails() {
             <Box sx={{
               width: { xs: '80px', md: '200px' },
               height: '3px',
-              backgroundColor: '#3182ce',
+              backgroundColor: '#135a4eff',
               margin: { xs: '0 auto 2rem', md: '0 0 2rem 0' },
               borderRadius: '2px',
             }} />
@@ -214,11 +213,11 @@ export default function StoryboardDetails() {
                             alignItems: 'center',
                             p: 0,
                             borderRadius: 4,
-                            boxShadow: '0 4px 24px rgba(95, 201, 217, 0.9)',
+                            boxShadow: '0 4px 24px rgba(22, 118, 95, 0.9)',
                             overflow: 'hidden',
                             transition: 'box-shadow 0.2s, transform 0.2s',
                             '&:hover': {
-                              boxShadow: '0 8px 32px rgba(95, 201, 217, 0.9)',
+                              boxShadow: '0 8px 32px rgba(18, 110, 117, 0.9)',
                               transform: 'translateY(-2px) scale(1.1)',
                             },
                             background: '#fff',
@@ -297,7 +296,7 @@ export default function StoryboardDetails() {
                   borderRadius: 3,
                   background: 'linear-gradient(90deg, #e3f0ff 0%, #f8fafc 100%)',
                   boxShadow: '0 2px 12px 0 rgba(49,130,206,0.08), 0 1.5px 6px 0 rgba(49,130,206,0.10)',
-                  color: '#1a365d',
+                  color: '#1a5d5aff',
                   fontFamily: skopelosFonts.text,
                   fontWeight: 500,
                   fontSize: { xs: '1.08rem', md: '1.16rem' },
@@ -308,13 +307,13 @@ export default function StoryboardDetails() {
                     background: 'linear-gradient(90deg, #dbeafe 0%, #e0e7ff 100%)',
                     boxShadow: '0 4px 24px 0 rgba(49,130,206,0.18), 0 3px 12px 0 rgba(49,130,206,0.13)',
                     textDecoration: 'underline',
-                    color: '#205080',
+                    color: '#208076ff',
                     borderColor: '#b6d0f7',
                     transform: 'translateY(-2px) scale(1.03)',
                   },
                 }}
               >
-                <RouteIcon sx={{ color: '#3182ce', fontSize: 26, mr: 1 }} />
+                <RouteIcon sx={{ color: '#238276ff', fontSize: 26, mr: 1 }} />
                 <span>{trail.attributes.title}</span>
               </Box>
             </Link>

@@ -11,14 +11,13 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { pageStyles, cardStyles } from '../styles/componentsStyles';
 import { getAllMainChapters } from "../api/apiService";
-import { skopelosColors } from '../styles/colors';
 import { useTranslation } from "react-i18next";
 
 // Swiper imports
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/navigation';
-import { Autoplay, Navigation } from 'swiper/modules';
+import {  Navigation } from 'swiper/modules';
 
 export default function HomePage({ searchTerm }) {
   const [introChapters, setIntroChapters] = useState(null);
@@ -67,7 +66,7 @@ export default function HomePage({ searchTerm }) {
   const scrollStoryboards = (chapterId, direction) => {
     const container = scrollRefs.current[chapterId];
     if (container) {
-      const scrollAmount = 350;
+      const scrollAmount = 50;
       const newScrollLeft = direction === 'left'
         ? container.scrollLeft - scrollAmount
         : container.scrollLeft + scrollAmount;
@@ -83,15 +82,15 @@ export default function HomePage({ searchTerm }) {
   if (error) return <Typography>{error}</Typography>;
 
   return (
+    
     <Box>
       {/* --- SPECIAL INTRO CHAPTERS SLIDES DESIGN --- */}
       {introSlides.length > 0 && (
-        <Box sx={{ width: '100%', mb: 6, position: 'relative' }}>
+        <Box sx={{ width: '100%',mt:10, mb: 1, position: 'relative' , height:850,}}>
           <Swiper
-            modules={[Autoplay, Navigation]}
+            modules={[ Navigation]}
             slidesPerView={1}
             navigation
-            autoplay={{ delay: 6000, disableOnInteraction: false }}
             loop={true}
             style={{ width: '100%', height: '100%' }}
           >
@@ -114,16 +113,18 @@ export default function HomePage({ searchTerm }) {
                       alt={slide.attributes.title}
                       sx={{
                         width: '100%',
-                        height: { xs: 250, sm: 350, md: 550 },
+                        height: { xs: 250, sm: 350, md: 850 },
                         objectFit: 'cover',
                         display: 'block',
+                        transition: 'transform 0.4s cubic-bezier(.4,0,.2,1)',
+                        
                       }}
                     />
                   ) : (
                     <Box
                       sx={{
                         width: '100%',
-                        height: { xs: 250, sm: 350, md: 550 },
+                        height: { xs: 250, sm: 350, md: 500 },
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
@@ -137,16 +138,19 @@ export default function HomePage({ searchTerm }) {
                   )}
                   <Box
                     sx={{
-                      bottom: 0,
-                      left: 0,
-                      width: '100%',
-                      bgcolor: skopelosColors.oceanBlue,
-                      color: '#fff',
-                      p: { xs: 1, md: 1 },
-                      
+                      position: 'absolute',
+                      top: 100,
+                      left: 450,
+                      width: 1000,
+                      bgcolor: 'rgba(15, 79, 68, 0.46)',
+                      p: 1,
+                      borderRadius:10,
+                      textAlign: 'center',
+                      fontWeight: 'bold',
+                      textShadow: '0 2px 4px rgba(0,0,0,0.7)',
                     }}
                   >
-                    <Typography variant="h4" sx={{ fontWeight: 700, mb: 1 , ...mainChaptersStyles.quoteText, color:'white', textAlign:'center'} }>
+                    <Typography variant="h3" sx={{ ...mainChaptersStyles.quoteText, color:'white', textAlign:'center'} }>
                       {slide.attributes.title}
                     </Typography>
                   </Box>
@@ -161,11 +165,10 @@ export default function HomePage({ searchTerm }) {
         <Typography
           variant="h1"
           component="h1"
-          gutterBottom
           sx={navigationStyles.mainTitle}
         >
           Σκόπελος
-          <Box component="span" sx={navigationStyles.subtitle}>
+          <Box  sx={navigationStyles.subtitle}>
             {t('destinationGuide', { defaultValue: 'ΟΔΗΓΟΣ ΠΡΟΟΡΙΣΜΟΥ' })}
           </Box>
         </Typography>

@@ -5,10 +5,10 @@
   "logout": "Logout",
   "noFavorites": "You have not added favorites.",
   "home": "Home",
-  "search": "Search...",
   "chapterNotFound": "Chapter not found.",
   "backToHome": "Back to home",
   "storyboardNotFound": "Storyboard not found",
   "backToChapter": "Back to",
-  "loadingChapter": "Loading chapter…"
+  "loadingChapter": "Loading chapter…",
+  "events":"Events"
 }

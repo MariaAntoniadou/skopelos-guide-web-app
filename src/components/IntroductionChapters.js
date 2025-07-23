@@ -9,7 +9,6 @@ import { UPLOADS_BASE_URL } from '../config/api';
 import { typographyStyles } from '../styles/typographyStyles';
 import { cardStyles } from '../styles/componentsStyles';
 import { useTranslation } from "react-i18next"; 
-import { mainChaptersStyles } from '../styles/mainChaptersStyles';
 
 export default function IntroductionChapters() {
   const { id } = useParams();
@@ -50,32 +49,22 @@ export default function IntroductionChapters() {
       sx={{
         maxWidth: 1100,
         mx: 'auto',
-        p: { xs: 1, sm: 2, md:4 },
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'stretch',
+        p: { xs: 1, sm: 2, md:3 },
+        display: 'auto',
       }}
-    >
-      {/* Main content: image left, text right */}
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: { xs: 'column', md: 'column' },
-          alignItems: { md: 'center', xs: 'center' },
-        }}
       >
-        <Box sx={{ flex: 1, minWidth: 0 }}>
+    
+        <Box sx={{ minWidth: 0 }}>
           <Typography sx={typographyStyles.chapterTitle}>
             {chapter.attributes.title}
           </Typography>
           
         </Box>
-      </Box>
-      <Box sx={mainChaptersStyles.decorativeLine} />
+      
 
       {/* Storyboards below */}
       {storyboards.length > 0 && (
-        <Box sx={{ width: '100%', mt: 4, position: 'relative', minHeight: 220 }}>
+        <Box sx={{ width: '100%', mt: 6, position: 'relative', minHeight: 220 }}>
           <IconButton
             onClick={() => scrollStoryboards('left')}
             sx={{
@@ -121,10 +110,10 @@ export default function IntroductionChapters() {
               '&::-webkit-scrollbar': { display: 'none' },
               msOverflowStyle: 'none',
               scrollbarWidth: 'none',
-              background: 'rgba(255,255,255,0.6)',
+              background: 'none',
               backdropFilter: 'blur(8px)',
-              borderRadius: 16,
-              boxShadow: '0 4px 32px rgba(44,62,80,0.10)',
+              borderRadius: 1,
+              boxShadow: 'none',
             }}
           >
             {storyboards.map((storyboard) => {
@@ -146,7 +135,6 @@ export default function IntroductionChapters() {
                       flexDirection: 'column',
                       alignItems: 'center',
                       p: 0,
-                      borderRadius: 12,
                       boxShadow: '0 2px 16px rgba(44,62,80,0.10)',
                       overflow: 'hidden',
                       transition: 'box-shadow 0.3s, transform 0.3s, background 0.3s',
@@ -178,18 +166,7 @@ export default function IntroductionChapters() {
                         }}
                       />
                     )}
-                    <Box sx={{
-                      width: '100%',
-                      p: 2,
-                      textAlign: 'center',
-                      flex: 1,
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      background: 'rgba(245,247,250,0.7)',
-                      borderBottomLeftRadius: 12,
-                      borderBottomRightRadius: 12,
-                    }}>
+                    
                       <Typography
                         sx={{
                           fontFamily: skopelosFonts.text,
@@ -203,7 +180,7 @@ export default function IntroductionChapters() {
                         >
                         {storyboard.attributes.title}
                       </Typography>
-                    </Box>
+                    
                   </Paper>
                 </Link>
               );
@@ -212,20 +189,19 @@ export default function IntroductionChapters() {
         </Box>
       )}
       <Typography
-            variant="h2"
-            sx={{
-              fontFamily: skopelosFonts.text,
-              fontSize: { xs: '1.1rem', md: '1.3rem' },
-              fontWeight: 300,
-              color: '#4a5568',
-              lineHeight: 1.6,
-              marginBottom: { xs: 3, md: 4 },
-              mt: 2,
-              textAlign: 'justify',
-            }}
-            component="div"
-            dangerouslySetInnerHTML={{ __html: chapter.attributes.description }}
-          />
+        variant="h2"
+        sx={{
+          fontFamily: skopelosFonts.text,
+          fontSize: { xs: '1.1rem', md: '1.1rem' },
+          fontWeight: 400,
+          lineHeight: 1.6,
+          marginBottom: { xs: 3, md: 4 },
+          mt: 4,
+          textAlign: 'justify',
+        }}
+        component="div"
+        dangerouslySetInnerHTML={{ __html: chapter.attributes.description }}
+      />
     </Box>
   );
 }

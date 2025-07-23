@@ -8,6 +8,8 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { db, auth } from '../firebase';
 import { collection, addDoc, getDocs, deleteDoc, doc } from 'firebase/firestore';
+import { onAuthStateChanged } from 'firebase/auth';
+import { skopelosColors } from '../styles/colors';
 
 export default function StoryboardPoints() {
   const { id } = useParams();
@@ -15,7 +17,14 @@ export default function StoryboardPoints() {
   const [loading, setLoading] = useState(true);
   const [isFavorite, setIsFavorite] = useState(false);
   const [favId, setFavId] = useState(null);
-  const user = auth.currentUser;
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+      setUser(firebaseUser);
+    });
+    return () => unsubscribe();
+  }, []);
 
   useEffect(() => {
     fetchFromAPI(ENDPOINTS.getPointById(id)).then((data) => {
@@ -60,6 +69,7 @@ export default function StoryboardPoints() {
       setFavId(docRef.id);
     }
   };
+  
 
   if (loading) return <Box sx={{ textAlign: 'center', mt: 6 }}><CircularProgress /></Box>;
   if (!point) return <Typography sx={{ textAlign: 'center', mt: 6 }}>Not found</Typography>;
@@ -69,20 +79,8 @@ export default function StoryboardPoints() {
     : null;
 
   return (
-    <Box sx={{ maxWidth: 1200, mx: 'auto', mt: 6, p: 3 }}>
-      <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-        <Typography
-          variant="h4"
-          sx={{
-            mr: 1,
-            fontFamily: skopelosFonts.titles,
-            fontWeight: 600,
-            color: '#1a365d',
-          }}
-        >
-          {point.attributes.title}
-        </Typography>
-        {user && (
+      <>
+         {user && (
           <Tooltip title={isFavorite ? "Αφαίρεση από αγαπημένα" : "Προσθήκη στα αγαπημένα"}>
             <IconButton onClick={handleFavorite}>
               {isFavorite ? (
@@ -93,32 +91,57 @@ export default function StoryboardPoints() {
             </IconButton>
           </Tooltip>
         )}
-      </Box>
-      {thumbUrl && (
-        <Box
-          component="img"
-          src={thumbUrl}
-          alt={point.attributes.title}
+        <Typography
+          variant="h4"
           sx={{
-            width: 800,
-            maxHeight: 340,
-            objectFit: 'cover',
-            borderRadius: 4,
-            mb: 3,
-            boxShadow: '0 2px 12px rgba(0,0,0,0.08)',
+            mr: 1,
+            fontFamily: skopelosFonts.titles,
+            fontWeight: 600,
+            color: skopelosColors.oceanBlue,
+            textAlign: 'center',
           }}
-        />
-      )}
-      <Typography
+        >
+          {point.attributes.title}
+        </Typography>
+       
+      <Box
         sx={{
-          fontFamily: skopelosFonts.text,
-          fontSize: { xs: '1.1rem', md: '1.2rem' },
-          color: '#444',
-          lineHeight: 1.7,
+          display: 'flex',
+          flexDirection: { xs: 'column', md: 'row' },
+          gap: 4,
+          alignItems: 'flex-start',
+          mb: 4,
         }}
-        component="div"
-        dangerouslySetInnerHTML={{ __html: point.attributes.description }}
-      />
-    </Box>
+      >
+        {thumbUrl && (
+          <Box
+            component="img"
+            src={thumbUrl}
+            alt={point.attributes.title}
+            sx={{
+              width: { xs: 300, md: 500 },
+              objectFit: 'cover',
+              boxShadow: '0 2px 12px rgba(0,0,0,0.08)',
+              flexShrink: 0,
+              
+              //float:'left',
+            }}
+          />
+        )}
+
+        <Typography
+          component="div"
+          sx={{
+            fontFamily: skopelosFonts.text,
+            fontSize: { xs: '1.1rem', md: '1.2rem' },
+            lineHeight: 1.7,
+            flex:1,
+            //float: 'right',
+          }}
+          dangerouslySetInnerHTML={{ __html: point.attributes.description }}
+        />
+      </Box>
+
+    </>
   );
 }

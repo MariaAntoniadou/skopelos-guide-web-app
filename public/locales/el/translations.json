@@ -4,10 +4,10 @@
   "logout": "Αποσύνδεση",
   "noFavorites": "Δεν έχετε προσθέσει αγαπημένα.",
   "home": "Αρχική",
-  "search": "Αναζήτηση...",
   "chapterNotFound": "Δεν βρέθηκε το κεφάλαιο.",
   "backToHome": "Επιστροφή στην αρχική",
   "storyboardNotFound": "Δεν βρέθηκε το storyboard",
   "backToChapter": "Επιστροφή σε",
-  "loadingChapter": "Φόρτωση κεφαλαίου…"
+  "loadingChapter": "Φόρτωση κεφαλαίου…",
+  "events":"Εκδηλώσεις"
 }

@@ -52,14 +52,14 @@ export const cardStyles = {
   top: '50%',
   zIndex: 10,
   background: 'rgba(255,255,255,0.92)',
-  border: `1.5px solid ${skopelosColors.brightBlue}`,
+  border: `1.5px solid ${skopelosColors.oceanBlue}`,
   borderRadius: '0%',
   width: 44,
   height: 44,
   opacity: 0,
   transform: 'translateY(-50%)',
   transition: 'all 0.2s cubic-bezier(0.4,0,0.2,1)',
-  color: skopelosColors.brightBlue,
+  color: skopelosColors.oceanBlue,
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
@@ -70,11 +70,11 @@ export const cardStyles = {
   '&.right': { right: -22 },
 
   '&:hover': {
-    background: skopelosColors.brightBlue,
+    background: skopelosColors.oceanBlue,
     color: '#fff',
     transform: 'translateY(-50%) scale(1.08)',
     boxShadow: '0 4px 16px rgba(30,64,126,0.18)',
-    border: `1.5px solid ${skopelosColors.brightBlue}`,
+    border: `1.5px solid ${skopelosColors.oceanBlue}`,
   },
 },
 };
@@ -122,7 +122,7 @@ export const navigationStyles = {
       
       '&::before': {
         opacity: 1,
-        background: `linear-gradient(135deg, ${skopelosColors.brightBlue}40, ${skopelosColors.seaGreen}30)`,
+        background: `linear-gradient(135deg, ${skopelosColors.oceanBlue}40, ${skopelosColors.seaGreen}30)`,
       },
     },
   },

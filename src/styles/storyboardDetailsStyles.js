@@ -54,7 +54,7 @@ export const storyboardDetailsStyles = {
   },
 
   storyboardTitle: {
-    ...typographyStyles.chapterTitle, // Use your custom chapterTitle style
+    ...typographyStyles.chapterTitle, 
     fontSize: { xs: '1.8rem', md: '2.4rem' },
     fontWeight: 200,
     textAlign: { xs: 'center', md: 'left' },
@@ -74,7 +74,7 @@ export const storyboardDetailsStyles = {
   divider: {
     width: '550px',
     height: '2px',
-    backgroundColor: skopelosColors.brightBlue,
+    backgroundColor: skopelosColors.oceanBlue,
     mx: { xs: 'auto', md: 0 },
     marginY: 3,
     marginBottom: 4,
@@ -173,7 +173,7 @@ export const storyboardDetailsStyles = {
       left: 0,
       right: 0,
       height: '2px',
-      background: `linear-gradient(90deg, ${skopelosColors.brightBlue}, ${skopelosColors.oceanBlue})`,
+      background: `linear-gradient(90deg, ${skopelosColors.oceanBlue}, ${skopelosColors.oceanBlue})`,
     },
   },
 

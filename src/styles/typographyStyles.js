@@ -29,7 +29,7 @@ export const typographyStyles = {
     fontWeight: 400, 
     fontSize: '1.5rem',
     letterSpacing: '1px', 
-    color: skopelosColors.text.primary,
+    color: skopelosColors.oceanBlue,
   },
 
   chapterTitle: {
@@ -67,13 +67,13 @@ export const typographyStyles = {
   fontFamily: skopelosFonts.text,
   fontSize: { xs: '1rem', md: '1rem' },
   lineHeight: 1.6,
-  fontWeight: 500,
+  fontWeight: 700,
   letterSpacing: '0.01em',
-  color: skopelosColors.text.secondary,
+  color: skopelosColors.oceanBlue,
   marginBottom: 4,
   width: '100%',           
   maxWidth: '100%',         
-  backgroundColor: 'rgba(95, 201, 217, 0.9)',
+  //backgroundColor: 'rgba(95, 201, 217, 0.9)',
   padding: 3,
   boxSizing: 'border-box',  
   '& p': {
@@ -85,23 +85,22 @@ export const typographyStyles = {
 
   storyboardTitle: {
     fontFamily: skopelosFonts.text,
-    fontWeight: 800, 
-    letterSpacing: '0.05em', 
+    fontWeight: 600, 
+    letterSpacing: '0.05em',
+    textAlign:'center', 
     opacity: 1,
-    //textTransform: 'uppercase',
     fontSize: '0.875rem',
     color: skopelosColors.text.primary,
     
   },
 
   quoteText: {
-    fontFamily: skopelosFonts.text,fontSize: { xs: '1.1rem', md: '1.3rem' },
-    fontStyle: 'italic',
-    color: skopelosColors.text.secondary,
+    fontFamily: skopelosFonts.text,fontSize: { xs: '1.1rem', md: '1.7rem' },
+    color: skopelosColors.oceanBlue,
     maxWidth: '600px',
     mx: 'auto',
-    lineHeight: 1.8,
-    letterSpacing: '0.02em',
-    fontWeight: 300,
+    lineHeight: 2,
+    letterSpacing: '0.05em',
+    fontWeight: 700,
   },
 };
