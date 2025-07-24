@@ -21,10 +21,9 @@ export default function TrailDetails() {
   if (!trail) return <Typography>Trail not found</Typography>;
 
  const trailAttributes = trail.attributes || {};
-  const { title, description, duration, distance, difficulty, points, thumbnail } = trailAttributes;
+  const { title, duration, distance, difficulty, points, thumbnail } = trailAttributes;
 
   const pointsArray = Array.isArray(points?.data) ? points.data : [];
-
   
   // Get thumbnail image if exists
   const UPLOADS_BASE_URL = process.env.REACT_APP_UPLOADS_BASE_URL || '';
@@ -50,14 +49,13 @@ export default function TrailDetails() {
           }}
         />
       )}
-      <Typography variant="h4" sx={{ fontWeight: 600, mb: 1, color: '#1a365d' }}>
+      <Typography variant="h4" sx={{ fontWeight: 600, mb: 4,mt:4, color: '#000000ff' }}>
         {title}
       </Typography>
-      <Typography sx={{ mb: 2, color: '#4a5568' }}>{description}</Typography>
-      <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap', mb: 2 }}>
-        <Chip label={`Διάρκεια: ${duration} λεπτά`} color="primary"  />
-        <Chip label={`Απόσταση: ${distance} χλμ`} color="primary" />
-        <Chip label={`Δυσκολία: ${difficulty}`} color="primary" />
+      <Box sx={{ display: 'flex', gap: 3, flexWrap: 'wrap', mb: 2}}>
+        <Chip label={`Διάρκεια: ${duration} λεπτά`} color="default"  />
+        <Chip label={`Απόσταση: ${distance} χλμ`} color="deafult" />
+        <Chip label={`Δυσκολία: ${difficulty}`} color="default" />
       </Box>
       <TrailMap trails={[trail]} points={pointsArray} />
 

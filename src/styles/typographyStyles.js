@@ -42,7 +42,7 @@ export const typographyStyles = {
     textAlign: 'center',
     marginBottom: 3,
     '&:hover': {
-      color: skopelosColors.brightBlue,
+      color: skopelosColors.oceanBlue,
       transition: 'color 0.3s ease',
     },
   },
@@ -65,22 +65,22 @@ export const typographyStyles = {
 
   chapterDescription: {
   fontFamily: skopelosFonts.text,
-  fontSize: { xs: '1rem', md: '1rem' },
-  lineHeight: 1.6,
-  fontWeight: 700,
-  letterSpacing: '0.01em',
-  color: skopelosColors.oceanBlue,
+  fontSize: { xs: '1rem', md: '1.1rem' },
+  lineHeight: 1.5,
+  fontWeight: 800,
+  letterSpacing: '0.01sem',
+  color: skopelosColors.seaGreen,
   marginBottom: 4,
   width: '100%',           
   maxWidth: '100%',         
-  //backgroundColor: 'rgba(95, 201, 217, 0.9)',
+  backgroundColor: 'rgba(60, 169, 172, 1)',
   padding: 3,
   boxSizing: 'border-box',  
   '& p': {
     margin: 0,
     marginBottom: 2,
-    textAlign: 'center',
-  },
+    //textAlign: 'center',
+  }
 },
 
   storyboardTitle: {
@@ -96,7 +96,7 @@ export const typographyStyles = {
 
   quoteText: {
     fontFamily: skopelosFonts.text,fontSize: { xs: '1.1rem', md: '1.7rem' },
-    color: skopelosColors.oceanBlue,
+    color: skopelosColors.seaGreen,
     maxWidth: '600px',
     mx: 'auto',
     lineHeight: 2,

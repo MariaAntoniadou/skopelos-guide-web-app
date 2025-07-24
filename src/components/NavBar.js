@@ -3,34 +3,45 @@ import {
   Toolbar,
   Box,
   Typography,
-  IconButton
+  IconButton,
+  Drawer,
+  List,
+  ListItem,
+  ListItemText,
+  useMediaQuery,
 } from '@mui/material';
-import { navigationStyles } from '../styles/navigationStyles';
-import NavButton from './NavButton';
-import { useState, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import MenuIcon from '@mui/icons-material/Menu';
 import HomeIcon from '@mui/icons-material/Home';
-import { getAllMainChapters } from '../api/apiService';
-import { useAuth } from '../contexts/AuthContexts';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LoginIcon from '@mui/icons-material/Login';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import LanguageIcon from '@mui/icons-material/Language';
+import { useState, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from "react-i18next";
+import { getAllMainChapters } from '../api/apiService';
+import { useAuth } from '../contexts/AuthContexts';
+import NavButton from './NavButton';
+import { navigationStyles } from '../styles/navigationStyles';
 import { skopelosColors } from '../styles/colors';
 
 export default function NavBar() {
+  const isMobile = useMediaQuery('(max-width:900px)');
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
   const location = useLocation();
   const isHomePage = location.pathname === '/';
+
   const [chapters, setChapters] = useState([]);
-  const { user } = useAuth();
-  const { t, i18n } = useTranslation();
-  const [locale, setLocale] = useState(i18n.language || 'en');
   const [hoveredStoryboards, setHoveredStoryboards] = useState([]);
   const [hoveredChapterId, setHoveredChapterId] = useState(null);
+
+  const { user } = useAuth();
   const navigate = useNavigate();
+  const { t, i18n } = useTranslation();
+  const [locale, setLocale] = useState(i18n.language || 'en');
 
   useEffect(() => {
     async function fetchMainChapters() {
@@ -46,13 +57,12 @@ export default function NavBar() {
 
   const navigationItems = [
     { text: t("home"), link: '/', icon: <HomeIcon /> },
-    ...chapters.map(chapter => ({
-      id: chapter.id,
-      text: chapter.attributes.title,
-      link: `/main-chapters/${chapter.id}`
-    
+    ...chapters.map(ch => ({
+      id: ch.id,
+      text: ch.attributes.title,
+      link: `/main-chapters/${ch.id}`,
     })),
-    {text: t("events"), link: '/events'},
+    { text: t("events"), link: '/events' },
   ];
 
   useEffect(() => {
@@ -97,80 +107,78 @@ export default function NavBar() {
   };
 
   const renderNavButtons = (
-    <Box sx={isHomePage ? navigationStyles.navButtonsHome : navigationStyles.navButtonsOther}>
+    <Box
+      sx={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: 2,
+      }}
+    >
       {navigationItems.map((item) => (
-  <Box
-    key={item.text}
-    sx={{ position: 'relative', display: 'inline-block' }}
-    onMouseEnter={item.id ? () => handleMouseEnter(item.id) : undefined}
-    onMouseLeave={item.id ? handleMouseLeave : undefined}
-  >
-    <NavButton
-      text={item.text}
-      link={item.link}
-      icon={item.icon}
-      refresh={item.refresh}
-    />
-
-    {/* Dropdown κάτω από το κουμπί */}
-    {hoveredChapterId === item.id && hoveredStoryboards.length > 0 && (
-      <Box
-        sx={{
-          position: 'absolute',
-          top: '100%',
-          //left: 0,
-          bgcolor: skopelosColors.oceanBlue,
-          color: 'white',
-          zIndex: 1300,
-          minWidth: '200px',
-          py: 1,
-          boxShadow: 3,
-          borderRadius: 1,
-        }}
-      >
-        {hoveredStoryboards.map((sb) => (
-          <Typography
-            key={sb.id}
-            variant="body2"
-            onClick={() => {
-              navigate(`/storyboard/${sb.id}`);
-              handleMouseLeave();
-            }}
-            sx={{
-              px: 2,
-              py: 1,
-              cursor: 'pointer',
-              '&:hover': {
-                backgroundColor: 'rgba(19, 204, 211, 0.32)',
-              }
-            }}
-          >
-            {sb.attributes.title}
-          </Typography>
-        ))}
-      </Box>
-    )}
-  </Box>
-))}
-
+        <Box
+          key={item.text}
+          sx={{ position: 'relative' }}
+          onMouseEnter={item.id ? () => handleMouseEnter(item.id) : undefined}
+          onMouseLeave={item.id ? handleMouseLeave : undefined}
+        >
+          <NavButton
+            text={item.text}
+            link={item.link}
+            icon={item.icon}
+          />
+          {hoveredChapterId === item.id && hoveredStoryboards.length > 0 && (
+            <Box
+              sx={{
+                position: 'absolute',
+                bgcolor: skopelosColors.oceanBlue,
+                color: 'white',
+                zIndex: 1300,
+                minWidth: '200px',
+                py: 1,
+                boxShadow: 3,
+                borderRadius: 1,
+              }}
+            >
+              {hoveredStoryboards.map((sb) => (
+                <Typography
+                  key={sb.id}
+                  variant="body2"
+                  onClick={() => {
+                    navigate(`/storyboard/${sb.id}`);
+                    handleMouseLeave();
+                  }}
+                  sx={{
+                    px: 2,
+                    py: 1,
+                    cursor: 'pointer',
+                    '&:hover': {
+                      backgroundColor: 'rgba(19, 204, 211, 0.32)',
+                    },
+                  }}
+                >
+                  {sb.attributes.title}
+                </Typography>
+              ))}
+            </Box>
+          )}
+        </Box>
+      ))}
     </Box>
   );
 
   const renderUserControls = (
     <Box sx={{ ml: 2, display: "flex", alignItems: "center", gap: 1 }}>
       {user ? (
-        <>
-          <IconButton color="inherit" onClick={() => navigate('/profile')}>
-            <AccountCircleIcon fontSize="large" sx={{ color: "white" }} />
-          </IconButton>
-        </>
+        <IconButton color="inherit" onClick={() => navigate('/profile')}>
+          <AccountCircleIcon sx={{ color: 'white' }} />
+        </IconButton>
       ) : (
         <>
           <IconButton color="inherit" onClick={() => navigate('/login')}>
-            <LoginIcon fontSize="large" />
+            <LoginIcon sx={{ color: 'white' }} />
           </IconButton>
           <IconButton color="inherit" onClick={() => navigate('/register')}>
-            <PersonAddIcon fontSize="large" />
+            <PersonAddIcon sx={{ color: 'white' }} />
           </IconButton>
         </>
       )}
@@ -181,19 +189,80 @@ export default function NavBar() {
     </Box>
   );
 
+  const renderMobileDrawer = (
+    <>
+      <IconButton onClick={() => setDrawerOpen(true)} sx={{ color: 'white' }}>
+        <MenuIcon />
+      </IconButton>
+      <Drawer anchor="left" open={drawerOpen} onClose={() => setDrawerOpen(false)}>
+        <Box sx={{ width: 250, p: 2 }}>
+          <Typography variant="h6" gutterBottom>Μενού</Typography>
+          <List>
+            {navigationItems.map((item) => (
+              <ListItem
+                button
+                key={item.text}
+                onClick={() => {
+                  navigate(item.link);
+                  setDrawerOpen(false);
+                }}
+              >
+                <ListItemText primary={item.text} />
+              </ListItem>
+            ))}
+          </List>
+          <Box mt={2}>
+            {renderUserControls}
+          </Box>
+        </Box>
+      </Drawer>
+    </>
+  );
+
   return (
     <>
       <Box sx={{ position: 'relative' }}>
         <AppBar sx={isHomePage ? navigationStyles.appBarHome(isVisible) : navigationStyles.appBarOther(isVisible)}>
           <Toolbar sx={isHomePage ? navigationStyles.toolbarHome : navigationStyles.toolbarOther}>
-            {renderNavButtons}
-            {renderUserControls}
+            {/* Logo & Title */}
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <Box
+                component="img"
+                src="/skopelosNav2.png"
+                alt="Skopelos Island"
+                sx={{
+                  height: 40,
+                  width: 'auto',
+                  mr: 2,
+                }}
+              />
+              <Box>
+                <Typography
+                  variant="h1"
+                  component="h1"
+                  sx={navigationStyles.mainTitle}
+                >
+                  ΣΚΟΠΕΛΟΣ
+                </Typography>
+                <Box sx={navigationStyles.subtitle}>
+                  {t('destinationGuide', { defaultValue: 'ΟΔΗΓΟΣ ΠΡΟΟΡΙΣΜΟΥ' })}
+                </Box>
+              </Box>
+            </Box>
+
+            {/* Nav items */}
+            <Box sx={{ flexGrow: 1 }}>
+              {isMobile ? renderMobileDrawer : renderNavButtons}
+            </Box>
+
+            {/* User controls */}
+            {!isMobile && renderUserControls}
           </Toolbar>
         </AppBar>
-
       </Box>
 
-      {!isHomePage && <Box sx={{ height: '110px' }} />}
+      {/* Spacer για να μην "πέφτει" το περιεχόμενο κάτω από το AppBar */}
+      {!isHomePage && <Box sx={{ height: { xs: '70px', sm: '90px', md: '110px' } }} />}
     </>
   );
 }

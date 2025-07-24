@@ -52,7 +52,7 @@ export const mainChaptersStyles = {
   padding: { xs: 4, md: 4 },
   marginBottom: 3,
   //position: 'relative',
-  boxShadow: '0 2px 16px rgba(37, 132, 108, 1)',
+  boxShadow: '0 2px 16px rgba(60, 169, 172, 1)',
   transition: 'box-shadow 0.3s, transform 0.3s, background 0.3s',
 
   '&::before': {
@@ -68,7 +68,7 @@ export const mainChaptersStyles = {
   },
 
   '&:hover': {
-    boxShadow: '0 2px 16px rgba(29, 115, 95, 1)',
+    boxShadow: '0 2px 16px rgba(60, 169, 172, 1)',
     transform: 'translateY(-4px) scale(1.02)',
   },
 },
@@ -82,7 +82,7 @@ export const mainChaptersStyles = {
     display: 'flex',
     flexDirection: 'column',
     cursor: 'pointer',
-    boxShadow: `0 4px 12px ${'rgba(60, 197, 165, 0.9)'}`,
+    boxShadow: `0 4px 12px ${'rgba(60, 169, 172, 1)'}`,
     
     '&:hover': {
       backgroundColor: 'rgba(255, 255, 255, 1)',

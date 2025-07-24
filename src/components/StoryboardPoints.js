@@ -84,9 +84,9 @@ export default function StoryboardPoints() {
           <Tooltip title={isFavorite ? "Αφαίρεση από αγαπημένα" : "Προσθήκη στα αγαπημένα"}>
             <IconButton onClick={handleFavorite}>
               {isFavorite ? (
-                <FavoriteIcon sx={{ color: "#e53935" }} />
+                <FavoriteIcon sx={{ color: "#e53935", alignItems:'center', }} />
               ) : (
-                <FavoriteBorderIcon sx={{ color: "#bbb" }} />
+                <FavoriteBorderIcon sx={{ color: "#bbb" , alignItems:'center',}} />
               )}
             </IconButton>
           </Tooltip>
@@ -94,11 +94,12 @@ export default function StoryboardPoints() {
         <Typography
           variant="h4"
           sx={{
-            mr: 1,
+            //mr: 4,
             fontFamily: skopelosFonts.titles,
             fontWeight: 600,
             color: skopelosColors.oceanBlue,
             textAlign: 'center',
+            mb:4,
           }}
         >
           {point.attributes.title}
@@ -107,12 +108,25 @@ export default function StoryboardPoints() {
       <Box
         sx={{
           display: 'flex',
-          flexDirection: { xs: 'column', md: 'row' },
-          gap: 4,
-          alignItems: 'flex-start',
-          mb: 4,
+          flexDirection: { xs: 'column', md: 'column'},
+          gap: 8,
+          alignItems: 'center',
+          mb: 6,
         }}
       >
+        <Typography
+          component="div"
+          sx={{
+            fontFamily: skopelosFonts.text,
+            fontSize: { xs: '1rem', md: '1rem' },
+            lineHeight: 1.7,
+            flex:1,
+            textAlign:'justify',
+            alignItems: 'center',
+            //float: 'right',
+          }}
+          dangerouslySetInnerHTML={{ __html: point.attributes.description }}
+        />
         {thumbUrl && (
           <Box
             component="img"
@@ -122,24 +136,12 @@ export default function StoryboardPoints() {
               width: { xs: 300, md: 500 },
               objectFit: 'cover',
               boxShadow: '0 2px 12px rgba(0,0,0,0.08)',
-              flexShrink: 0,
-              
-              //float:'left',
+              alignItems: 'center',
             }}
           />
         )}
 
-        <Typography
-          component="div"
-          sx={{
-            fontFamily: skopelosFonts.text,
-            fontSize: { xs: '1.1rem', md: '1.2rem' },
-            lineHeight: 1.7,
-            flex:1,
-            //float: 'right',
-          }}
-          dangerouslySetInnerHTML={{ __html: point.attributes.description }}
-        />
+        
       </Box>
 
     </>

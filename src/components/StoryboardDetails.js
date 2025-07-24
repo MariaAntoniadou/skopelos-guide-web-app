@@ -107,14 +107,14 @@ export default function StoryboardDetails() {
           display: 'flex',
           flexDirection: { xs: 'column', md: 'column' },
           gap: { xs: 4, md: 6 },
-          marginBottom: { xs: 4, md: 6 },
+          marginBottom: { xs: 2,sm:4, md: 6 },
           alignItems: { xs: 'center', md: 'flex-start' }
         }}>
           {/* LEFT: Κείμενο */}
           <Box sx={{
             flex: 1,
             textAlign: { xs: 'center', md: 'left' },
-            padding: { xs: 2, md: 3 }
+            padding: { xs: 2, sm:2,md: 3 }
           }}>
             <Typography
               variant="h1"

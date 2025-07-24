@@ -3,8 +3,19 @@ import { typographyStyles } from './typographyStyles';
 
 export const navigationStyles = {
   appBarHome: (isVisible) => ({
-    backgroundColor: 'rgba(13, 84, 86, 0.95)',
-    backdropFilter: 'blur(15px) saturate(180%)',
+    bgcolor: 'rgba(28, 35, 34, 0.59)',
+    boxShadow: '0 4px 20px rgba(26, 54, 93, 0.4), 0 1px 4px rgba(0, 0, 0, 0.2)',
+    border: '1px solid rgba(255, 255, 255, 0.15)',
+    left: '50%',
+    transform: isVisible
+      ? 'translateX(-50%) translateY(0)'
+      : 'translateX(-50%) translateY(-120%)',
+    transition: 'transform 0.3s ease-in-out',
+    //width: '100%',
+    top:50
+  }),
+  appBarOther: (isVisible) => ({
+    bgcolor: 'rgba(28, 35, 34, 0.59)',
     boxShadow: '0 4px 20px rgba(26, 54, 93, 0.4), 0 1px 4px rgba(0, 0, 0, 0.2)',
     border: '1px solid rgba(255, 255, 255, 0.15)',
     left: '50%',
@@ -13,23 +24,7 @@ export const navigationStyles = {
       : 'translateX(-50%) translateY(-120%)',
     transition: 'transform 0.3s ease-in-out',
     width: '100%',
-  }),
-  appBarOther: (isVisible) => ({
-    backgroundColor: 'rgba(13, 84, 86, 0.95)',
-    backdropFilter: 'blur(20px) saturate(180%)',
-    boxShadow: '0 8px 32px rgba(26, 54, 93, 0.3), 0 2px 8px rgba(0, 0, 0, 0.1)',
-    border: '1px solid rgba(255, 255, 255, 0.1)',
-    borderRadius: '30px',
-    top: '20px',
-    left: '50%',
-    transform: isVisible
-      ? 'translateX(-50%) translateY(0)'
-      : 'translateX(-50%) translateY(-120%)',
-    transition: 'transform 0.3s ease-in-out',
-    width: '90%',
-    maxWidth: '1200px',
-    zIndex: 1100,
-    position: 'fixed',
+    top:50
   }),
   toolbarHome: {
     minHeight: { xs: 45, md: 50 },
@@ -47,12 +42,11 @@ export const navigationStyles = {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: '16px',
+    //borderRadius: '16px',
   },
   navButtonsHome: {
     display: 'flex',
     gap: { xs: 3, sm: 5, md: 8 },
-    flexWrap: 'wrap',
     justifyContent: 'center',
   },
   navButtonsOther: {
@@ -66,23 +60,16 @@ export const navigationStyles = {
   },
   mainTitle: {
     ...typographyStyles.pageTitle,
-    fontSize: { xs: '2rem', sm: '3rem', md: '4rem' },
-    background: `linear-gradient(135deg, ${skopelosColors.oceanBlue}, ${skopelosColors.oceanBlue})`,
-    backgroundClip: 'text',
+    fontSize: { xs: '2rem', sm: '2rem', md: '2rem' },
+    background: `linear-gradient(135deg, white, white)`,
     WebkitBackgroundClip: 'text',
     WebkitTextFillColor: 'transparent',
-    marginBottom: 2,
   },
   subtitle: {
-    ...typographyStyles.bodyText,
     display: 'block',
-    fontSize: { xs: '0.6rem', sm: '0.8rem', md: '0.9rem' },
-    fontWeight: 300,
-    textTransform: 'none',
+    fontSize: { xs: '1rem', sm: '1rem', md: '1rem' },
+    fontWeight: 700,
     letterSpacing: '0.2em',
-    marginTop: 0.5,
-    color: skopelosColors.text.secondary,
-    background: 'none',
-    WebkitTextFillColor: skopelosColors.text.secondary,
+    color: skopelosColors.oceanBlue,
   },
 };

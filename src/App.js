@@ -28,8 +28,15 @@ function App() {
         border: 'none',
         outline: 'none',
       }}>
-       <NavBar />
-      <Box sx={{ flex: 1, width: '100%', maxWidth: '100vw' }}>
+      
+      <Box 
+        sx={{ 
+          flex: 1, 
+          width: '100%', 
+          maxWidth: '100vw',  
+        }}
+      >
+         <NavBar />
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/register" element={<Register />} />

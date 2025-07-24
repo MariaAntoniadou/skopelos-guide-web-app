@@ -2,7 +2,6 @@ import { useEffect, useState, useRef } from 'react';
 import { Box, Typography } from '@mui/material';
 import { getIntroductionChaptersDeep } from '../api/apiService';
 import { UPLOADS_BASE_URL } from '../config/api';
-import { navigationStyles } from '../styles/navigationStyles';
 import { mainChaptersStyles } from '../styles/mainChaptersStyles';
 import { Link } from 'react-router-dom';
 import IconButton from '@mui/material/IconButton';
@@ -12,12 +11,11 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { pageStyles, cardStyles } from '../styles/componentsStyles';
 import { getAllMainChapters } from "../api/apiService";
 import { useTranslation } from "react-i18next";
+import { skopelosFonts } from '../styles/typographyStyles';
 
-// Swiper imports
-import { Swiper, SwiperSlide } from 'swiper/react';
+
 import 'swiper/css';
 import 'swiper/css/navigation';
-import {  Navigation } from 'swiper/modules';
 
 export default function HomePage({ searchTerm }) {
   const [introChapters, setIntroChapters] = useState(null);
@@ -27,6 +25,8 @@ export default function HomePage({ searchTerm }) {
   const scrollRefs = useRef({});
   const { t, i18n } = useTranslation();
   const [locale] = useState(i18n.language || 'en');
+  const cardRef = useRef(null);
+
 
   useEffect(() => {
     async function fetchData() {
@@ -65,128 +65,138 @@ export default function HomePage({ searchTerm }) {
 
   const scrollStoryboards = (chapterId, direction) => {
     const container = scrollRefs.current[chapterId];
-    if (container) {
-      const scrollAmount = 50;
+    const cardElement = cardRef.current;
+
+    if (container && cardElement) {
+      const cardWidth = cardElement.offsetWidth + 26; // +gap or margin if needed
       const newScrollLeft = direction === 'left'
-        ? container.scrollLeft - scrollAmount
-        : container.scrollLeft + scrollAmount;
+        ? container.scrollLeft - cardWidth
+        : container.scrollLeft + cardWidth;
 
       container.scrollTo({
         left: newScrollLeft,
-        behavior: 'smooth'
+        behavior: 'smooth',
       });
     }
   };
+
 
   if (loading) return <Typography>{t('loadingIntro', { defaultValue: 'Loading introduction chapters...' })}</Typography>;
   if (error) return <Typography>{error}</Typography>;
 
   return (
-    
     <Box>
-      {/* --- SPECIAL INTRO CHAPTERS SLIDES DESIGN --- */}
       {introSlides.length > 0 && (
-        <Box sx={{ width: '100%',mt:10, mb: 1, position: 'relative' , height:850,}}>
-          <Swiper
-            modules={[ Navigation]}
-            slidesPerView={1}
-            navigation
-            loop={true}
-            style={{ width: '100%', height: '100%' }}
+        <Box
+          sx={{
+            position: 'relative',
+            width: '100%',
+            height: { xs: '100vh', md: '100vh' },
+            backgroundImage: `url(/skopelos4.jpg)`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            px: 2,
+            py: 4,
+          }}
+        >
+          <Box
+            sx={{
+              position: 'absolute',
+              width: '100%',
+              height: '100%',
+              top: 0,
+              left: 0,
+              backgroundColor: 'rgba(0, 0, 0, 0.49)',
+              zIndex: 1,
+            }}
+          />
+
+          <Box
+            sx={{
+              zIndex: 2,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              maxWidth: '90%',
+            }}
           >
-            {introSlides.map((slide) => (
-              <SwiperSlide key={slide.id} >
+            <Typography
+              variant="h4"
+              sx={{
+                fontFamily: skopelosFonts.text,
+                color: 'white',
+                mt: 75,
+                textAlign: 'center',
+                fontSize: { xs: '1rem', md: '1.5rem' },
+                maxWidth: '800px',
+                fontWeight: 500
+              }}
+            >
+              {t('discoverSkopelos', {
+                defaultValue:
+                  '...Ανακαλύψτε τις κρυφές ομορφιές της Σκοπέλου μέσα από μοναδικές εμπειρίες...',
+              })}
+            </Typography>
+
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                flexWrap: 'wrap',
+                gap: 2,
+                mt: 5
+              }}
+            >
+              {introSlides.map((slide) => (
                 <Link
+                  key={slide.id}
                   to={`/chapter/${slide.id}`}
-                  style={{
-                    display: 'block',
-                    width: '100%',
-                    height: '100%',
-                    textDecoration: 'none',
-                    position: 'relative'
-                  }}
+                  style={{ textDecoration: 'none' }}
                 >
-                  {slide.attributes.thumbnail?.data?.attributes?.url ? (
-                    <Box
-                      component="img"
-                      src={UPLOADS_BASE_URL + slide.attributes.thumbnail.data.attributes.url}
-                      alt={slide.attributes.title}
-                      sx={{
-                        width: '100%',
-                        height: { xs: 250, sm: 350, md: 850 },
-                        objectFit: 'cover',
-                        display: 'block',
-                        transition: 'transform 0.4s cubic-bezier(.4,0,.2,1)',
-                        
-                      }}
-                    />
-                  ) : (
-                    <Box
-                      sx={{
-                        width: '100%',
-                        height: { xs: 250, sm: 350, md: 500 },
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        background: '#ccc',
-                        color: '#555',
-                        fontSize: '2rem',
-                      }}
-                    >
-                      {t('noImage', { defaultValue: 'No image available' })}
-                    </Box>
-                  )}
                   <Box
                     sx={{
-                      position: 'absolute',
-                      top: 100,
-                      left: 450,
-                      width: 1000,
-                      bgcolor: 'rgba(15, 79, 68, 0.46)',
-                      p: 1,
-                      borderRadius:10,
-                      textAlign: 'center',
-                      fontWeight: 'bold',
-                      textShadow: '0 2px 4px rgba(0,0,0,0.7)',
+                      border: '1px solid white',
+                      borderRadius: '12px',
+                      px: 4,
+                      py: 2,
+                      backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                      backdropFilter: 'blur(6px)',
+                      transition: '0.3s',
+                      '&:hover': {
+                        backgroundColor: 'rgba(255, 255, 255, 0.2)',
+                        transform: 'scale(1.05)',
+                      },
                     }}
                   >
-                    <Typography variant="h3" sx={{ ...mainChaptersStyles.quoteText, color:'white', textAlign:'center'} }>
+                    <Typography
+                      sx={{
+                        fontFamily: skopelosFonts.text,
+                        color: 'white',
+                        textAlign: 'center',
+                        textTransform: 'uppercase',
+                        fontSize: { xs: '0.9rem', sm: '1rem', md: '1.1rem' },
+                      }}
+                    >
                       {slide.attributes.title}
                     </Typography>
                   </Box>
                 </Link>
-              </SwiperSlide>
-            ))}
-          </Swiper>
+              ))}
+            </Box>
+          </Box>
         </Box>
       )}
-
-      <Box sx={navigationStyles.titleSection}>
-        <Typography
-          variant="h1"
-          component="h1"
-          sx={navigationStyles.mainTitle}
-        >
-          Σκόπελος
-          <Box  sx={navigationStyles.subtitle}>
-            {t('destinationGuide', { defaultValue: 'ΟΔΗΓΟΣ ΠΡΟΟΡΙΣΜΟΥ' })}
-          </Box>
-        </Typography>
-      </Box>
-
-      <Box sx={mainChaptersStyles.quoteSection}>
-        <Typography variant="body1" sx={mainChaptersStyles.quoteText}>
-          {t('discoverSkopelos', { defaultValue: 'Ανακαλύψτε τις κρυφές ομορφιές της Σκοπέλου μέσα από μοναδικές εμπειρίες' })}
-        </Typography>
-        <Box sx={mainChaptersStyles.decorativeLine} />
-      </Box>
 
       <Box sx={mainChaptersStyles.chaptersContainer}>
         {filteredChapters.map((chapter) => (
           <Box key={chapter.id} sx={mainChaptersStyles.chapterBox}>
             <Link to={`/main-chapters/${chapter.id}`} style={{ textDecoration: 'none' }}>
               <Typography variant="h2" component="h2" sx={mainChaptersStyles.chapterTitle}>
-                {chapter.attributes.title}
+                -{chapter.attributes.title}-
               </Typography>
             </Link>
             <Box
@@ -221,7 +231,7 @@ export default function HomePage({ searchTerm }) {
                       scrollSnapType: chapter.attributes.mainStoryboards.data.length <= 3 ? 'none' : 'x mandatory',
                     }}
                   >
-                    {chapter.attributes.mainStoryboards.data.map((storyboard) => {
+                    {chapter.attributes.mainStoryboards.data.map((storyboard,index) => {
                       const thumbUrl = storyboard.attributes.thumbnail?.data?.attributes?.url;
                       const fullImageUrl = thumbUrl ? UPLOADS_BASE_URL + thumbUrl : "";
 
@@ -232,6 +242,7 @@ export default function HomePage({ searchTerm }) {
                           style={{ textDecoration: 'none' }}
                         >
                           <Paper
+                            ref={index === 0 ? cardRef : null}
                             elevation={4}
                             sx={mainChaptersStyles.storyboardCard}
                           >
