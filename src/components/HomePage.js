@@ -14,9 +14,6 @@ import { useTranslation } from "react-i18next";
 import { skopelosFonts } from '../styles/typographyStyles';
 
 
-import 'swiper/css';
-import 'swiper/css/navigation';
-
 export default function HomePage({ searchTerm }) {
   const [introChapters, setIntroChapters] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -27,6 +24,9 @@ export default function HomePage({ searchTerm }) {
   const [locale] = useState(i18n.language || 'en');
   const cardRef = useRef(null);
 
+
+
+  
 
   useEffect(() => {
     async function fetchData() {
@@ -110,10 +110,11 @@ export default function HomePage({ searchTerm }) {
               height: '100%',
               top: 0,
               left: 0,
-              backgroundColor: 'rgba(0, 0, 0, 0.49)',
+              backgroundColor: 'rgba(0, 0, 0, 0.41)',
               zIndex: 1,
             }}
           />
+          
 
           <Box
             sx={{
@@ -124,22 +125,20 @@ export default function HomePage({ searchTerm }) {
               maxWidth: '90%',
             }}
           >
+            
             <Typography
               variant="h4"
               sx={{
                 fontFamily: skopelosFonts.text,
                 color: 'white',
-                mt: 75,
+                mt: 55,
                 textAlign: 'center',
                 fontSize: { xs: '1rem', md: '1.5rem' },
                 maxWidth: '800px',
                 fontWeight: 500
               }}
             >
-              {t('discoverSkopelos', {
-                defaultValue:
-                  '...Ανακαλύψτε τις κρυφές ομορφιές της Σκοπέλου μέσα από μοναδικές εμπειρίες...',
-              })}
+              {t('discoverSkopelos')}
             </Typography>
 
             <Box

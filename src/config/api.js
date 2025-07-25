@@ -18,22 +18,8 @@ export const ENDPOINTS = {
       locale
     ),
 
-  
-  getStoryboardById: (id) =>
-  `/main-storyboards/${id}?populate[0]=thumbnail,tags,points&populate[1]=tags.svg,points.thumbnail,points.medias,points.tags&populate[2]=points.medias.thumbnail,points.medias.files,points.tags.svg`,
-
   getChapterById: (id) => `/main-chapters/${id}`,
 
-
-
-  getStoryboardsWithPoints: (locale = 'el') =>
-  withLocale(
-    `/main-storyboards
-    ?populate[0]=thumbnail,tags,points
-    &populate[1]=tags.svg,points.thumbnail,points.medias,points.tags
-    &populate[2]=points.medias.thumbnail,points.medias.files,points.tags.svg`,
-    locale
-  ),
 
   getPointById:(id) => `/points/${id}?populate[0]=thumbnail,medias,tags&populate[1]=medias.thumbnail,medias.files,tags.svg`,
 
@@ -44,29 +30,10 @@ export const ENDPOINTS = {
       locale
     ),
 
-  getTrailsWithPoints: (locale = 'el') =>
-    withLocale(
-      `/trails?populate=points`, 
-      locale
-    ),
-
     
 
   getTrailById: (id, locale = 'el') =>
   withLocale(`/trails/${id}?populate[0]=points&populate[1]=gpx`, locale),
-
-
-  getMainStoryboardsWithTrails: (locale = 'en') =>
-  `/main-storyboards?locale=${locale}` +
-  `&populate[0]=thumbnail,tags,points,trails` +
-  `&populate[1]=tags.svg,points.thumbnail,points.medias,points.tags,trails.path,trails.tags,trails.tags.svg` +
-  `&populate[2]=points.medias.thumbnail,points.medias.files,points.tags.svg`,
-
- getTrailsWithPointsAndGpx: (locale = 'el') =>
-  withLocale(
-    `/trails?populate[0]=points&populate[1]=gpx`,
-    locale
-  ),
 
 
 };

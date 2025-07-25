@@ -3,7 +3,7 @@ import { db, auth } from "../firebase";
 import { collection, getDocs, deleteDoc, doc } from "firebase/firestore";
 import { IconButton, Box, List, ListItem, ListItemText, Divider } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import { useTranslation } from "react-i18next"; // <-- use i18n
+import { useTranslation } from "react-i18next"; 
 
 export default function Favorites() {
   const [favorites, setFavorites] = useState([]);

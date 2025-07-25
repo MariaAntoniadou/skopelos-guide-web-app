@@ -80,7 +80,19 @@ export default function StoryboardPoints() {
 
   return (
       <>
-         {user && (
+        <Typography
+          variant="h4"
+          sx={{
+            fontFamily: skopelosFonts.titles,
+            fontWeight: 600,
+            color: skopelosColors.oceanBlue,
+            textAlign: 'center',
+            mb:4,
+            mt:8,
+          }}
+        >
+          {point.attributes.title}
+          {user && (
           <Tooltip title={isFavorite ? "Αφαίρεση από αγαπημένα" : "Προσθήκη στα αγαπημένα"}>
             <IconButton onClick={handleFavorite}>
               {isFavorite ? (
@@ -91,55 +103,78 @@ export default function StoryboardPoints() {
             </IconButton>
           </Tooltip>
         )}
-        <Typography
-          variant="h4"
-          sx={{
-            //mr: 4,
-            fontFamily: skopelosFonts.titles,
-            fontWeight: 600,
-            color: skopelosColors.oceanBlue,
-            textAlign: 'center',
-            mb:4,
-          }}
-        >
-          {point.attributes.title}
         </Typography>
-       
       <Box
         sx={{
           display: 'flex',
-          flexDirection: { xs: 'column', md: 'column'},
-          gap: 8,
+          flexDirection: { xs: 'column',sm:'column', md: 'column'},
+          gap: 4,
           alignItems: 'center',
           mb: 6,
         }}
       >
-        <Typography
-          component="div"
-          sx={{
-            fontFamily: skopelosFonts.text,
-            fontSize: { xs: '1rem', md: '1rem' },
-            lineHeight: 1.7,
-            flex:1,
-            textAlign:'justify',
-            alignItems: 'center',
-            //float: 'right',
-          }}
-          dangerouslySetInnerHTML={{ __html: point.attributes.description }}
-        />
         {thumbUrl && (
           <Box
             component="img"
             src={thumbUrl}
             alt={point.attributes.title}
             sx={{
-              width: { xs: 300, md: 500 },
+              width: { xs: 300,sm:400, md: 500 },
               objectFit: 'cover',
               boxShadow: '0 2px 12px rgba(0,0,0,0.08)',
               alignItems: 'center',
             }}
           />
         )}
+        <Box
+  sx={{
+    width: '100%',
+    maxWidth: '800px',
+    px: 2,
+    textAlign: 'center',
+  }}
+>
+  {/* Top decorative line */}
+  <Box
+    sx={{
+      height: '2px',
+      backgroundColor: skopelosColors.oceanBlue,
+      width: '200px',
+      margin: '0 auto 20px',
+      borderRadius: '2px',
+    }}
+  />
+
+  {/* Description */}
+  <Typography
+    component="div"
+    sx={{
+      fontFamily: skopelosFonts.text,
+      fontSize: { xs: '0.9rem', sm: '1rem', md: '1rem' },
+      lineHeight: 1.6,
+      whiteSpace: 'pre-line',
+      textAlign: 'justify',
+    }}
+    dangerouslySetInnerHTML={{
+      __html: point.attributes.description
+        .replace(/<\/p><p>/g, ' ')
+        .replace(/<\/?p>/g, ''),
+    }}
+  />
+
+  {/* Bottom decorative line */}
+  <Box
+    sx={{
+      height: '2px',
+      backgroundColor: skopelosColors.oceanBlue,
+      width: '200px',
+      margin: '20px auto 0',
+      borderRadius: '2px',
+    }}
+  />
+</Box>
+
+        
 
         
       </Box>

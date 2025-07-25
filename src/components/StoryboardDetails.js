@@ -1,16 +1,15 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams, useSearchParams, Link } from 'react-router-dom';
-import { Box, Typography, CircularProgress, Chip, IconButton, Paper, Stack } from '@mui/material';
+import { Box, Typography, CircularProgress, Chip,  Paper, Stack } from '@mui/material';
 import { fetchFromAPI } from '../api/fetchFromAPI';
 import { ENDPOINTS, UPLOADS_BASE_URL } from '../config/api';
 import { pageStyles } from '../styles/componentsStyles';
 import { storyboardDetailsStyles } from '../styles/storyboardDetailsStyles';
 import { skopelosFonts } from '../styles/typographyStyles';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { useTranslation } from "react-i18next";
 import RouteIcon from '@mui/icons-material/Route';
 import TrailMap from './TrailMap';
+import { skopelosColors } from '../styles/colors';
 
 export default function StoryboardDetails() {
   const [storyboard, setStoryboard] = useState(null);
@@ -19,7 +18,6 @@ export default function StoryboardDetails() {
   const [searchParams] = useSearchParams();
   const chapterId = searchParams.get('chapter');
   const [chapterTitle, setChapterTitle] = useState('');
-  const scrollRef = useRef(null);
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -82,20 +80,6 @@ export default function StoryboardDetails() {
 
   const backButtonInfo = getBackButtonInfo();
 
-  const scrollPoints = (direction) => {
-    if (scrollRef.current) {
-      const scrollAmount = 300;
-      const container = scrollRef.current;
-      const newScrollLeft = direction === 'left'
-        ? container.scrollLeft - scrollAmount
-        : container.scrollLeft + scrollAmount;
-      container.scrollTo({
-        left: newScrollLeft,
-        behavior: 'smooth',
-      });
-    }
-  };
-
   const points = storyboard.attributes.points?.data || [];
   const storyboardTrails = storyboard.attributes.trails?.data || [];
 
@@ -110,11 +94,10 @@ export default function StoryboardDetails() {
           marginBottom: { xs: 2,sm:4, md: 6 },
           alignItems: { xs: 'center', md: 'flex-start' }
         }}>
-          {/* LEFT: Κείμενο */}
           <Box sx={{
             flex: 1,
             textAlign: { xs: 'center', md: 'left' },
-            padding: { xs: 2, sm:2,md: 3 }
+            padding: { xs: 2, sm:2,md: 2 }
           }}>
             <Typography
               variant="h1"
@@ -122,13 +105,12 @@ export default function StoryboardDetails() {
               sx={storyboardDetailsStyles.storyboardTitle
               }
             >
-              {title}
+              - {title} -
             </Typography>
 
             <Box sx={{
               width: { xs: '80px', md: '200px' },
               height: '3px',
-              backgroundColor: '#135a4eff',
               margin: { xs: '0 auto 2rem', md: '0 0 2rem 0' },
               borderRadius: '2px',
             }} />
@@ -144,52 +126,14 @@ export default function StoryboardDetails() {
 
             {points.length > 0 && (
               <Box sx={{ width: '100%', mt: 4, position: 'relative', minHeight: 180 }}>
-                <IconButton
-                  onClick={() => scrollPoints('left')}
-                  sx={{
-                    position: 'absolute',
-                    left: 0,
-                    top: '50%',
-                    zIndex: 10,
-                    opacity: 1,
-                    transform: 'translateY(-50%)',
-                    background: '#fff',
-                    boxShadow: 2,
-                  }}
-                  aria-label={t('scrollLeft', { defaultValue: "Scroll Left" })}
-                >
-                  <ChevronLeftIcon />
-                </IconButton>
-                <IconButton
-                  onClick={() => scrollPoints('right')}
-                  sx={{
-                    position: 'absolute',
-                    right: 0,
-                    top: '50%',
-                    zIndex: 10,
-                    opacity: 1,
-                    transform: 'translateY(-50%)',
-                    background: '#fff',
-                    boxShadow: 2,
-                  }}
-                  aria-label={t('scrollRight', { defaultValue: "Scroll Right" })}
-                >
-                  <ChevronRightIcon />
-                </IconButton>
                 <Box
-                  ref={scrollRef}
                   sx={{
                     display: 'flex',
-                    overflowX: 'auto',
-                    justifyContent: 'flex-start',
-                    scrollSnapType: points.length <= 3 ? 'none' : 'x mandatory',
-                    gap: 3,
-                    pb: 1,
-                    scrollBehavior: 'smooth',
-                    maxWidth: { xs: '100%', md: 1100 },
-                    '&::-webkit-scrollbar': { display: 'none' },
-                    msOverflowStyle: 'none',
-                    scrollbarWidth: 'none',
+                    flexWrap: 'wrap',
+                    gap: 1,
+                    justifyContent: { xs: 'center',sm:'center', md: 'center' },
+                    width: '100%',
+                    mt: 1,
                   }}
                 >
                   {points.map((point) => {
@@ -212,12 +156,9 @@ export default function StoryboardDetails() {
                             flexDirection: 'column',
                             alignItems: 'center',
                             p: 0,
-                            borderRadius: 4,
-                            boxShadow: '0 4px 24px rgba(22, 118, 95, 0.9)',
                             overflow: 'hidden',
                             transition: 'box-shadow 0.2s, transform 0.2s',
                             '&:hover': {
-                              boxShadow: '0 8px 32px rgba(18, 110, 117, 0.9)',
                               transform: 'translateY(-2px) scale(1.1)',
                             },
                             background: '#fff',
@@ -242,14 +183,14 @@ export default function StoryboardDetails() {
                               }}
                             />
                           )}
-                          <Box sx={{ width: '100%', p: 2, textAlign: 'center', flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                          <Box sx={{ width: '100%',  textAlign: 'center', flex: 1, display: 'flez', alignItems: 'center', justifyContent: 'center' }}>
                             <Typography
                               sx={{
                                 fontFamily: skopelosFonts.text,
                                 fontWeight: 500,
-                                fontSize: { xs: '1rem', md: '1.08rem' },
+                                fontSize: { xs: '1rem', md: '1rem' },
                                 color: '#232323',
-                                lineHeight: 1.1,
+                                //lineHeight: 1,
                                 wordBreak: 'break-word',
                               }}
                             >
@@ -351,7 +292,7 @@ export default function StoryboardDetails() {
             }}>
               {tags.data.map((tag) => {
                 const tagTitle = tag.attributes.title;
-                const tagColor = tag.attributes.color || '#3182ce';
+                const tagColor =  skopelosColors.oceanBlue;
                 const iconUrl = tag.attributes.icon?.data?.attributes?.url
                   ? UPLOADS_BASE_URL + tag.attributes.icon.data.attributes.url
                   : null;
@@ -377,8 +318,8 @@ export default function StoryboardDetails() {
                       backgroundColor: tagColor,
                       color: 'white',
                       fontFamily: skopelosFonts.text,
-                      fontSize: { xs: '0.8rem', md: '0.9rem' },
-                      fontWeight: 500,
+                      fontSize: { xs: '1rem', sm:'1rem', md: '1rem' },
+                      fontWeight: 900,
                       height: { xs: '32px', md: '36px' },
                       borderRadius: '18px',
                       padding: '0 12px',
@@ -403,9 +344,9 @@ export default function StoryboardDetails() {
           <Link to={backButtonInfo.link} style={{ textDecoration: 'none' }}>
             <Typography sx={{
               fontFamily: skopelosFonts.text,
-              fontSize: { xs: '0.9rem', md: '1rem' },
-              fontWeight: 500,
-              color: '#3182ce',
+              fontSize: { xs: '1rem',sm:'1rem', md: '1rem' },
+              fontWeight: 800,
+              color: skopelosColors.oceanBlue,
               padding: { xs: '10px 20px', md: '12px 24px' },
               backgroundColor: 'rgba(255, 255, 255, 0.9)',
               border: '1px solid #e2e8f0',

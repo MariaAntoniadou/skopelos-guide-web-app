@@ -6,24 +6,9 @@ export async function getIntroductionChaptersDeep(locale = 'en') {
   return await fetchFromAPI(ENDPOINTS.getIntroductionChaptersDeep(locale));
 }
 
-export async function getIntroStoryboardById(id, locale = 'en') {
-  return await fetchFromAPI(ENDPOINTS.getIntroStoryboardById(id, locale));
-}
-
-
 // Fetch all main chapters with their storyboards and tags
 export async function getAllMainChapters(locale = 'en') {
   return await fetchFromAPI(ENDPOINTS.getAllMainChapters(locale));
-}
-
-// Fetch a single storyboard by its ID with tags and thumbnail
-export async function getStoryboardById(id) {
-  return await fetchFromAPI(ENDPOINTS.getStoryboardById(id));
-}
-
-// Fetch all storyboards with their points and media details
-export async function getStoryboardsWithPoints(locale = 'en') {
-  return await fetchFromAPI(ENDPOINTS.getStoryboardsWithPoints(locale));
 }
 
 // Fetch events with points and media details
@@ -31,13 +16,4 @@ export async function getEventsDeep(locale = 'el') {
   return await fetchFromAPI(ENDPOINTS.getEventsDeep(locale));
 }
 
-// Fetch localizations for any entity by type and id
-export async function getLocalizations(entityType, entityId) {
-  return await fetchFromAPI(ENDPOINTS.getLocalizationsId(entityType, entityId));
-}
-
-// Fetch trails with populated points
-export async function getTrailsWithPoints(locale = 'el') {
-  return await fetchFromAPI(ENDPOINTS.getTrailsWithPoints(locale));
-}
 

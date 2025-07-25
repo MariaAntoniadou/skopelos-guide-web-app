@@ -24,13 +24,15 @@ import { useAuth } from '../contexts/AuthContexts';
 import NavButton from './NavButton';
 import { navigationStyles } from '../styles/navigationStyles';
 import { skopelosColors } from '../styles/colors';
+import WbSunnyIcon from '@mui/icons-material/WbSunny'; // Add this import
 
 export default function NavBar() {
   const isMobile = useMediaQuery('(max-width:900px)');
   const [drawerOpen, setDrawerOpen] = useState(false);
 
+  const [weather, setWeather] = useState(null);
   const [isVisible, setIsVisible] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
+  const [lastScrollY] = useState(0);
   const location = useLocation();
   const isHomePage = location.pathname === '/';
 
@@ -43,6 +45,23 @@ export default function NavBar() {
   const { t, i18n } = useTranslation();
   const [locale, setLocale] = useState(i18n.language || 'en');
 
+
+  useEffect(() => {
+    async function fetchWeather() {
+      try {
+        const apiKey = "7927d486f1d246f1a2e81847252507"; // Replace with your WeatherAPI key
+        const response = await fetch(
+          `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=Skopelos&lang=${locale}`
+        );
+        const data = await response.json();
+        setWeather(data);
+      } catch (err) {
+        setWeather(null);
+      }
+    }
+    fetchWeather();
+  }, [locale]);
+  
   useEffect(() => {
     async function fetchMainChapters() {
       try {
@@ -74,8 +93,7 @@ export default function NavBar() {
   useEffect(() => {
     const controlNavbar = () => {
       const currentScrollY = window.scrollY;
-      setIsVisible(currentScrollY < lastScrollY || currentScrollY < 10);
-      setLastScrollY(currentScrollY);
+      setIsVisible(currentScrollY <10);
     };
     window.addEventListener('scroll', controlNavbar);
     return () => window.removeEventListener('scroll', controlNavbar);
@@ -194,9 +212,34 @@ export default function NavBar() {
       <IconButton onClick={() => setDrawerOpen(true)} sx={{ color: 'white' }}>
         <MenuIcon />
       </IconButton>
-      <Drawer anchor="left" open={drawerOpen} onClose={() => setDrawerOpen(false)}>
+      <Drawer
+        anchor="left"
+        open={drawerOpen}
+        onClose={() => setDrawerOpen(false)}
+        PaperProps={{
+          sx: {
+            background: 'linear-gradient(135deg, #e3ecf7 0%, #f7fafc 100%)',
+            borderTopRightRadius: 24,
+            borderBottomRightRadius: 24,
+            boxShadow: 6,
+            p: 0,
+          }
+        }}
+      >
         <Box sx={{ width: 250, p: 2 }}>
-          <Typography variant="h6" gutterBottom>Μενού</Typography>
+          {/* Logo or Title */}
+          <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+            <Box
+              component="img"
+              src="/skopelosNav2.png"
+              alt="Skopelos Island"
+              sx={{ height: 36, width: 'auto', mr: 1 }}
+            />
+            <Typography variant="h6" sx={{ fontWeight: 700, color: skopelosColors.oceanBlue }}>
+              Μενού
+            </Typography>
+          </Box>
+          
           <List>
             {navigationItems.map((item) => (
               <ListItem
@@ -206,13 +249,60 @@ export default function NavBar() {
                   navigate(item.link);
                   setDrawerOpen(false);
                 }}
+                sx={{
+                  borderRadius: 2,
+                  mb: 1,
+                  '&:hover': {
+                    background: 'rgba(30,203,225,0.12)',
+                    color: skopelosColors.oceanBlue,
+                  },
+                }}
               >
                 <ListItemText primary={item.text} />
               </ListItem>
             ))}
           </List>
-          <Box mt={2}>
-            {renderUserControls}
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'flex-start',
+              gap: 1,
+              mt: 3,
+            }}
+          >
+            {user ? (
+              <ListItem button onClick={() => {
+                navigate('/profile');
+                setDrawerOpen(false);
+              }}>
+                <AccountCircleIcon sx={{ mr: 1 }} />
+                <ListItemText primary={t('profile') || 'Profile'} />
+              </ListItem>
+            ) : (
+              <>
+                <ListItem button onClick={() => {
+                  navigate('/login');
+                  setDrawerOpen(false);
+                }}>
+                  <LoginIcon sx={{ mr: 1 }} />
+                  <ListItemText primary={t('login') || 'Login'} />
+                </ListItem>
+
+                <ListItem button onClick={() => {
+                  navigate('/register');
+                  setDrawerOpen(false);
+                }}>
+                  <PersonAddIcon sx={{ mr: 1 }} />
+                  <ListItemText primary={t('register') || 'Register'} />
+                </ListItem>
+              </>
+            )}
+
+            <ListItem button onClick={handleLocaleChange}>
+              <LanguageIcon sx={{ mr: 1 }} />
+              <ListItemText primary={locale === 'el' ? 'English' : 'Ελληνικά'} />
+            </ListItem>
           </Box>
         </Box>
       </Drawer>
@@ -222,8 +312,8 @@ export default function NavBar() {
   return (
     <>
       <Box sx={{ position: 'relative' }}>
-        <AppBar sx={isHomePage ? navigationStyles.appBarHome(isVisible) : navigationStyles.appBarOther(isVisible)}>
-          <Toolbar sx={isHomePage ? navigationStyles.toolbarHome : navigationStyles.toolbarOther}>
+        <AppBar sx={navigationStyles.appBarHome(isVisible) }>
+          <Toolbar sx={navigationStyles.toolbarHome }>
             {/* Logo & Title */}
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
               <Box
@@ -242,10 +332,10 @@ export default function NavBar() {
                   component="h1"
                   sx={navigationStyles.mainTitle}
                 >
-                  ΣΚΟΠΕΛΟΣ
+                  {t('skopelosTitle')}
                 </Typography>
                 <Box sx={navigationStyles.subtitle}>
-                  {t('destinationGuide', { defaultValue: 'ΟΔΗΓΟΣ ΠΡΟΟΡΙΣΜΟΥ' })}
+                  {t('destinationGuide')}
                 </Box>
               </Box>
             </Box>
@@ -254,12 +344,21 @@ export default function NavBar() {
             <Box sx={{ flexGrow: 1 }}>
               {isMobile ? renderMobileDrawer : renderNavButtons}
             </Box>
+            {weather && weather.current && (
+              <Box sx={{ display: 'flex', alignItems: 'center', ml: 1 }}>
+                <WbSunnyIcon sx={{ color: '#fbc02d', fontSize: 24, mr: 0.5 }} />
+                <Typography sx={{ fontWeight: 700, fontSize: '1.1rem', color: 'white' }}>
+                  {Math.round(weather.current.temp_c)}°C
+                </Typography>
+              </Box>
+            )}
 
             {/* User controls */}
             {!isMobile && renderUserControls}
           </Toolbar>
         </AppBar>
       </Box>
+
 
       {/* Spacer για να μην "πέφτει" το περιεχόμενο κάτω από το AppBar */}
       {!isHomePage && <Box sx={{ height: { xs: '70px', sm: '90px', md: '110px' } }} />}

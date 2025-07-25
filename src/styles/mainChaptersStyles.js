@@ -16,20 +16,6 @@ export const mainChaptersStyles = {
     ...typographyStyles.chapterDescription,
   },
 
-  quoteText: {
-    ...typographyStyles.quoteText,
-    
-  },
-  
-  quoteSection: {
-    textAlign: 'center',
-    marginBottom: 8,
-    padding: { xs: 1, md: 2 },
-    backgroundColor: 'rgba(255, 255, 255, 0.95)',
-    borderTop: `2px solid ${skopelosColors.oceanBlue}`,
-    borderBottom: 'none',
-  },
-
 
   decorativeLine: {
     width: '100px',

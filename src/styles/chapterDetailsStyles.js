@@ -51,7 +51,6 @@ export const chapterDetailsStyles = {
     boxShadow: `0 4px 12px ${skopelosColors.brightBlue}`,
     transition: 'all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1)',
     cursor: 'pointer',
-    borderRadius:4,
     
     '&:hover': {
       transform: 'translateY(-12px) scale(1.02)',

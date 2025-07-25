@@ -12,20 +12,9 @@ export const navigationStyles = {
       : 'translateX(-50%) translateY(-120%)',
     transition: 'transform 0.3s ease-in-out',
     //width: '100%',
-    top:50
+    top:20
   }),
-  appBarOther: (isVisible) => ({
-    bgcolor: 'rgba(28, 35, 34, 0.59)',
-    boxShadow: '0 4px 20px rgba(26, 54, 93, 0.4), 0 1px 4px rgba(0, 0, 0, 0.2)',
-    border: '1px solid rgba(255, 255, 255, 0.15)',
-    left: '50%',
-    transform: isVisible
-      ? 'translateX(-50%) translateY(0)'
-      : 'translateX(-50%) translateY(-120%)',
-    transition: 'transform 0.3s ease-in-out',
-    width: '100%',
-    top:50
-  }),
+  
   toolbarHome: {
     minHeight: { xs: 45, md: 50 },
     //px: { xs: 2, md: 2 },
@@ -35,29 +24,7 @@ export const navigationStyles = {
     alignItems: 'center',
     //borderRadius: '12px',
   },
-  toolbarOther: {
-    minHeight: { xs: 60, md: 70 },
-    px: { xs: 2, md: 4 },
-    py: 1.5,
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    //borderRadius: '16px',
-  },
-  navButtonsHome: {
-    display: 'flex',
-    gap: { xs: 3, sm: 5, md: 8 },
-    justifyContent: 'center',
-  },
-  navButtonsOther: {
-    display: 'flex',
-    gap: { xs: 4, sm: 6, md: 10 },
-    flexWrap: 'wrap',
-    justifyContent: 'center',
-  },
-  titleSection: {
-    backgroundColor: skopelosColors.background.primary,
-  },
+  
   mainTitle: {
     ...typographyStyles.pageTitle,
     fontSize: { xs: '2rem', sm: '2rem', md: '2rem' },

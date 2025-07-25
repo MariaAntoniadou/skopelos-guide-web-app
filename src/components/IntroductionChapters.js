@@ -31,19 +31,17 @@ export default function IntroductionChapters() {
   return (
   <Box
     sx={{
-      maxWidth: 1600,
+      maxWidth: 1200,
       mx: 'auto',
-      p: { xs: 1, sm: 2, md: 5 },
+      p: { xs: 3, sm: 4, md: 6 },
       display: 'flex',
-      flexDirection: { xs: 'column', md: 'row' },
-      gap: 8,
-      alignItems: 'flex-start',
+      flexDirection: 'column',
+      gap: 4,
     }}
   >
-    {/* Left side: Title & Description */}
-    <Box sx={{ flex: 1, minWidth: 260 }}>
+    
       <Typography sx={typographyStyles.chapterTitle}>
-        {chapter.attributes.title}
+        -{chapter.attributes.title}-
       </Typography>
       <Typography
         variant="h2"
@@ -51,86 +49,85 @@ export default function IntroductionChapters() {
           fontFamily: skopelosFonts.text,
           fontSize: { xs: '1.1rem', md: '1.05rem' },
           fontWeight: 400,
-          lineHeight: 1.5,
+          lineHeight: 1.2,
           marginBottom: { xs: 3, md: 4 },
-          mt: 4,
+          mt: -5,
         }}
         component="div"
         dangerouslySetInnerHTML={{ __html: chapter.attributes.description }}
       />
-    </Box>
+   
+      {storyboards.length > 0 && (
+        <Box>
+        <Box
+          sx={{
+            display:'grid',
+            gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr', md: '1fr 1fr 1fr' },
+            gap: 1,
+            mt:2,
+          }}
+        >
+            {storyboards.map((storyboard) => {
+              const thumbUrl = storyboard.attributes.thumbnail?.data?.attributes?.url;
+              const fullImageUrl = thumbUrl ? UPLOADS_BASE_URL + thumbUrl : '';
 
-    {/* Right side: Storyboards */}
-    {storyboards.length > 0 && (
-      <Box
-        sx={{
-          flex: 2,
-          mt: { xs: 4, md: 0 },
-          display: 'block',
-          flexDirection: 'column',
-          gap: 2,
-          ml:10,
-        }}
-      >
-        {storyboards.map((storyboard, idx) => {
-          const thumbUrl = storyboard.attributes.thumbnail?.data?.attributes?.url;
-          const fullImageUrl = thumbUrl ? UPLOADS_BASE_URL + thumbUrl : '';
-
-          return (
-            <Box
-              key={storyboard.id}
-              sx={{
-                display: 'flex',
-                flexDirection: 'row',
-                alignItems: 'center',
-                mb: 1,
-                p: 0,
-                background: 'none',
-                boxShadow: 'none',
-                borderRadius: 0,
-                borderBottom: '1px solid #f0f0f0',
-              }}
-            >
-              {fullImageUrl && (
-                <Box
-                  component="img"
-                  src={fullImageUrl}
-                  alt={storyboard.attributes.title}
-                  sx={{
-                    height: 150,
-                    width: 350,
-                    objectFit: 'contain',
-                    mr: 7,
-                    boxShadow: 'none',
-                    background: '#fff',
-                    display: 'block',
-                    //maxWidth: 180,
-                  }}
-                />
-              )}
-              <Link
-                to={`/introduction-storyboard/${storyboard.id}`}
-                style={{ textDecoration: 'none', flex: 1 }}
-              >
-                <Typography
-                  sx={{
-                    fontFamily: skopelosFonts.text,
-                    fontWeight: 700,
-                    fontSize: { xs: '1.08rem', md: '1.15rem' },
-                    color: '#232323',
-                    lineHeight: 0.5,
-                    wordBreak: 'break-word',
-                    letterSpacing: 0.5,
-                  }}
+              return (
+                <Link
+                  key={storyboard.id}
+                  to={`/introduction-storyboard/${storyboard.id}`}
+                  style={{ textDecoration: 'none' }}
                 >
-                  {storyboard.attributes.title}
-                </Typography>
-              </Link>
-            </Box>
-          );
-        })}
-      </Box>
-    )}
+                  <Box
+                    sx={{
+                      position: 'relative',
+                      width: '100%',
+                      aspectRatio: '16/9',
+                      overflow: 'hidden',
+                      boxShadow: 2,
+                      background: '#eee',
+                      cursor: 'pointer',
+                      transition: 'transform 0.2s',
+                      '&:hover': { transform: 'scale(1.03)' },
+                    }}
+                  >
+                    {fullImageUrl && (
+                      <Box
+                        component="img"
+                        src={fullImageUrl}
+                        alt={storyboard.attributes.title}
+                        sx={{
+                          width: '100%',
+                          height: '100%',
+                          objectFit: 'cover',
+                          display: 'block',
+                        }}
+                      />
+                    )}
+                    <Box
+                      sx={{
+                        position: 'absolute',
+                        bottom: 0,
+                        left: 0,
+                        width: '100%',
+                        bgcolor: 'rgba(0,0,0,0.45)',
+                        color: '#fff',
+                        p: 2,
+                        fontFamily: skopelosFonts.text,
+                        fontWeight: 700,
+                        fontSize: { xs: '1rem', md: '1.15rem' },
+                        letterSpacing: 0.5,
+                        textShadow: '0 2px 8px #000',
+                      }}
+                    >
+                      {storyboard.attributes.title}
+                    </Box>
+                  </Box>
+                </Link>
+              );
+            })}
+          </Box>
+        </Box>
+      )}
   </Box>
 );
 }

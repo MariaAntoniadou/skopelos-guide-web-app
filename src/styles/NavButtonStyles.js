@@ -2,26 +2,6 @@ import { skopelosColors } from './colors';
 import { typographyStyles } from './typographyStyles';
 
 export const navButtonStyles = {
-  container: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    gap: 0.5,
-    padding: '8px 12px',
-    borderRadius: '8px',
-    transition: 'all 0.3s ease',
-    cursor: 'pointer',
-   
-  },
-
-  iconContainer: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    fontSize: '1.2rem',
-    color: 'white',
-    marginBottom: 0.5,
-  },
 
   button: {
     color: 'white',
