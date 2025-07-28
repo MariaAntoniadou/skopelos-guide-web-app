@@ -12,6 +12,7 @@ import StoryboardPoints from './components/StoryboardPoints';
 import StoryboardSlides from './components/StoryboardSlides';
 import TrailDetails from './components/TrailDetails';
 import Events from './components/Events';
+import SimpleChatbot from './components/SimpleChatbot';
 
 
 function App() {
@@ -29,29 +30,30 @@ function App() {
         outline: 'none',
       }}>
       
-        <Box 
-          sx={{ 
-            flex: 1, 
-            width: '100%', 
-            maxWidth: '100vw',  
-          }}
-        >
-          <NavBar />
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/events" element={<Events />}/>
+      <Box 
+        sx={{ 
+          flex: 1, 
+          width: '100%', 
+          maxWidth: '100vw',  
+        }}
+      >
+        <NavBar />
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/events" element={<Events />}/>
 
-            <Route path="/chapter/:id" element={<IntroductionChapters />} />
-            <Route path="/main-chapters/:id" element={<ChapterDetails />} />
-            <Route path="/storyboard/:id" element={<StoryboardDetails />} />
-            <Route path="/point/:id" element={<StoryboardPoints />} />
-            <Route path="/introduction-storyboard/:id" element={<StoryboardSlides />} />
-            <Route path="/trails/:id" element={<TrailDetails />} />
-          </Routes>
-        </Box>
+          <Route path="/chapter/:id" element={<IntroductionChapters />} />
+          <Route path="/main-chapters/:id" element={<ChapterDetails />} />
+          <Route path="/storyboard/:id" element={<StoryboardDetails />} />
+          <Route path="/point/:id" element={<StoryboardPoints />} />
+          <Route path="/introduction-storyboard/:id" element={<StoryboardSlides />} />
+          <Route path="/trails/:id" element={<TrailDetails />} />
+        </Routes>
+      </Box>
+      <SimpleChatbot/>
       </Box>
     </Router>
   );

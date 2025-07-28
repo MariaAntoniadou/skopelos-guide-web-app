@@ -6,8 +6,9 @@ import App from './App';
 import { AuthProvider } from './contexts/AuthContexts'; 
 import './i18n';
 import 'leaflet/dist/leaflet.css';
+import { WeatherProvider } from './contexts/WeatherContext';
 
-// Minimal theme just for breakpoints
+
 const theme = createTheme({
   breakpoints: {
     values: {
@@ -26,7 +27,9 @@ root.render(
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <AuthProvider> 
+        <WeatherProvider>
           <App />
+        </WeatherProvider>
       </AuthProvider>
     </ThemeProvider>
   </React.StrictMode>

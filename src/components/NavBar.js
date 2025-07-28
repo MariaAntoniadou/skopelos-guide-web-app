@@ -25,12 +25,14 @@ import NavButton from './NavButton';
 import { navigationStyles } from '../styles/navigationStyles';
 import { skopelosColors } from '../styles/colors';
 import WbSunnyIcon from '@mui/icons-material/WbSunny';
+import { useWeather } from '../contexts/WeatherContext';
+
 
 export default function NavBar() {
   const isMobile = useMediaQuery('(max-width:900px)');
   const [drawerOpen, setDrawerOpen] = useState(false);
 
-  const [weather, setWeather] = useState(null);
+  const weather = useWeather();
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY] = useState(0);
   const location = useLocation();
@@ -46,21 +48,6 @@ export default function NavBar() {
   const [locale, setLocale] = useState(i18n.language || 'en');
 
 
-  useEffect(() => {
-    async function fetchWeather() {
-      try {
-        const apiKey = "7927d486f1d246f1a2e81847252507"; // https://www.weatherapi.com/
-        const response = await fetch(
-          `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=Skopelos&lang=${locale}`
-        );
-        const data = await response.json();
-        setWeather(data);
-      } catch (err) {
-        setWeather(null);
-      }
-    }
-    fetchWeather();
-  }, [locale]);
   
   useEffect(() => {
     async function fetchMainChapters() {
@@ -342,7 +329,7 @@ export default function NavBar() {
             <Box sx={{ flexGrow: 1 }}>
               {isMobile ? renderMobileDrawer : renderNavButtons}
             </Box>
-            {weather && weather.current && (
+            {weather?.current && (
               <Box sx={{ display: 'flex', alignItems: 'center', ml: 1 }}>
                 <WbSunnyIcon sx={{ color: '#fbc02d', fontSize: 24, mr: 0.5 }} />
                 <Typography sx={{ fontWeight: 500, fontSize: '1.1rem', color: 'white' }}>
