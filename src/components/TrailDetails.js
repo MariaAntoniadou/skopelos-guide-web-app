@@ -25,7 +25,6 @@ export default function TrailDetails() {
 
   const pointsArray = Array.isArray(points?.data) ? points.data : [];
   
-  // Get thumbnail image if exists
   const UPLOADS_BASE_URL = process.env.REACT_APP_UPLOADS_BASE_URL || '';
   const trailThumb = thumbnail?.data?.attributes?.url
     ? UPLOADS_BASE_URL + thumbnail.data.attributes.url

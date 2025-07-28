@@ -33,7 +33,6 @@ export default function StoryboardPoints() {
     }).catch(() => setLoading(false));
   }, [id]);
 
-  // Check if this point is already a favorite
   useEffect(() => {
     const checkFavorite = async () => {
       if (!user || !point) return;
@@ -54,12 +53,10 @@ export default function StoryboardPoints() {
   const handleFavorite = async () => {
     if (!user || !point) return;
     if (isFavorite && favId) {
-      // Remove favorite
       await deleteDoc(doc(db, "users", user.uid, "favorites", favId));
       setIsFavorite(false);
       setFavId(null);
     } else {
-      // Add favorite
       const docRef = await addDoc(collection(db, "users", user.uid, "favorites"), {
         pointId: point.id,
         title: point.attributes.title,
@@ -134,7 +131,6 @@ export default function StoryboardPoints() {
     textAlign: 'center',
   }}
 >
-  {/* Top decorative line */}
   <Box
     sx={{
       height: '2px',

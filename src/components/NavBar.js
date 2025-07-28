@@ -24,7 +24,7 @@ import { useAuth } from '../contexts/AuthContexts';
 import NavButton from './NavButton';
 import { navigationStyles } from '../styles/navigationStyles';
 import { skopelosColors } from '../styles/colors';
-import WbSunnyIcon from '@mui/icons-material/WbSunny'; // Add this import
+import WbSunnyIcon from '@mui/icons-material/WbSunny';
 
 export default function NavBar() {
   const isMobile = useMediaQuery('(max-width:900px)');
@@ -49,7 +49,7 @@ export default function NavBar() {
   useEffect(() => {
     async function fetchWeather() {
       try {
-        const apiKey = "7927d486f1d246f1a2e81847252507"; // Replace with your WeatherAPI key
+        const apiKey = "7927d486f1d246f1a2e81847252507"; // https://www.weatherapi.com/
         const response = await fetch(
           `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=Skopelos&lang=${locale}`
         );
@@ -209,9 +209,7 @@ export default function NavBar() {
 
   const renderMobileDrawer = (
     <>
-      <IconButton onClick={() => setDrawerOpen(true)} sx={{ color: 'white' }}>
-        <MenuIcon />
-      </IconButton>
+      
       <Drawer
         anchor="left"
         open={drawerOpen}
@@ -347,12 +345,20 @@ export default function NavBar() {
             {weather && weather.current && (
               <Box sx={{ display: 'flex', alignItems: 'center', ml: 1 }}>
                 <WbSunnyIcon sx={{ color: '#fbc02d', fontSize: 24, mr: 0.5 }} />
-                <Typography sx={{ fontWeight: 700, fontSize: '1.1rem', color: 'white' }}>
+                <Typography sx={{ fontWeight: 500, fontSize: '1.1rem', color: 'white' }}>
                   {Math.round(weather.current.temp_c)}°C
                 </Typography>
               </Box>
             )}
-
+            {isMobile && (
+              <IconButton
+                onClick={() => setDrawerOpen(true)}
+                sx={{ color: 'white', ml: 1 }}
+                edge="end"
+              >
+                <MenuIcon />
+              </IconButton>
+            )}
             {/* User controls */}
             {!isMobile && renderUserControls}
           </Toolbar>

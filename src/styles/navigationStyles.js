@@ -11,7 +11,6 @@ export const navigationStyles = {
       ? 'translateX(-50%) translateY(0)'
       : 'translateX(-50%) translateY(-120%)',
     transition: 'transform 0.3s ease-in-out',
-    //width: '100%',
     top:20
   }),
   
@@ -22,7 +21,6 @@ export const navigationStyles = {
     display: 'inherit',
     justifyContent: 'center',
     alignItems: 'center',
-    //borderRadius: '12px',
   },
   
   mainTitle: {

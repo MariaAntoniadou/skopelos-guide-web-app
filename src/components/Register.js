@@ -4,6 +4,7 @@ import { auth } from "../firebase";
 import { Box, TextField, Button, Typography, Paper } from "@mui/material";
 import { typographyStyles } from "../styles/typographyStyles";
 import { useNavigate } from "react-router-dom";
+import {skopelosColors} from '../styles/colors.js';
 
 export default function Register() {
   const [email, setEmail] = useState("");
@@ -18,7 +19,7 @@ export default function Register() {
     setLoading(true);
     try {
       await createUserWithEmailAndPassword(auth, email, password);
-      navigate("/profile"); // Redirect to profile after registration
+      navigate("/profile");
     } catch (err) {
       setError("Το email χρησιμοποιείται ή ο κωδικός είναι αδύναμος.");
     }
@@ -69,7 +70,7 @@ export default function Register() {
               borderRadius: 3,
               fontSize: "1.1rem",
               letterSpacing: "0.05em",
-              backgroundColor: "#2c3e50",
+              backgroundColor: skopelosColors.oceanBlue,
               color: "#fff",
               '&:hover': {
                 backgroundColor: "#122235ff",
@@ -82,7 +83,7 @@ export default function Register() {
         </form>
         <Button
           onClick={() => navigate("/login")}
-          sx={{ mt: 2, textTransform: "none" }}
+          sx={{ mt: 2,fontWeight:550, textTransform: "none", color: "#122235ff",}}
         >
           Έχεις ήδη λογαριασμό; Σύνδεση
         </Button>

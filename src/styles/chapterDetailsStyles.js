@@ -92,7 +92,7 @@ export const chapterDetailsStyles = {
   },
 
   storyboardTitle: {
-    ...typographyStyles.cardTitle, // Use your custom cardTitle style
+    ...typographyStyles.cardTitle, 
     fontSize: '1.3rem',
     fontWeight: 500,
     color: skopelosColors.text.primary,
@@ -139,7 +139,7 @@ export const chapterDetailsStyles = {
   },
 
   noImageText: {
-    ...typographyStyles.bodyText, // Use your custom bodyText style
+    ...typographyStyles.bodyText, 
     opacity: 0.5,
     fontSize: '1rem',
     fontStyle: 'italic',

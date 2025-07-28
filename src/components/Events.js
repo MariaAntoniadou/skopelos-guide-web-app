@@ -42,14 +42,14 @@ export default function Events() {
       sx={{
         maxWidth: '100%',
         textAlign:'center',
-        mt: 3,
+        mt: 10,
         fontFamily: "'Roboto', sans-serif",
         color: '#222',
       }}
     >
     
       <Typography
-        variant="h3"
+        variant="h4"
         sx={{
           mb: 5,
           fontWeight: 500,
@@ -57,6 +57,8 @@ export default function Events() {
           color: skopelosColors.oceanBlue,
           textAlign: 'center',
           userSelect: 'none',
+          fontStyle:'italic',
+          textDecoration:'underline',
         }}
       >
         {t('events', { defaultValue: 'Εκδηλώσεις' })}
@@ -110,8 +112,7 @@ export default function Events() {
               loading="lazy"
               sx={{
                 width: '100%',
-                maxWidth: 450,
-                borderRadius: 2,
+                maxWidth: 440,
                 my: 2,
                 boxShadow: '0 3px 10px rgba(13, 71, 161, 0.15)',
                 transition: 'transform 0.3s ease',
@@ -126,8 +127,10 @@ export default function Events() {
           <Typography
             variant="subtitle2"
             sx={{
-              color: skopelosColors.oceanBlue,
+              color: 'black',
               fontWeight: 700,
+              fontStyle:'italic',
+              textDecoration:'underline',
               mb: 1,
             }}
           >
@@ -144,7 +147,7 @@ export default function Events() {
               color: '#444',
               lineHeight: 1.6,
               userSelect: 'text',
-              fontSize:{xs:18, sm:18, md:18},
+              fontSize:{xs:13, sm:20, md:18},
             }}
             dangerouslySetInnerHTML={{ __html: event.attributes.description }}
           />

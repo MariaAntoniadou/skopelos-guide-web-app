@@ -12,10 +12,10 @@ export default function ChapterDetails() {
   const { id } = useParams();
   const [chapter, setChapter] = useState(null);
   const [loading, setLoading] = useState(true);
-  const { t, i18n } = useTranslation(); // <-- use t for translations
+  const { t, i18n } = useTranslation(); 
   const locale = i18n.language || 'en';
 
-  // Fetching with async/await
+ 
   useEffect(() => {
     async function fetchChapter() {
       try {
@@ -32,7 +32,7 @@ export default function ChapterDetails() {
     fetchChapter();
   }, [id, locale]);
 
-  // Update document title
+  
   useEffect(() => {
     if (chapter?.attributes?.title) {
       document.title = `${chapter.attributes.title} - Σκόπελος`;
@@ -65,7 +65,6 @@ export default function ChapterDetails() {
       </Box>
     );
   }
-
 
   const storyboards = chapter.attributes.mainStoryboards?.data || [];
 

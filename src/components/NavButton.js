@@ -12,10 +12,9 @@ export default function NavButton({ text, link, icon, refresh }) {
       <Box sx={{
         display: 'flex',
         alignItems: 'center',
-        gap: 1.5, // Space between icon and text
+        gap: 1.5,
         ...navButtonStyles.text
       }}>
-        {/* Display the icon if provided */}
         {icon && (
           <Box sx={{
             display: 'flex',
@@ -26,7 +25,6 @@ export default function NavButton({ text, link, icon, refresh }) {
             {icon}
           </Box>
         )}
-        {/* Display the text */}
         <span>{text}</span>
       </Box>
     </Button>

@@ -9,7 +9,6 @@ import { mainChaptersStyles } from '../styles/mainChaptersStyles';
 import { skopelosColors } from '../styles/colors';
 
 function cleanDescription(html) {
-  // Remove underscores and asterisks inside HTML tags
   return html.replace(/[_*]+/g, '');
 }
 

@@ -8,7 +8,7 @@ import { useTranslation } from "react-i18next";
 export default function Favorites() {
   const [favorites, setFavorites] = useState([]);
   const user = auth.currentUser;
-  const { t } = useTranslation(); // <-- use t
+  const { t } = useTranslation(); 
 
   useEffect(() => {
     if (!user) return;

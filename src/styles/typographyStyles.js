@@ -21,7 +21,7 @@ export const typographyStyles = {
     fontWeight: 500, 
     fontSize: '2rem',
     letterSpacing: '2px', 
-    color: skopelosColors.text.primary,
+    color: skopelosColors.oceanBlue,
   },
   
   cardTitle: {
@@ -80,7 +80,6 @@ export const typographyStyles = {
   '& p': {
     margin: 0,
     marginBottom: 2,
-    //textAlign: 'center',
   }
 },
 

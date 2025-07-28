@@ -10,8 +10,8 @@ import {
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-gpx';
+import {skopelosColors} from '../styles/colors';
 
-// Custom orange icon for all points
 const createIcon = (url) =>
   new L.Icon({
     iconUrl: url,
@@ -23,7 +23,6 @@ const icons = {
   default: createIcon(process.env.PUBLIC_URL + '/placeholder.png'),
 };
 
-// Fit map bounds to GPX files, but do NOT show GPX markers
 function FitMapToAllGPX({ gpxUrls = [], points = [] }) {
   const map = useMap();
 
@@ -64,7 +63,6 @@ function FitMapToAllGPX({ gpxUrls = [], points = [] }) {
     );
 
     Promise.all(promises).then(() => {
-      // Collect all point coordinates
       const pointLatLngs = points
         .map(pt => {
           const lat = pt.attributes?.latitude;
@@ -73,7 +71,6 @@ function FitMapToAllGPX({ gpxUrls = [], points = [] }) {
         })
         .filter(Boolean);
 
-      // Combine GPX bounds and point bounds
       let bounds = group.getBounds();
       if (pointLatLngs.length > 0) {
         bounds = bounds.extend(L.latLngBounds(pointLatLngs));
@@ -101,10 +98,10 @@ export default function TrailMap({ points = [], trails = [] }) {
 
   return (
     <>
-      <Box sx={{ width: '100%', height: { xs: 390, sm: 470, md: 550 }, my: 4 }}>
+      <Box sx={{ width: '100%',maxWidth:800,mx:'auto', height: { xs: 330, sm: 470, md: 550 }, my: 4 }}>
         <Paper elevation={0} sx={{ height: '100%', width: '100%' }}>
-          <MapContainer center={[39.145, 23.725]} // Central coordinates for Skopelos island
-            zoom={12}  style={{ height: '100%', width: '100%' }}>
+          <MapContainer center={[39.145, 23.725]} 
+            zoom={11.5}  style={{ height: '100%', width: '100%' }}>
             <TileLayer
               attribution="&copy; OpenStreetMap contributors"
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -143,11 +140,10 @@ export default function TrailMap({ points = [], trails = [] }) {
         </Paper>
       </Box>
 
-      {/* Modal/Popup for details */}
       <Dialog open={Boolean(selectedPoint)} onClose={() => setSelectedPoint(null)} fullWidth maxWidth="sm">
         <DialogTitle>{selectedPoint?.attributes?.title}</DialogTitle>
         <DialogContent>
-          <Typography variant="caption" sx={{ mt: 2, display: 'flex', color: 'blue' }}>
+          <Typography variant="caption" sx={{ mt: 2, display: 'flex', color:skopelosColors.oceanBlue }}>
             Συντεταγμένες: {selectedPoint?.attributes?.latitude}, {selectedPoint?.attributes?.longitude}
           </Typography>
         </DialogContent>

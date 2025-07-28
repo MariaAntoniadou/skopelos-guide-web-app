@@ -6,7 +6,7 @@ import { useAuth } from "../contexts/AuthContexts";
 import { typographyStyles } from "../styles/typographyStyles";
 import { skopelosColors } from "../styles/colors";
 import { useNavigate } from "react-router-dom";
-import { useTranslation } from "react-i18next"; // <-- add this
+import { useTranslation } from "react-i18next"; 
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -15,7 +15,7 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const { user } = useAuth();
   const navigate = useNavigate();
-  const { t } = useTranslation(); // <-- add this
+  const { t } = useTranslation(); 
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -134,7 +134,7 @@ export default function Login() {
         )}
         <Button
           onClick={() => navigate("/register")}
-          sx={{ mt: 2, textTransform: "none" }}
+          sx={{ mt: 2, fontWeight: 550,textTransform: "none" ,color: "#122235ff",}}
         >
           {t("noAccountRegister", { defaultValue: "Δεν έχετε λογαριασμό; Εγγραφείτε" })}
         </Button>

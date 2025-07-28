@@ -24,10 +24,6 @@ export default function HomePage({ searchTerm }) {
   const [locale] = useState(i18n.language || 'en');
   const cardRef = useRef(null);
 
-
-
-  
-
   useEffect(() => {
     async function fetchData() {
       try {
@@ -64,21 +60,20 @@ export default function HomePage({ searchTerm }) {
   );
 
   const scrollStoryboards = (chapterId, direction) => {
-    const container = scrollRefs.current[chapterId];
-    const cardElement = cardRef.current;
+  const container = scrollRefs.current[chapterId];
+  const scrollAmount = 300; 
 
-    if (container && cardElement) {
-      const cardWidth = cardElement.offsetWidth + 26; // +gap or margin if needed
-      const newScrollLeft = direction === 'left'
-        ? container.scrollLeft - cardWidth
-        : container.scrollLeft + cardWidth;
+  if (container) {
+    const newScrollLeft = direction === 'left'
+      ? container.scrollLeft - scrollAmount
+      : container.scrollLeft + scrollAmount;
 
-      container.scrollTo({
-        left: newScrollLeft,
-        behavior: 'smooth',
-      });
-    }
-  };
+    container.scrollTo({
+      left: newScrollLeft,
+      behavior: 'smooth',
+    });
+  }
+};
 
 
   if (loading) return <Typography>{t('loadingIntro', { defaultValue: 'Loading introduction chapters...' })}</Typography>;
@@ -135,7 +130,7 @@ export default function HomePage({ searchTerm }) {
                 textAlign: 'center',
                 fontSize: { xs: '1rem', md: '1.5rem' },
                 maxWidth: '800px',
-                fontWeight: 500
+                fontWeight: 500,
               }}
             >
               {t('discoverSkopelos')}
@@ -225,8 +220,8 @@ export default function HomePage({ searchTerm }) {
                     ref={(el) => scrollRefs.current[chapter.id] = el}
                     sx={{
                       ...pageStyles.storyboardContainer,
-                      justifyContent: chapter.attributes.mainStoryboards.data.length <= 3 ? 'center' : 'flex-start',
-                      overflowX: chapter.attributes.mainStoryboards.data.length <= 3 ? 'visible' : 'auto',
+                      justifyContent: 'flex-start',
+                      overflowX: 'auto',
                       scrollSnapType: chapter.attributes.mainStoryboards.data.length <= 3 ? 'none' : 'x mandatory',
                     }}
                   >

@@ -11,7 +11,7 @@ import { skopelosFonts } from "../styles/typographyStyles";
 export default function Profile() {
   const { user } = useAuth();
   const navigate = useNavigate();
-  const { t } = useTranslation(); // <-- use t
+  const { t } = useTranslation(); 
 
   const handleLogout = async () => {
     await signOut(auth);
