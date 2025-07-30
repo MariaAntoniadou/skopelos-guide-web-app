@@ -22,7 +22,7 @@ export const storyboardDetailsStyles = {
     ...typographyStyles.chapterTitle, 
     fontSize: { xs: '1.8rem', md: '2.4rem' },
     fontWeight: 200,
-    textAlign: { xs: 'center', md: 'left' },
+    textAlign: { xs: 'center',sm:'center', md: 'center' },
     marginBottom: 3,
     marginTop: 0,
     letterSpacing: '0.03em',
