@@ -58,7 +58,7 @@ export default function StoryboardPoints() {
       setFavId(null);
     } else {
       const docRef = await addDoc(collection(db, "users", user.uid, "favorites"), {
-        pointId: point.id,
+        id: point.id,
         title: point.attributes.title,
         type: "point"
       });
@@ -169,12 +169,7 @@ export default function StoryboardPoints() {
     }}
   />
 </Box>
-
-        
-
-        
-      </Box>
-
+    </Box>
     </>
   );
 }
