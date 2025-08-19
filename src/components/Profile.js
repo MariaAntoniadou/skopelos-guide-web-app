@@ -36,8 +36,9 @@ export default function Profile() {
         <Box
           sx={{
             display: "flex",
+            flexDirection: "column",
             width: "100%",
-            maxWidth: 900,
+            maxWidth: 600,
             boxShadow: "0 4px 24px rgba(44,62,80,0.10)",
             borderRadius: 4,
             background: "#fff",
@@ -47,7 +48,7 @@ export default function Profile() {
           
           <Box
             sx={{
-              width: { xs: "100%", md: 320 },
+              width: { xs: "100%", },
               background: "linear-gradient(135deg, #e3ecf7 0%, #f7fafc 100%)",
               display: "flex",
               flexDirection: "column",
@@ -123,10 +124,9 @@ export default function Profile() {
               {t('logout')}
             </Button>
           </Box>
-          {/* Right Side: Favorites */}
+
           <Box
             sx={{
-              flex: 1,
               display: "flex",
               flexDirection: "column",
               p: 4,

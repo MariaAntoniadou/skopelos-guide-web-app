@@ -31,8 +31,8 @@ export default function TrailDetails() {
     : null;
 
   return (
-  <Box sx={{ mx: 'auto', mt: 5 }}>
-    <Paper elevation={4} sx={{ p: { xs: 2, md: 4 }, borderRadius: 4 }}>
+  <Box sx={{ mx: 'auto',}}>
+    <Paper elevation={4} sx={{ p: { xs: 5,sm:4, md: 3 }, borderRadius: 4 }}>
       {trailThumb && (
         <Box
           component="img"
@@ -48,10 +48,10 @@ export default function TrailDetails() {
           }}
         />
       )}
-      <Typography variant="h4" sx={{ fontWeight: 600, mb: 4,mt:4, color: '#000000ff' }}>
+      <Typography variant="h4" sx={{ fontWeight: 600, mb: 4,mt:4, color: '#000000ff' ,textAlign:'center'}}>
         {title}
       </Typography>
-      <Box sx={{ display: 'flex', gap: 3, flexWrap: 'wrap', mb: 2}}>
+      <Box sx={{ display: 'flex', gap: 3, flexWrap: 'wrap', mb: 2,justifyContent: 'center'}}>
         <Chip label={`Διάρκεια: ${duration} λεπτά`} color="default"  />
         <Chip label={`Απόσταση: ${distance} χλμ`} color="deafult" />
         <Chip label={`Δυσκολία: ${difficulty}`} color="default" />

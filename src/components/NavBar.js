@@ -8,7 +8,6 @@ import {
   List,
   ListItem,
   ListItemText,
-  useMediaQuery,
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import HomeIcon from '@mui/icons-material/Home';
@@ -29,9 +28,7 @@ import { useWeather } from '../contexts/WeatherContext';
 
 
 export default function NavBar() {
-  const isMobile = useMediaQuery('(max-width:900px)');
   const [drawerOpen, setDrawerOpen] = useState(false);
-
   const weather = useWeather();
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY] = useState(0);
@@ -174,7 +171,11 @@ export default function NavBar() {
   const renderUserControls = (
     <Box sx={{ ml: 2, display: "flex", alignItems: "center", gap: 1 }}>
       {user ? (
-        <IconButton color="inherit" onClick={() => navigate('/profile')}>
+        <IconButton color="inherit" onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          navigate('/profile');
+        }}>
           <AccountCircleIcon sx={{ color: 'white' }} />
         </IconButton>
       ) : (
@@ -228,7 +229,7 @@ export default function NavBar() {
           <List>
             {navigationItems.map((item) => (
               <ListItem
-                button
+                component="button"
                 key={item.text}
                 onClick={() => {
                   navigate(item.link);
@@ -237,6 +238,7 @@ export default function NavBar() {
                 sx={{
                   borderRadius: 2,
                   mb: 1,
+                  cursor: 'pointer',
                   '&:hover': {
                     background: 'rgba(30,203,225,0.12)',
                     color: skopelosColors.oceanBlue,
@@ -257,34 +259,69 @@ export default function NavBar() {
             }}
           >
             {user ? (
-              <ListItem button onClick={() => {
+              <ListItem component="button" onClick={() => {
                 navigate('/profile');
                 setDrawerOpen(false);
-              }}>
+              }}
+              sx={{
+        borderRadius: 2,
+        mb: 1,
+        cursor: 'pointer',
+        '&:hover': {
+          background: 'rgba(30,203,225,0.12)',
+          color: skopelosColors.oceanBlue,
+        },
+      }}>
                 <AccountCircleIcon sx={{ mr: 1 }} />
                 <ListItemText primary={t('profile') || 'Profile'} />
               </ListItem>
             ) : (
               <>
-                <ListItem button onClick={() => {
+                <ListItem component="button" onClick={() => {
                   navigate('/login');
                   setDrawerOpen(false);
-                }}>
+                }}
+                sx={{
+          borderRadius: 2,
+          mb: 1,
+          cursor: 'pointer',
+          '&:hover': {
+            background: 'rgba(30,203,225,0.12)',
+            color: skopelosColors.oceanBlue,
+          },
+        }}>
                   <LoginIcon sx={{ mr: 1 }} />
                   <ListItemText primary={t('login') || 'Login'} />
                 </ListItem>
 
-                <ListItem button onClick={() => {
+                <ListItem component="button" onClick={() => {
                   navigate('/register');
                   setDrawerOpen(false);
-                }}>
+                }}
+                 sx={{
+          borderRadius: 2,
+          mb: 1,
+          cursor: 'pointer',
+          '&:hover': {
+            background: 'rgba(30,203,225,0.12)',
+            color: skopelosColors.oceanBlue,
+          },
+        }}>
                   <PersonAddIcon sx={{ mr: 1 }} />
                   <ListItemText primary={t('register') || 'Register'} />
                 </ListItem>
               </>
             )}
 
-            <ListItem button onClick={handleLocaleChange}>
+            <ListItem component="button" onClick={handleLocaleChange} sx={{
+      borderRadius: 2,
+      mb: 1,
+       cursor: 'pointer',
+      '&:hover': {
+        background: 'rgba(30,203,225,0.12)',
+        color: skopelosColors.oceanBlue,
+      },
+    }}>
               <LanguageIcon sx={{ mr: 1 }} />
               <ListItemText primary={locale === 'el' ? 'English' : 'Ελληνικά'} />
             </ListItem>
@@ -326,8 +363,9 @@ export default function NavBar() {
             </Box>
 
             {/* Nav items */}
-            <Box sx={{ flexGrow: 1 }}>
-              {isMobile ? renderMobileDrawer : renderNavButtons}
+            <Box sx={{ flexGrow: 1 ,display: { xs: 'none', md: 'block' } 
+          }}>
+              {renderNavButtons}
             </Box>
             {weather?.current && (
               <Box sx={{ display: 'flex', alignItems: 'center', ml: 1 }}>
@@ -337,21 +375,32 @@ export default function NavBar() {
                 </Typography>
               </Box>
             )}
-            {isMobile && (
               <IconButton
-                onClick={() => setDrawerOpen(true)}
-                sx={{ color: 'white', ml: 1 }}
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation(); // ⬅ stop bubbling
+                  setDrawerOpen(true);
+                }}
+                sx={{ color: 'white', ml: 1, display: { xs: 'block', md: 'none' }}}
                 edge="end"
               >
                 <MenuIcon />
               </IconButton>
-            )}
-            {/* User controls */}
-            {!isMobile && renderUserControls}
+            
+
+            {/* User controls - CSS responsive instead of JS */}
+          <Box sx={{ 
+            display: { xs: 'none', md: 'flex' } 
+          }}>
+            {renderUserControls}
+          </Box>
           </Toolbar>
         </AppBar>
       </Box>
 
+
+
+      {renderMobileDrawer}
 
       {/* Spacer για να μην "πέφτει" το περιεχόμενο κάτω από το AppBar */}
       {!isHomePage && <Box sx={{ height: { xs: '70px', sm: '90px', md: '110px' } }} />}
