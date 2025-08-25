@@ -68,15 +68,17 @@ export const mainChaptersStyles = {
     flexDirection: 'column',
     cursor: 'pointer',
     boxShadow: `0 4px 12px ${'rgba(60, 169, 172, 1)'}`,
+    position: 'relative',
+    overflow: 'hidden',
     
     '&:hover': {
       backgroundColor: 'rgba(255, 255, 255, 1)',
-      transform: 'translateY(-3px) scale(1.03)',
+      transform: 'translateY(-3px) ',
       boxShadow: '0 8px 32px rgba(0, 0, 0, 0.12)',
       transition: 'all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
       
       '& .storyboard-image': {
-        transform: 'scale(1.00)',
+        transform: 'scale(1.06)',
       },
     },
   },
@@ -88,9 +90,14 @@ export const mainChaptersStyles = {
     overflow: 'hidden',
   },
   storyboardImage: {
-    height: '100%',
+     height: '100%',
     objectFit: 'cover',
     transition: 'transform 0.4s ease',
+    transformOrigin: 'center center',
+    // ensure image sits behind any overlay/title
+    position: 'relative',
+    zIndex: 1,
+    display: 'block',
   },
 
   arrowButtonText: {

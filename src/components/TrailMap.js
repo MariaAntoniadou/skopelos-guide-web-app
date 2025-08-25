@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Box, Paper, Typography, Dialog, DialogTitle, DialogContent } from '@mui/material';
+import { Box, Paper, Typography, Dialog, DialogTitle, DialogContent , IconButton} from '@mui/material';
 import {
   MapContainer,
   TileLayer,
@@ -10,7 +10,8 @@ import {
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-gpx';
-import {skopelosColors} from '../styles/colors';
+import CloseIcon from '@mui/icons-material/Close';
+import { skopelosFonts } from '../styles/typographyStyles'; 
 
 const createIcon = (url) =>
   new L.Icon({
@@ -96,6 +97,7 @@ export default function TrailMap({ points = [], trails = [] }) {
     .filter((url) => typeof url === 'string' && url.endsWith('.gpx'))
     .map((url) => `https://skopelos-admin.inculture.app${url}`);
 
+
   return (
     <>
       <Box sx={{ width: '100%',maxWidth:800,mx:'auto', height: { xs: 330, sm: 470, md: 550 }, my: 4 }}>
@@ -140,12 +142,35 @@ export default function TrailMap({ points = [], trails = [] }) {
         </Paper>
       </Box>
 
-      <Dialog open={Boolean(selectedPoint)} onClose={() => setSelectedPoint(null)} fullWidth maxWidth="sm">
-        <DialogTitle>{selectedPoint?.attributes?.title}</DialogTitle>
-        <DialogContent>
-          <Typography variant="caption" sx={{ mt: 2, display: 'flex', color:skopelosColors.oceanBlue }}>
-            Συντεταγμένες: {selectedPoint?.attributes?.latitude}, {selectedPoint?.attributes?.longitude}
-          </Typography>
+      <Dialog
+        open={Boolean(selectedPoint)}
+        onClose={() => setSelectedPoint(null)}
+        fullWidth
+        maxWidth="sm"
+       PaperProps={{ sx: { borderRadius: 2 } }}
+      >
+        <DialogTitle sx={{ pr: 5, position: 'relative', fontWeight: 700,fontFamily: skopelosFonts.titles }}>
+          {selectedPoint?.attributes?.title}
+          <IconButton
+            aria-label="close"
+            onClick={() => setSelectedPoint(null)}
+            sx={{ position: 'absolute', right: 8, top: 8 }}
+            size="small"
+          >
+            <CloseIcon fontSize="small" />
+          </IconButton>
+        </DialogTitle>
+         <DialogContent dividers sx={{ maxHeight: '60vh', overflowY: 'auto', bgcolor: 'background.paper', fontFamily: skopelosFonts.text }}>
+          {selectedPoint?.attributes?.description ? (
+            <Typography
+              variant="body1"
+              sx={{ mt: 1, color: '#222', whiteSpace: 'pre-line', lineHeight: 1.6, fontFamily: skopelosFonts.text }}
+              dangerouslySetInnerHTML={{ __html: selectedPoint.attributes.description }}
+            />
+          ) : (
+            <Typography variant="body2" color="text.secondary" sx={{ fontFamily: skopelosFonts.text }}>Χωρίς περιγραφή.</Typography>
+          )}
+
         </DialogContent>
       </Dialog>
     </>
