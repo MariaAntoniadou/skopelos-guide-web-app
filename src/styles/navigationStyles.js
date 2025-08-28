@@ -16,7 +16,6 @@ export const navigationStyles = {
   
   toolbarHome: {
     minHeight: { xs: 45, md: 50 },
-    //px: { xs: 2, md: 2 },
     py: 2,
     display: 'inherit',
     justifyContent: 'center',

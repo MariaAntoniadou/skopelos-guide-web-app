@@ -1,11 +1,10 @@
 export const SERVER_IP = 'https://skopelos-admin.inculture.app/api';
 export const UPLOADS_BASE_URL = 'https://skopelos-admin.inculture.app';
 
-// Helper: injects `?locale=...` or `&locale=...` into URL
 const withLocale = (url, locale = 'el') =>
   `${url}${url.includes('?') ? '&' : '?'}locale=${locale}`;
 
-// Your existing + new deeply populated endpoints
+
 export const ENDPOINTS = {
 
   getIntroductionChaptersDeep: (locale = 'e') =>

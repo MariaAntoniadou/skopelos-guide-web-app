@@ -15,9 +15,9 @@ export const pageStyles = {
   flexDirection: 'row', 
   gap: '5px',   
   overflowX:'auto'  ,
-  scrollbarWidth: 'none', // Firefox
-  msOverflowStyle: 'none', // IE/Edge
-  '&::-webkit-scrollbar': { display: 'none' }, // Chrome/Safari
+  scrollbarWidth: 'none', 
+  msOverflowStyle: 'none', 
+  '&::-webkit-scrollbar': { display: 'none' }, 
 },
   contentWrapper: {
     px: { xs: 3, md: 6 },

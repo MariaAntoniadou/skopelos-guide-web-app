@@ -5,7 +5,7 @@ export const navButtonStyles = {
 
   button: {
     color: 'white',
-    ...typographyStyles.navButton, // Use your custom navButton typography
+    ...typographyStyles.navButton, 
     textTransform: 'none',
     px: 4,
     py: 1.5,
@@ -76,7 +76,7 @@ export const navButtonStyles = {
   },
 
   text: {
-    ...typographyStyles.navButton, // Use your custom navButton typography
+    ...typographyStyles.navButton, 
     position: 'relative',
     zIndex: 1,
     color: 'white',
@@ -85,7 +85,6 @@ export const navButtonStyles = {
     letterSpacing: '0.02em',
     textAlign: 'center',
     lineHeight: 1.2,
-    // Responsive font size
     '@media (max-width: 600px)': {
       fontSize: '0.75rem',
     },

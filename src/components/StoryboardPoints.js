@@ -89,9 +89,9 @@ export default function StoryboardPoints() {
    const cleanedStripped = (() => {
     let s = stripped;
     // remove underscores immediately before whitespace, punctuation or end-of-string (e.g. "μουσεία_,")
-    s = s.replace(/_+(?=[\s.,;:!?()\]\}<>"]|$)/g, '');
+    s = s.replace(/_+(?=[\s.,;:!?()]}>"']|$)/g, '');
     // remove underscores immediately after whitespace, punctuation or start-of-string (e.g. " _λέξη")
-    s = s.replace(/(^|[\s(\[{<"'`.,;:!?])_+/g, '$1');
+    s = s.replace(/(^|[\s([{<"'`.,;:!?])_+/g, '$1');
     return s;
   })();
 

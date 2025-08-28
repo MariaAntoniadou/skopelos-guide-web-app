@@ -47,7 +47,6 @@ export const storyboardDetailsStyles = {
     
   },
 
-  // Image container - RIGHT SIDE
   imageContainer: {
     position: 'relative',
     maxWidth: '500px',
@@ -65,9 +64,6 @@ export const storyboardDetailsStyles = {
     },
   },
 
- 
-
-  // Image overlay for elegant effect
   imageOverlay: {
     position: 'absolute',
     top: 0,
@@ -82,7 +78,6 @@ export const storyboardDetailsStyles = {
     },
   },
 
-  // Clean back button
   backButtonContainer: {
     textAlign: 'center',
     mt: 6,
@@ -90,7 +85,7 @@ export const storyboardDetailsStyles = {
   },
 
   backButton: {
-    ...typographyStyles.bodyText, // Use your custom bodyText style
+    ...typographyStyles.bodyText, 
     color: skopelosColors.brightBlue,
     padding: '12px 24px',
     backgroundColor: 'rgba(255, 255, 255, 0.95)',
@@ -109,7 +104,6 @@ export const storyboardDetailsStyles = {
     },
   },
 
-  // Content wrapper
   contentWrapper: {
     maxWidth: '1200px',
     mx: 'auto',

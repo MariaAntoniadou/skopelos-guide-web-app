@@ -5,8 +5,10 @@ import { Box, TextField, Button, Typography, Paper } from "@mui/material";
 import { typographyStyles } from "../styles/typographyStyles";
 import { useNavigate } from "react-router-dom";
 import {skopelosColors} from '../styles/colors.js';
+import { useTranslation } from "react-i18next";
 
 export default function Register() {
+  const { t } = useTranslation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -21,7 +23,7 @@ export default function Register() {
       await createUserWithEmailAndPassword(auth, email, password);
       navigate("/profile");
     } catch (err) {
-      setError("Το email χρησιμοποιείται ή ο κωδικός είναι αδύναμος.");
+      setError(t("registerError"));
     }
     setLoading(false);
   };
@@ -30,7 +32,7 @@ export default function Register() {
     <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: "60vh" }}>
       <Paper elevation={6} sx={{ p: 4, minWidth: 320, borderRadius: 4 }}>
         <Typography variant="h5" sx={typographyStyles.sectionTitle} gutterBottom>
-          Εγγραφή
+          {t("register")}
         </Typography>
         <form onSubmit={handleRegister}>
           <TextField
@@ -78,14 +80,14 @@ export default function Register() {
             }}
             disabled={loading}
           >
-            Εγγραφή
+            {t("register")}
           </Button>
         </form>
         <Button
           onClick={() => navigate("/login")}
           sx={{ mt: 2,fontWeight:550, textTransform: "none", color: "#122235ff",}}
         >
-          Έχεις ήδη λογαριασμό; Σύνδεση
+          {t("alreadyHaveAccount")}
         </Button>
       </Paper>
     </Box>

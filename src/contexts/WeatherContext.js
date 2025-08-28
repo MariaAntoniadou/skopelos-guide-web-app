@@ -12,8 +12,6 @@ export const WeatherProvider = ({ children }) => {
     async function fetchWeather() {
       try {
         const apiKey = "7927d486f1d246f1a2e81847252507";
-        
-        // Use Skopelos coordinates since city names don't work
         const location = "39.1236,23.7348"; // Skopelos coordinates
         
         // Map locale to supported WeatherAPI languages

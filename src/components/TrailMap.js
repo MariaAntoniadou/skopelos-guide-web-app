@@ -160,12 +160,29 @@ export default function TrailMap({ points = [], trails = [] }) {
             <CloseIcon fontSize="small" />
           </IconButton>
         </DialogTitle>
-         <DialogContent dividers sx={{ maxHeight: '60vh', overflowY: 'auto', bgcolor: 'background.paper', fontFamily: skopelosFonts.text }}>
+         <DialogContent dividers 
+            sx={{ 
+              maxHeight: '60vh',  
+              bgcolor: 'background.paper', 
+              fontFamily: skopelosFonts.text,
+              
+              }}
+            >
           {selectedPoint?.attributes?.description ? (
             <Typography
               variant="body1"
-              sx={{ mt: 1, color: '#222', whiteSpace: 'pre-line', lineHeight: 1.6, fontFamily: skopelosFonts.text }}
-              dangerouslySetInnerHTML={{ __html: selectedPoint.attributes.description }}
+              sx={{ 
+                mt: 1, 
+                color: '#222',   
+                fontFamily: skopelosFonts.text,
+                textAlign: 'justify', 
+             }}
+              dangerouslySetInnerHTML={{
+                __html: selectedPoint.attributes.description
+                  .replace(/<br\s*\/?>/gi, ' ')
+                  .replace(/<\/?p>/gi, ' ')
+                  .replace(/\n+/g, ' ')
+              }}
             />
           ) : (
             <Typography variant="body2" color="text.secondary" sx={{ fontFamily: skopelosFonts.text }}>Χωρίς περιγραφή.</Typography>

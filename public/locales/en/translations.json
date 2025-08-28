@@ -13,5 +13,10 @@
   "events":"Events",
   "skopelosTitle": "SKOPELOS",
   "destinationGuide": "DESTINATION GUIDE",
-  "discoverSkopelos": "...Discover the hidden beauties of Skopelos through unique experiences..."
+  "discoverSkopelos": "...Discover the hidden beauties of Skopelos through unique experiences...",
+  "register": "Register",
+  "email": "Email",
+  "password": "Password",
+  "alreadyHaveAccount": "Already have an account? Login",
+  "registerError": "The email is already in use or the password is too weak."
 }

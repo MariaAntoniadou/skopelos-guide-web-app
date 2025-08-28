@@ -94,7 +94,6 @@ export const mainChaptersStyles = {
     objectFit: 'cover',
     transition: 'transform 0.4s ease',
     transformOrigin: 'center center',
-    // ensure image sits behind any overlay/title
     position: 'relative',
     zIndex: 1,
     display: 'block',

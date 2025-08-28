@@ -264,14 +264,14 @@ export default function NavBar() {
                 setDrawerOpen(false);
               }}
               sx={{
-        borderRadius: 2,
-        mb: 1,
-        cursor: 'pointer',
-        '&:hover': {
-          background: 'rgba(30,203,225,0.12)',
-          color: skopelosColors.oceanBlue,
-        },
-      }}>
+                borderRadius: 2,
+                mb: 1,
+                cursor: 'pointer',
+                '&:hover': {
+                  background: 'rgba(30,203,225,0.12)',
+                  color: skopelosColors.oceanBlue,
+                },
+              }}>
                 <AccountCircleIcon sx={{ mr: 1 }} />
                 <ListItemText primary={t('profile') || 'Profile'} />
               </ListItem>
@@ -282,14 +282,14 @@ export default function NavBar() {
                   setDrawerOpen(false);
                 }}
                 sx={{
-          borderRadius: 2,
-          mb: 1,
-          cursor: 'pointer',
-          '&:hover': {
-            background: 'rgba(30,203,225,0.12)',
-            color: skopelosColors.oceanBlue,
-          },
-        }}>
+                  borderRadius: 2,
+                  mb: 1,
+                  cursor: 'pointer',
+                  '&:hover': {
+                    background: 'rgba(30,203,225,0.12)',
+                    color: skopelosColors.oceanBlue,
+                  },
+                }}>
                   <LoginIcon sx={{ mr: 1 }} />
                   <ListItemText primary={t('login') || 'Login'} />
                 </ListItem>
@@ -299,14 +299,14 @@ export default function NavBar() {
                   setDrawerOpen(false);
                 }}
                  sx={{
-          borderRadius: 2,
-          mb: 1,
-          cursor: 'pointer',
-          '&:hover': {
-            background: 'rgba(30,203,225,0.12)',
-            color: skopelosColors.oceanBlue,
-          },
-        }}>
+                  borderRadius: 2,
+                  mb: 1,
+                  cursor: 'pointer',
+                  '&:hover': {
+                    background: 'rgba(30,203,225,0.12)',
+                    color: skopelosColors.oceanBlue,
+                  },
+                }}>
                   <PersonAddIcon sx={{ mr: 1 }} />
                   <ListItemText primary={t('register') || 'Register'} />
                 </ListItem>
@@ -314,14 +314,14 @@ export default function NavBar() {
             )}
 
             <ListItem component="button" onClick={handleLocaleChange} sx={{
-      borderRadius: 2,
-      mb: 1,
-       cursor: 'pointer',
-      '&:hover': {
-        background: 'rgba(30,203,225,0.12)',
-        color: skopelosColors.oceanBlue,
-      },
-    }}>
+              borderRadius: 2,
+              mb: 1,
+              cursor: 'pointer',
+              '&:hover': {
+                background: 'rgba(30,203,225,0.12)',
+                color: skopelosColors.oceanBlue,
+              },
+            }}>
               <LanguageIcon sx={{ mr: 1 }} />
               <ListItemText primary={locale === 'el' ? 'English' : 'Ελληνικά'} />
             </ListItem>
@@ -336,7 +336,7 @@ export default function NavBar() {
       <Box sx={{ position: 'relative' }}>
         <AppBar sx={navigationStyles.appBarHome(isVisible) }>
           <Toolbar sx={navigationStyles.toolbarHome }>
-            {/* Logo & Title */}
+           
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
               <Box
                 component="img"
@@ -362,7 +362,7 @@ export default function NavBar() {
               </Box>
             </Box>
 
-            {/* Nav items */}
+          
             <Box sx={{ flexGrow: 1 ,display: { xs: 'none', md: 'block' } 
           }}>
               {renderNavButtons}
@@ -378,7 +378,7 @@ export default function NavBar() {
               <IconButton
                 onClick={(e) => {
                   e.preventDefault();
-                  e.stopPropagation(); // ⬅ stop bubbling
+                  e.stopPropagation();
                   setDrawerOpen(true);
                 }}
                 sx={{ color: 'white', ml: 1, display: { xs: 'block', md: 'none' }}}
@@ -386,9 +386,6 @@ export default function NavBar() {
               >
                 <MenuIcon />
               </IconButton>
-            
-
-            {/* User controls - CSS responsive instead of JS */}
           <Box sx={{ 
             display: { xs: 'none', md: 'flex' } 
           }}>
@@ -398,11 +395,7 @@ export default function NavBar() {
         </AppBar>
       </Box>
 
-
-
       {renderMobileDrawer}
-
-      {/* Spacer για να μην "πέφτει" το περιεχόμενο κάτω από το AppBar */}
       {!isHomePage && <Box sx={{ height: { xs: '70px', sm: '90px', md: '110px' } }} />}
     </>
   );
