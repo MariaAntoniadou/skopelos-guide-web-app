@@ -11,7 +11,7 @@ export const WeatherProvider = ({ children }) => {
   useEffect(() => {
     async function fetchWeather() {
       try {
-        const apiKey = "7927d486f1d246f1a2e81847252507";
+        const apiKey = process.env.REACT_APP_WEATHER_API_KEY;
         const location = "39.1236,23.7348"; // Skopelos coordinates
         
         // Map locale to supported WeatherAPI languages
@@ -26,6 +26,7 @@ export const WeatherProvider = ({ children }) => {
         
         const weatherLang = getWeatherLang(locale);
         const url = `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${location}&lang=${weatherLang}`;
+
         
         
         const response = await fetch(url);

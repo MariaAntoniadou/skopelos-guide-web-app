@@ -3,13 +3,13 @@ import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDgdcRTRUFsVTFcD1BBQ6DfDj5Tv98unPI",
-  authDomain: "skopelos-e6391.firebaseapp.com",
-  projectId: "skopelos-e6391",
-  storageBucket: "skopelos-e6391.appspot.com",
-  messagingSenderId: "968188557194",
-  appId: "1:968188557194:web:393a8125cf51319ea87a73",
-  measurementId: "G-2290ZST4Z4"
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID,
+  measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID,
 };
 
 
